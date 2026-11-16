@@ -30,6 +30,7 @@ body {
   background-attachment: fixed;
 }
 a { color: inherit; }
+[hidden] { display: none !important; }
 .mono { font-family: "JetBrains Mono", monospace; }
 .emote { height: 24px; vertical-align: middle; margin: 0 2px; }
 

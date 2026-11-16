@@ -421,18 +421,43 @@
     });
   }
 
-  /* ---------- Garaje: incident counter (remembered per browser) ---------- */
+  /* ---------- Garaje: incident counter, shared by everyone (today's stream); local fallback ---------- */
   if ($("incOut")) {
-    let inc = 0;
-    try { inc = parseInt(localStorage.getItem("sf_incidents") || "0", 10) || 0; } catch (_) {}
-    const show = () => {
-      $("incOut").textContent = inc + "x";
-      try { localStorage.setItem("sf_incidents", String(inc)); } catch (_) {}
+    let inc = 0, shared = false, pending = 0;
+    const show = () => { $("incOut").textContent = inc + "x"; };
+    const local = () => {
+      shared = false;
+      try { inc = parseInt(localStorage.getItem("sf_incidents") || "0", 10) || 0; } catch (_) {}
+      $("incReset").hidden = false;
+      $("incNote").textContent = "Se guarda en tu navegador";
+      show();
     };
+    const sync = () => fetch("/api/incidents", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((d) => {
+        if (!shared) { shared = true; $("incReset").hidden = true; }
+        if (!pending) { inc = d.count; show(); }
+        $("incNote").textContent = "Contador compartido con todo el chat · se reinicia cada día";
+      })
+      .catch(() => { if (!shared) local(); });
     document.querySelectorAll("[data-inc]").forEach((b) =>
-      b.addEventListener("click", () => { inc += parseInt(b.dataset.inc, 10); show(); }));
-    $("incReset").addEventListener("click", () => { inc = 0; show(); });
-    show();
+      b.addEventListener("click", () => {
+        const add = parseInt(b.dataset.inc, 10);
+        inc += add; show();
+        if (!shared) { try { localStorage.setItem("sf_incidents", String(inc)); } catch (_) {} return; }
+        pending++;
+        fetch("/api/incidents", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ add }) })
+          .then((r) => r.json())
+          .then((d) => { if (typeof d.count === "number" && pending === 1) { inc = d.count; show(); }
+            if (d.error === "slow_down") $("incNote").textContent = "Frena un poco, que vas a dar bandera negra";
+          })
+          .catch(() => {})
+          .finally(() => { pending--; });
+      }));
+    $("incReset").addEventListener("click", () => { inc = 0; show(); try { localStorage.setItem("sf_incidents", "0"); } catch (_) {} });
+    $("incReset").hidden = true;
+    sync();
+    setInterval(() => { if (shared && !document.hidden) sync(); }, 5000);
   }
 
   /* ---------- Radio: soundboard (speech-bubble pads) ---------- */
