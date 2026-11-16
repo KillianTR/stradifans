@@ -11,7 +11,8 @@
     { href: "/lore/", label: "Lore" },
     { href: "/baul/", label: "Baúl" },
     { href: "/setup/", label: "Setup" },
-    { href: "/faq/", label: "FAQ" }
+    { href: "/faq/", label: "FAQ" },
+    { href: "/perfil/", label: "Perfil" }
   ];
   const path = location.pathname.replace(/index\.html$/, "");
   const isActive = (href) => path === href || path.startsWith(href);

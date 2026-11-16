@@ -802,6 +802,61 @@
     document.querySelectorAll(".home-faq .go-link").forEach((a) => { a.innerHTML = a.innerHTML.replace("${n}", S.faq.length); });
   }
 
+  /* ---------- Perfil: iRacing licenses, numbers, recaps, trophies, Twitch ---------- */
+  if ($("licCards") && S.profile) {
+    const P = S.profile, fmt = (n) => Number(n).toLocaleString("es-ES");
+    const b = S.birthday, now = new Date();
+    let age = now.getFullYear() - b.year;
+    if (now.getMonth() + 1 < b.month || (now.getMonth() + 1 === b.month && now.getDate() < b.day)) age--;
+    $("profName").textContent = `${P.name} · ${P.country}`;
+    $("profBio").textContent = P.bio;
+    $("profLevel").textContent = age;
+    $("profYears").textContent = `${now.getFullYear() - P.iracingSince} años en iRacing`;
+    $("profAsOf").textContent = `Datos de su perfil de iRacing a ${P.asOf}.`;
+    fetch(`https://decapi.me/twitch/avatar/${encodeURIComponent(S.twitchUser)}`)
+      .then((r) => (r.ok ? r.text() : "")).then((u) => { u = u.trim(); if (/^https:\/\/static-cdn\.jtvnw\.net\//.test(u)) $("profAvatar").src = u; }).catch(() => {});
+
+    const CLS = { A: "Clase A", B: "Clase B", C: "Clase C", D: "Clase D", R: "Rookie", P: "Pro" };
+    $("licCards").innerHTML = P.licenses.map((l) => `
+      <article class="lic-card lc-${l.cls}">
+        <span class="lic-hole"></span>
+        <h3>${esc(l.cat)}</h3>
+        <b class="lic-class">${l.cls}</b>
+        <p class="lic-name">${CLS[l.cls] || l.cls}</p>
+        <dl>
+          <div><dt>Safety</dt><dd>${esc(l.sr)}</dd></div>
+          <div><dt>iRating</dt><dd>${l.ir ? fmt(l.ir) : "----"}</dd></div>
+          <div><dt>ttRating</dt><dd>${l.tt ? fmt(l.tt) : "----"}</dd></div>
+        </dl>
+      </article>`).join("");
+
+    const sum = (k) => P.career.reduce((a, c) => a + c[k], 0);
+    const big = [["Carreras", sum("starts")], ["Victorias", sum("wins")], ["Top 5", sum("top5")], ["Poles", sum("poles")], ["Vueltas", sum("laps")], ["Vueltas líder", sum("led")]];
+    $("profBig").innerHTML = big.map(([k, v]) => `<div><b>${fmt(v)}</b><span>${k}</span></div>`).join("");
+    $("profTable").innerHTML = `<thead><tr><th>Categoría</th><th>Carreras</th><th>Victorias</th><th>% victorias</th><th>Top 5</th><th>Poles</th><th>Vueltas</th></tr></thead><tbody>` +
+      P.career.map((c) => `<tr><td>${esc(c.cat)}</td><td>${fmt(c.starts)}</td><td>${fmt(c.wins)}</td><td>${(c.wins / c.starts * 100).toFixed(1).replace(".", ",")}%</td><td>${fmt(c.top5)}</td><td>${fmt(c.poles)}</td><td>${fmt(c.laps)}</td></tr>`).join("") + `</tbody>`;
+
+    $("profRecaps").innerHTML = P.recaps.map((r) => r.image
+      ? `<figure class="recap"><img src="${esc(r.image)}" alt="Resumen ${esc(r.title)}: ${fmt(r.starts)} carreras, ${fmt(r.wins)} victorias, ${fmt(r.top5)} top 5, ${fmt(r.laps)} vueltas" loading="lazy"><figcaption>${esc(r.title)}</figcaption></figure>`
+      : `<figure class="recap"><figcaption>${esc(r.title)}: ${fmt(r.starts)} carreras, ${fmt(r.wins)} victorias</figcaption></figure>`).join("");
+
+    $("profPalmares").innerHTML = P.palmares.map((x) => `
+      <li><time class="mono">${esc(x.date)}</time><div><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p></div></li>`).join("");
+
+    const MON = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+    const tw = [["Seguidores en Twitch", (S.stats.find((s) => /seguidores/i.test(s.label)) || {}).value || "—"]];
+    const H = window.STREAM_DAYS;
+    if (H) {
+      const bits = H.days.replace(/\s/g, "");
+      let gap = 0, best = 0, run = 0, streak = 0, days = 0;
+      for (const c of bits) { if (c === "1") days++; gap = c === "0" ? gap + 1 : 0; best = Math.max(best, gap); run = c === "1" ? run + 1 : 0; streak = Math.max(streak, run); }
+      const d0 = new Date(H.from + "T00:00:00Z");
+      tw.push(["Primer directo", `${d0.getUTCDate()} ${MON[d0.getUTCMonth()]} ${d0.getUTCFullYear()}`],
+        ["Días con directo", fmt(days) + "+"], ["Racha más larga", `${streak} días`], ["Parada más larga", `${best} días`]);
+    }
+    $("profTwitch").innerHTML = tw.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(String(v))}</dd></div>`).join("");
+  }
+
   /* ---------- Where to find him: socials with their icons ---------- */
   if ($("linkList")) {
     const ICONS = {

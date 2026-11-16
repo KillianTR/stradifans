@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de Stradi · StradiFans</title>
+  <meta name="description" content="Quién es Stradi: licencias de iRacing, estadísticas, temporadas y palmarés.">
+  <meta name="theme-color" content="#061b2a">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page prof">
+    <p class="crumbs"><a href="/">Inicio</a> › Perfil</p>
+
+    <div class="prof-card">
+      <img class="prof-avatar" id="profAvatar" src="/assets/logo.png" alt="Stradi">
+      <div class="prof-id">
+        <h1>Stradi</h1>
+        <p class="prof-name" id="profName"></p>
+        <p class="prof-bio" id="profBio"></p>
+        <a class="btn btn-primary" href="https://www.twitch.tv/stradi" target="_blank" rel="noopener">Ver en Twitch</a>
+      </div>
+      <div class="prof-level">
+        <span>Nivel</span>
+        <b id="profLevel">--</b>
+        <small id="profYears"></small>
+      </div>
+    </div>
+
+    <div class="section-head"><span class="tag">iRacing</span><h2>Licencias</h2></div>
+    <p class="section-sub" id="profAsOf"></p>
+    <div class="lic-cards" id="licCards"></div>
+
+    <div class="section-head"><span class="tag">Carrera</span><h2>En números</h2></div>
+    <div class="prof-big" id="profBig"></div>
+    <div class="prof-table-wrap"><table class="prof-table" id="profTable"></table></div>
+
+    <div class="section-head"><span class="tag">Resumen</span><h2>Sus temporadas</h2></div>
+    <div class="recaps" id="profRecaps"></div>
+
+    <div class="section-head"><span class="tag">Trofeos</span><h2>Palmarés</h2></div>
+    <ol class="palmares" id="profPalmares"></ol>
+
+    <div class="section-head"><span class="tag">Twitch</span><h2>En directo</h2></div>
+    <dl class="trk-stats prof-twitch" id="profTwitch"></dl>
+    <p class="prof-more"><a class="go-link" href="/garaje/tracker-directos/">Ver el tracker de directos &#8599;</a> &nbsp; <a class="go-link" href="/setup/">Ver su setup &#8599;</a></p>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="/data.js"></script>
+<script src="/chat.js"></script>
+<script src="/common.js"></script>
+<script src="/tracker-data.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

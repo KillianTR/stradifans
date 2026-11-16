@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.20.2",
+  version: "1.21.0",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -284,6 +284,49 @@ window.SITE = {
   vault: [
     { title: "Jodemos tu vuelta", image: "/vault/jodemos-tu-vuelta.png", note: "JodemosTuVuelta.Stradi.es" }
   ],
+
+  /* Perfil: datos de su cuenta de iRacing (capturas del 16 nov 2026) */
+  profile: {
+    name: "Javier Soto",
+    country: "España",
+    bio: "Streamer español de simracing. Corre en iRacing desde 2011 y en Twitch desde 2020: GT, resistencias, fórmulas y algún que otro lunes sin qualy.",
+    iracingSince: 2011,
+    asOf: "16 nov 2026",
+    licenses: [
+      { cat: "Oval", cls: "A", sr: "2.50", ir: 3446, tt: 1256 },
+      { cat: "Sports Car", cls: "A", sr: "4.34", ir: 5625, tt: 1298 },
+      { cat: "Formula", cls: "B", sr: "1.93", ir: 3973, tt: 1350 },
+      { cat: "Dirt Oval", cls: "R", sr: "2.61", ir: null, tt: 1350 },
+      { cat: "Dirt Road", cls: "R", sr: "2.63", ir: null, tt: 1350 }
+    ],
+    // Career stats per category: starts, wins, top 5, poles, laps, laps led
+    career: [
+      { cat: "Sports Car", starts: 3201, wins: 451, top5: 1610, poles: 388, laps: 59208, led: 4185 },
+      { cat: "Road (retirada)", starts: 3911, wins: 448, top5: 1905, poles: 513, laps: 62279, led: 4850 },
+      { cat: "Formula", starts: 1234, wins: 114, top5: 602, poles: 79, laps: 13032, led: 1062 },
+      { cat: "Oval", starts: 439, wins: 13, top5: 123, poles: 21, laps: 20785, led: 940 },
+      { cat: "Dirt Road", starts: 2, wins: 0, top5: 1, poles: 0, laps: 19, led: 0 },
+      { cat: "Dirt Oval", starts: 1, wins: 0, top5: 1, poles: 0, laps: 30, led: 3 }
+    ],
+    recaps: [
+      { title: "2025", image: "/assets/recaps/iracing-2025.webp", starts: 1649, avgStart: 9, avgFinish: 8, wins: 224, top5: 814, laps: 28830, led: 1890 },
+      { title: "2026 · Temporada 3", image: "/assets/recaps/iracing-2026-s3.webp", starts: 140, avgStart: 10, avgFinish: 10, wins: 19, top5: 68, laps: 2436, led: 188 }
+    ],
+    palmares: [
+      { date: "jun 2026", title: "Campeón de la GT Endurance Series", text: "2026 Temporada 2, by Simucube. 1.º en la general." },
+      { date: "jun 2026", title: "3.º en la GT Sprint Series", text: "2026 Temporada 2, by Simucube. División 1." },
+      { date: "may 2026", title: "2.º en las 500 Millas de Indianápolis", text: "iRacing.com Indy 500 2026, split 2." },
+      { date: "ago 2024", title: "Supera los 6.000 de iRating", text: "En Sports Car." },
+      { date: "abr 2024", title: "Primera victoria en fórmulas", text: "Formula 1600 Rookie Sim-Motion Series." },
+      { date: "mar 2024", title: "Primera victoria en Sports Car", text: "Ring Meister Ricmotech Series." },
+      { date: "dic 2021", title: "3.º en la Production Car Sim-Lab Challenge", text: "2021 Temporada 4, división 1. 4.º en la general." },
+      { date: "dic 2020", title: "2.º en el BMW 12.0 Challenge", text: "2020 Temporada 4, división 2." },
+      { date: "mar 2017", title: "Campeón del club Iberia", text: "2017 Temporada 1, región 4." },
+      { date: "dic 2013", title: "Primera victoria en óvalos", text: "iRacing Street Stock Series." },
+      { date: "nov 2013", title: "Supera los 5.000 de iRating", text: "En Road." },
+      { date: "abr 2012", title: "3.º en la Grand Touring Cup", text: "2012 Temporada 1, división 1." }
+    ]
+  },
 
   /* FAQ - "Lo que la gente busca en Google" */
   faqCategories: [
