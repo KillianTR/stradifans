@@ -436,9 +436,18 @@ section[hidden] { display: none; }
 .footer .foot-author { color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent); }
 .footer .foot-author:hover { color: var(--accent); }
 .foot-x { vertical-align: -1px; margin-right: 4px; }
-.foot-giant { display: flex; justify-content: center; max-width: 1240px; margin: 40px auto 0; padding: 0 0 18px; overflow: hidden;
+.foot-giant { display: flex; justify-content: center; max-width: 1240px; margin: 40px auto 0; padding: 0 0 18px;
   font: 900 clamp(46px, 14.2vw, 214px)/.86 "Titillium Web", sans-serif; text-transform: uppercase; letter-spacing: -.02em; user-select: none; }
-.foot-letter { display: inline-block; transform: skewX(-12deg); padding: 0 .015em; cursor: default; }
+.foot-giant { position: relative; cursor: pointer; }
+.foot-smoke { position: absolute; top: -130%; left: calc(50% - 50vw); width: 100vw; height: 230%; pointer-events: none; z-index: 0; }
+.foot-car { display: inline-flex; position: relative; z-index: 1; will-change: transform; }
+.foot-giant.revving .foot-car { animation: rev .07s linear infinite; }
+@keyframes rev {
+  0% { transform: translate(0, 0) skewX(0); } 25% { transform: translate(-.4%, .6%) skewX(1deg); }
+  50% { transform: translate(.3%, -.3%) skewX(-1deg); } 75% { transform: translate(-.2%, .4%) skewX(.5deg); } 100% { transform: translate(0, 0); }
+}
+.foot-giant.revving .foot-letter > span { text-shadow: 0 .03em 0 rgba(0,0,0,.4); }
+.foot-letter { display: inline-block; transform: skewX(-12deg); padding: 0 .015em; }
 .foot-letter > span { display: inline-block; color: #e9edf2; will-change: transform; }
 .foot-letter.fans > span { color: var(--accent); }
 /* Hover: the letter floors it, leans forward and leaves speed trails behind */

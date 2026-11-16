@@ -69,8 +69,9 @@
     const authorHref = S.authorX ? (S.authorX.startsWith("http") ? S.authorX : "https://x.com/" + S.authorX) : S.authorUrl;
     const authorLink = authorHref ? `<a class="foot-author" href="${authorHref}" target="_blank" rel="noopener" title="Abrir ${handle} en X"><svg class="foot-x" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9zm-1.3 19.4h2L6.5 3.2H4.3z"/></svg>${handle}</a>` : `<b>${handle}</b>`;
     // Giant wordmark in a racing type: letters drive in from the left as you reach the end of the page
-    const giant = "STRADIFANS".split("").map((ch, i) =>
-      `<span class="foot-letter${i >= 6 ? " fans" : ""}" style="--i:${i}"><span>${ch}</span></span>`).join("");
+    const giant = `<canvas class="foot-smoke" aria-hidden="true"></canvas><span class="foot-car">` +
+      "STRADIFANS".split("").map((ch, i) =>
+        `<span class="foot-letter${i >= 6 ? " fans" : ""}" style="--i:${i}"><span>${ch}</span></span>`).join("") + `</span>`;
     // Pixel fade between the page and the footer: denser at the bottom
     const cols = 48, rows = 4;
     let px = "";
@@ -95,26 +96,53 @@
           <p class="foot-giant" aria-hidden="true">${giant}</p>
         </div>
       </footer>`;
+    // Burnout: the word revs on the spot with tyre smoke, launches flat out and comes back round to park
     const g = document.querySelector(".foot-giant");
-    const letters = g ? [...g.querySelectorAll(".foot-letter > span")] : [];
-    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let ticking = false;
-    const drive = () => {
-      ticking = false;
-      const r = g.getBoundingClientRect(), vh = window.innerHeight;
-      const p = Math.min(1, Math.max(0, (vh - r.top) / r.height)); // 0 = just appearing, 1 = fully in view
-      letters.forEach((l, i) => {
-        const k = still ? 1 : Math.min(1, Math.max(0, p * 1.6 - (letters.length - 1 - i) * 0.06));
-        const e = 1 - Math.pow(1 - k, 3);
-        l.style.transform = `translateX(${(1 - e) * -(140 + i * 35)}%)`;
-        l.style.opacity = String(Math.min(1, e * 1.4));
-        l.style.filter = e < 1 ? `blur(${(1 - e) * 6}px)` : "";
-      });
-    };
     if (g) {
-      window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(drive); } }, { passive: true });
-      window.addEventListener("resize", drive);
-      drive();
+      const car = g.querySelector(".foot-car"), cv = g.querySelector(".foot-smoke"), ctx = cv.getContext("2d");
+      const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let puffs = [], running = false, smokeOn = false, raf = 0;
+      const size = () => { const r = cv.getBoundingClientRect(); cv.width = r.width; cv.height = r.height; };
+      const puff = (burst) => {
+        const gr = cv.getBoundingClientRect(), cr = car.getBoundingClientRect();
+        const x = cr.left - gr.left + cr.width * (0.02 + Math.random() * 0.12), y = cr.bottom - gr.top - cr.height * 0.12;
+        puffs.push({ x, y, vx: -(1.5 + Math.random() * (burst ? 9 : 4)), vy: -(0.4 + Math.random() * 1.6), r: 6 + Math.random() * 12, a: 0.32 + Math.random() * 0.2, g: 0.9 + Math.random() * 1.2 });
+      };
+      const draw = () => {
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        if (smokeOn) for (let i = 0; i < 3; i++) puff(false);
+        puffs = puffs.filter((p) => p.a > 0.01);
+        puffs.forEach((p) => {
+          p.x += p.vx; p.y += p.vy; p.vx *= 0.97; p.r += p.g; p.a *= 0.965;
+          const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+          grd.addColorStop(0, `rgba(205,212,220,${p.a})`); grd.addColorStop(1, "rgba(205,212,220,0)");
+          ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+        });
+        if (smokeOn || puffs.length) raf = requestAnimationFrame(draw); else raf = 0;
+      };
+      const smoke = (on) => { smokeOn = on; if (!raf) raf = requestAnimationFrame(draw); };
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+      async function burnout() {
+        if (running || still) return;
+        running = true; size();
+        g.classList.add("revving"); smoke(true);
+        await wait(1500);                                   // burning rubber
+        g.classList.remove("revving"); smoke(false);
+        for (let i = 0; i < 40; i++) puff(true);            // launch cloud
+        g.classList.add("launch");
+        await car.animate([{ transform: "translateX(0) skewX(0)" }, { transform: "translateX(130vw) skewX(-22deg)", filter: "blur(6px)" }],
+          { duration: 520, easing: "cubic-bezier(.6,0,.9,.4)" }).finished;
+        await wait(250);
+        await car.animate([{ transform: "translateX(-130vw) skewX(-18deg)", filter: "blur(6px)" }, { transform: "translateX(3%) skewX(8deg)", filter: "blur(0)", offset: .8 }, { transform: "translateX(0) skewX(0)" }],
+          { duration: 900, easing: "cubic-bezier(.15,.75,.25,1)" }).finished;
+        g.classList.remove("launch");
+        running = false;
+      }
+      window.addEventListener("resize", size);
+      g.addEventListener("click", burnout);
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); burnout(); } }, { threshold: 0.6 }).observe(g);
+      }
     }
   }
 
