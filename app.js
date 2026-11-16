@@ -174,7 +174,7 @@
       const dt = Math.min(0.1, (t - last) / 1000); last = t;
       const backlog = track.scrollWidth + x - viewport.clientWidth; // px still off-screen to the right
       const speed = 70 + Math.max(0, backlog) * 0.25;                 // catch up when chat is busy
-      if (track.querySelector(".tick-wait")) x = 16;      // placeholder stays still
+      if (track.querySelector(".tick-wait")) x = 44;      // placeholder stays still
       else if (track.children.length) x -= speed * dt;
       // drop messages that have left on the left side
       let first = track.firstElementChild;
@@ -238,6 +238,7 @@
             <p>${esc(g.text)}</p>
             ${g.clip ? `<a class="entry-clip" href="${esc(g.clip)}" target="_blank" rel="noopener">&#9654; Ver clip</a>` : ""}
             ${g.clipAlt ? `<a class="entry-clip" href="${esc(g.clipAlt)}" target="_blank" rel="noopener">&#9654; ${esc(g.clipAltLabel || "Otra versión")}</a>` : ""}
+            ${g.link ? `<a class="entry-clip" href="${esc(g.link)}" target="_blank" rel="noopener">${esc(g.linkLabel || "Ver enlace")} &#8599;</a>` : ""}
           </article>`).join("")
         : `<p class="empty">No hay nada. Bandera negra.</p>`;
     };

@@ -34,12 +34,14 @@ window.SITE = {
   stats: [
     { label: "Sim principal", value: "iRacing", note: "y Le Mans Ultimate" },
     { label: "Su coche", value: "Honda Civic", note: "Sport Plus 1.5 Turbo · 182 CV" },
+    { label: "Su volante", value: "Artura Ultimate", note: "Ascher Racing McLaren" },
+    { label: "Sus pedales", value: "SRP", note: "SimRacing Pro" },
     { label: "Seguidores", value: "57K+", note: "en Twitch" }
   ],
 
   /* Stradipedia. Rarity uses iRacing license classes: R, D, C, B, A, PRO.
      Optional "clip": link to a Twitch clip ("clipAlt" + "clipAltLabel" for a second one).
-     Optional "emote": image URL shown on the card. */
+     Optional "emote": image URL shown on the card. Optional "link" + "linkLabel": any other link. */
   glossary: [
     {
       term: "Verstappen guarro", rarity: "PRO",
@@ -101,6 +103,11 @@ window.SITE = {
       text: "Los lunes Stradi sale a la clasificación con bandera negra para empezar desde el fondo de la parrilla. Remontada garantizada. Y paid actors, también."
     },
     {
+      term: "¡ESREEEPEEEE!", rarity: "A",
+      text: "Cuando Stradi clava frenos, se salva por centímetros o esquiva un accidente en el último momento, el chat se lo agradece a sus pedales SRP (SimRacing Pro). Pero no lo escribe: lo grita. ESREEEPEEEE.",
+      link: "https://simracing-pro.com/?ref=stradi", linkLabel: "Pedales SRP"
+    },
+    {
       term: "Las salvadas de Stradi", rarity: "A",
       text: "Cuando el coche ya está cruzado y el chat ya ha escrito F, Stradi lo recoge. Una de tantas:",
       clip: "https://www.twitch.tv/stradi/clip/SingleBlightedKleeGrammarKing-uRg6uxuAKLDvGq16"
@@ -136,9 +143,13 @@ window.SITE = {
     },
     {
       term: "Calvo", rarity: "A",
-      text: "Uno de los clásicos del chat: llamarle calvo. Tan clásico que el canal tiene hasta su propio emote para ello: stradiemotCalvo.",
+      text: "Uno de los clásicos del chat: llamarle calvo. Tan clásico que el canal tiene hasta su propio emote para ello: Calvo.",
       emote: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_f95f907fa4a64e45951bae4cece2b81f/default/dark/3.0",
       clip: "https://www.twitch.tv/stradi/clip/AliveRacyFlamingoOSsloth-bvgt42N6AYuKP0HO"
+    },
+    {
+      term: "!porque", rarity: "A",
+      text: "Cada vez que el chat le pregunta el porqué de algo, alguien tira del comando !porque. La respuesta oficial del canal: \"Porque me sale de los huevos\"."
     },
     {
       term: "Santi pesao", rarity: "A",
@@ -153,8 +164,8 @@ window.SITE = {
       text: "Sub de la casa. Entra, saluda y te suelta un chiste de los malos. Malos, pero a veces divertidos."
     },
     {
-      term: "Las gatas de Stradi", rarity: "C",
-      text: "Stradi tiene gatas, y alguna hasta tiene emote propio en el canal.",
+      term: "Trusi, la gata de Stradi", rarity: "B",
+      text: "Trusi es la gata de Stradi y la única del canal con varios emotes propios: Trusi (la que gira), Trusi1 y Trusi2.",
       emote: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_c215360c75db452cb5c90673c1bc9c26/default/dark/3.0"
     },
     {
@@ -166,26 +177,27 @@ window.SITE = {
   /* Channel emotes gallery (Stradipedia page). Image: Twitch CDN url (dark/3.0 for sharp images).
      "name" is shown under the image; leave it empty if unknown. */
   emotes: [
-    { name: "stradiemotCalvo", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_f95f907fa4a64e45951bae4cece2b81f/default/dark/3.0" },
-    { name: "Stradi liada", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793622/default/dark/3.0" },
-    { name: "La gata de Stradi", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_c215360c75db452cb5c90673c1bc9c26/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_f2e64d8b977b4da5b37b6e51418b955c/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_2cfc96959cfc49c7a7330d233ac90833/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793648/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793635/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_680742d3726f44ca88d53319f80d92fd/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/300951950/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908837/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908875/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908906/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908798/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908742/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_22c3ed59489c4967b0f5a6d59af683c9/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_7b11c1d9e81a40669c768609391b0ad4/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793657/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908951/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303994522/default/dark/3.0" },
-    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_423385f46dd74ebfa1b4fb571d29e23b/default/dark/3.0" }
+    { name: "Calvo", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_f95f907fa4a64e45951bae4cece2b81f/default/dark/3.0" },
+    { name: "Liada", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793622/default/dark/3.0" },
+    { name: "Trusi", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_c215360c75db452cb5c90673c1bc9c26/default/dark/3.0" },
+    { name: "Enfado plus", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_f2e64d8b977b4da5b37b6e51418b955c/default/dark/3.0" },
+    { name: "Temblor", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_2cfc96959cfc49c7a7330d233ac90833/default/dark/3.0" },
+    { name: "Ojo", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793648/default/dark/3.0" },
+    { name: "Gafas de sol", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793635/default/dark/3.0" },
+    { name: "Peligro", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_680742d3726f44ca88d53319f80d92fd/default/dark/3.0" },
+    { name: "Face2", image: "https://static-cdn.jtvnw.net/emoticons/v2/300951950/default/dark/3.0" },
+    { name: "Bíceps", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908837/default/dark/3.0" },
+    { name: "Cara2", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908875/default/dark/3.0" },
+    { name: "Enfado", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908906/default/dark/3.0" },
+    { name: "Cono", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908798/default/dark/3.0" },
+    { name: "Genial", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908742/default/dark/3.0" },
+    { name: "Trusi1", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_22c3ed59489c4967b0f5a6d59af683c9/default/dark/3.0" },
+    { name: "Trusi2", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b47b9e44d3914836b2dcf6239e5d17f8/default/dark/3.0" },
+    { name: "Chat liada", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_7b11c1d9e81a40669c768609391b0ad4/default/dark/3.0" },
+    { name: "Cara1", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793657/default/dark/3.0" },
+    { name: "Enfado2", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908951/default/dark/3.0" },
+    { name: "Wakala", image: "https://static-cdn.jtvnw.net/emoticons/v2/303994522/default/dark/3.0" },
+    { name: "Cono plus", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_423385f46dd74ebfa1b4fb571d29e23b/default/dark/3.0" }
   ],
 
   /* Excuse generator */
@@ -203,7 +215,8 @@ window.SITE = {
     "Estrategia del muro (o sea, del chat).",
     "Valdeon86 me dijo gas a tope.",
     "Era un paid actor que no se sabía el guion.",
-    "Es lunes. Salía último a propósito."
+    "Es lunes. Salía último a propósito.",
+    "Los SRP no han hecho ESREEEPEEEE a tiempo."
   ],
 
   /* Soundboard: put mp3 files in /sounds. Only sounds with a "file" are shown. "key": keyboard shortcut. */
@@ -243,7 +256,8 @@ window.SITE = {
     { q: "¿A qué apuesto mis Stradipuntos?", a: "Ganancia de iRating, pérdida de iRating o retirada. Esto no es asesoramiento financiero." },
     { q: "¿Quién es Valdeon86?", a: "El ingeniero. Consumo, ventanas de boxes, tiempos del P2. Y algún que otro \"gas a tope\"." },
     { q: "¿Qué coche tiene?", a: "Un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco. Desde 2019 es su \"nuevo mejor amigo\"." },
-    { q: "¿Qué volante usa?", a: "PENDIENTE" }
+    { q: "¿Qué volante usa?", a: "Un Ascher Racing McLaren Artura Ultimate." },
+    { q: "¿Por qué hace lo que hace?", a: "Escribe !porque en el chat y te lo explica él mismo." }
   ],
 
   /* Where to find him */

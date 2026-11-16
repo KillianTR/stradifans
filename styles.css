@@ -17,7 +17,7 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 body {
   font-family: "Titillium Web", system-ui, sans-serif;
   color: var(--text);
@@ -355,7 +355,7 @@ section[hidden] { display: none; }
 
 /* ---------- Home: pit board (timer + stats) ---------- */
 .pitboard {
-  display: grid; grid-template-columns: auto 1fr 1fr; gap: 40px; align-items: center;
+  position: relative; z-index: 1; display: grid; grid-template-columns: auto 1fr 1fr; gap: 40px; align-items: center;
   background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 26px 32px; margin: 0 0 18px; transform: rotate(-.6deg);
 }
@@ -382,11 +382,12 @@ section[hidden] { display: none; }
 
 /* ---------- Home: chat ticker ---------- */
 .ticker {
-  display: flex; align-items: center; padding: 0; height: 52px; overflow: hidden;
-  background: #0b0d10; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 24px;
+  display: flex; align-items: center; padding: 0; height: 54px; overflow: hidden;
+  background: #0b0d10; border: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  width: 100vw; margin: 0 0 24px calc(50% - 50vw); border-radius: 0;
 }
 .ticker-label {
-  flex-shrink: 0; display: flex; align-items: center; gap: 8px; height: 100%; padding: 0 18px;
+  flex-shrink: 0; display: flex; align-items: center; gap: 8px; height: 100%; padding: 0 22px 0 max(22px, calc((100vw - 1180px) / 2 + 24px));
   font: 700 12px "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
   background: #0b0d10; border-right: 1px solid var(--line); position: relative; z-index: 2;
 }
@@ -527,7 +528,7 @@ section[hidden] { display: none; }
 .lb-caption span { color: var(--accent-2); font-size: 14px; }
 
 /* ---------- Home: split hero + pixel start lights ---------- */
-.hero.hero-split { grid-template-columns: 1.15fr 1fr; gap: 40px; padding: 64px 0 48px; }
+.hero.hero-split { grid-template-columns: 1.15fr 1fr; gap: 40px; padding: 64px 0 48px; border-bottom: 0; }
 .hero-split .hero-main { text-align: left; }
 .hero-split .cta-row { justify-content: flex-start; }
 .hero-split .hero-sub { margin: 24px 0 0; }
