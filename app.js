@@ -423,7 +423,7 @@
 
   /* ---------- Garaje: incident counter, shared by everyone (today's stream); local fallback ---------- */
   if ($("incOut")) {
-    let inc = 0, shared = false, pending = 0;
+    let inc = 0, shared = false, pending = 0, day = null;
     const show = () => { $("incOut").textContent = inc + "x"; };
     const local = () => {
       shared = false;
@@ -436,7 +436,8 @@
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((d) => {
         if (!shared) { shared = true; $("incReset").hidden = true; }
-        if (!pending) { inc = d.count; show(); }
+        // Within the same day the count only goes up, so a slightly older cached answer never moves it back
+        if (!pending) { inc = d.day === day ? Math.max(inc, d.count) : d.count; day = d.day; show(); }
         $("incNote").textContent = "Contador compartido con todo el chat · se reinicia cada día";
       })
       .catch(() => { if (!shared) local(); });
@@ -448,7 +449,7 @@
         pending++;
         fetch("/api/incidents", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ add }) })
           .then((r) => r.json())
-          .then((d) => { if (typeof d.count === "number" && pending === 1) { inc = d.count; show(); }
+          .then((d) => { if (typeof d.count === "number") { inc = Math.max(inc, d.count); day = d.day || day; show(); }
             if (d.error === "slow_down") $("incNote").textContent = "Frena un poco, que vas a dar bandera negra";
           })
           .catch(() => {})

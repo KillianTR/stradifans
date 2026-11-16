@@ -19,8 +19,9 @@ async function redis(url, token, commands) {
 }
 
 module.exports = async (req, res) => {
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  const env = process.env;
+  const url = env.KV_REST_API_URL || env.UPSTASH_REDIS_REST_URL || env.STORAGE_REST_API_URL;
+  const token = env.KV_REST_API_TOKEN || env.UPSTASH_REDIS_REST_TOKEN || env.STORAGE_REST_API_TOKEN;
   res.setHeader("Cache-Control", "no-store");
   if (!url || !token) return res.status(503).json({ error: "not_configured" });
 
@@ -43,6 +44,8 @@ module.exports = async (req, res) => {
       return res.status(200).json({ day, count: Number(count) || 0 });
     }
     const [count] = await redis(url, token, [["GET", key]]);
+    // Reads are shared through Vercel's cache for a few seconds: the database gets very few hits even with many viewers
+    res.setHeader("Cache-Control", "public, s-maxage=4, stale-while-revalidate=4");
     return res.status(200).json({ day, count: Number(count) || 0 });
   } catch (err) {
     return res.status(502).json({ error: "storage_error" });
