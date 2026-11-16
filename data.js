@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.7.0",
+  version: "1.8.0",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   twitchUser: "stradi",

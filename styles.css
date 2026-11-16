@@ -422,7 +422,10 @@ section[hidden] { display: none; }
 .mouse { width: 12px; height: 18px; border: 2px solid var(--muted); border-radius: 7px; position: relative; }
 .mouse::after { content: ""; position: absolute; left: 50%; top: 3px; width: 2px; height: 4px; background: var(--muted); transform: translateX(-50%); animation: wheel 1.6s infinite; }
 @keyframes wheel { 0% { opacity: 1; top: 3px; } 100% { opacity: 0; top: 9px; } }
-.lore-scroller { overflow-x: auto; overflow-y: hidden; border-top: 2px solid var(--text); margin-bottom: 40px; scrollbar-color: var(--accent) transparent; }
+.lore-scroller { overflow-x: auto; overflow-y: hidden; border-top: 2px solid var(--text); margin-bottom: 40px; scrollbar-width: none; cursor: grab; }
+.lore-scroller::-webkit-scrollbar { display: none; }
+.lore-scroller.is-dragging { cursor: grabbing; user-select: none; }
+.lore-scroller.is-dragging * { pointer-events: none; }
 .lore { list-style: none; display: flex; padding: 0 max(24px, calc((100vw - 1180px) / 2 + 24px)) 40px; min-width: max-content; }
 .lore-item { position: relative; width: 250px; flex-shrink: 0; padding: calc(28px + var(--drop)) 24px 0 0; }
 .lore-item::before { content: ""; position: absolute; left: 4px; top: 0; width: 2px; height: calc(18px + var(--drop)); background: var(--text); }

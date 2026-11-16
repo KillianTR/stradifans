@@ -432,6 +432,20 @@
         if (!atStart && !atEnd) { e.preventDefault(); sc.scrollLeft += e.deltaY; }
       }
     }, { passive: false });
+    // Click and drag to scroll (mouse only; touch already swipes)
+    let dragX = null, startLeft = 0, moved = false;
+    sc.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      dragX = e.clientX; startLeft = sc.scrollLeft; moved = false;
+    });
+    window.addEventListener("pointermove", (e) => {
+      if (dragX === null) return;
+      const dx = e.clientX - dragX;
+      if (Math.abs(dx) > 4) { moved = true; sc.classList.add("is-dragging"); }
+      sc.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener("pointerup", () => { dragX = null; sc.classList.remove("is-dragging"); });
+    sc.addEventListener("click", (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
   }
 
   /* ---------- Baúl: polaroid grid + lightbox (zoom, pan, prev/next) ---------- */
