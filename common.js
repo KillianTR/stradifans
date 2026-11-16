@@ -46,23 +46,9 @@
     const handle = S.authorX ? "@" + S.authorX.replace(/^.*\//, "") : S.author;
     const authorHref = S.authorX ? (S.authorX.startsWith("http") ? S.authorX : "https://x.com/" + S.authorX) : S.authorUrl;
     const authorLink = authorHref ? `<a class="foot-author" href="${authorHref}" target="_blank" rel="noopener" title="Abrir ${handle} en X"><svg class="foot-x" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9zm-1.3 19.4h2L6.5 3.2H4.3z"/></svg>${handle}</a>` : `<b>${handle}</b>`;
-    // Giant pixel wordmark: each letter is a 5x7 block glyph, drawn as one SVG
-    const GLYPHS = {
-      S: [".####", "#....", "#....", ".###.", "....#", "....#", "####."],
-      T: ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", "..#.."],
-      R: ["####.", "#...#", "#...#", "####.", "#.#..", "#..#.", "#...#"],
-      A: [".###.", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
-      D: ["####.", "#...#", "#...#", "#...#", "#...#", "#...#", "####."],
-      I: ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", "#####"],
-      F: ["#####", "#....", "#....", "####.", "#....", "#....", "#...."],
-      N: ["#...#", "##..#", "#.#.#", "#..##", "#...#", "#...#", "#...#"]
-    };
-    const giant = `<svg class="foot-word" viewBox="0 0 59 7" shape-rendering="crispEdges" aria-hidden="true">` +
-      "STRADIFANS".split("").map((ch, i) => {
-        let d = "";
-        GLYPHS[ch].forEach((row, y) => [...row].forEach((c, x) => { if (c === "#") d += `M${i * 6 + x} ${y}h1v1h-1z`; }));
-        return `<path class="foot-letter${i >= 6 ? " fans" : ""}" style="--i:${i}" d="${d}"/>`;
-      }).join("") + `</svg>`;
+    // Giant wordmark in a racing type: letters drive in from the left as you reach the end of the page
+    const giant = "STRADIFANS".split("").map((ch, i) =>
+      `<span class="foot-letter${i >= 6 ? " fans" : ""}" style="--i:${i}"><span>${ch}</span></span>`).join("");
     // Pixel fade between the page and the footer: denser at the bottom
     const cols = 48, rows = 4;
     let px = "";
@@ -87,25 +73,26 @@
           <p class="foot-giant" aria-hidden="true">${giant}</p>
         </div>
       </footer>`;
-    // The letters rise out of the bottom edge as you scroll down to the end of the page
     const g = document.querySelector(".foot-giant");
-    const letters = g ? [...g.querySelectorAll(".foot-letter")] : [];
+    const letters = g ? [...g.querySelectorAll(".foot-letter > span")] : [];
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let ticking = false;
-    const rise = () => {
+    const drive = () => {
       ticking = false;
       const r = g.getBoundingClientRect(), vh = window.innerHeight;
-      const p = Math.min(1, Math.max(0, (vh - r.top) / (r.height * 1.1))); // 0 = just appearing, 1 = fully in view
+      const p = Math.min(1, Math.max(0, (vh - r.top) / r.height)); // 0 = just appearing, 1 = fully in view
       letters.forEach((l, i) => {
-        const k = still ? 1 : Math.min(1, Math.max(0, p * 1.5 - i * 0.05));
+        const k = still ? 1 : Math.min(1, Math.max(0, p * 1.6 - (letters.length - 1 - i) * 0.06));
         const e = 1 - Math.pow(1 - k, 3);
-        l.style.transform = `translateY(${(1 - e) * 8}px)`;
+        l.style.transform = `translateX(${(1 - e) * -(140 + i * 35)}%)`;
+        l.style.opacity = String(Math.min(1, e * 1.4));
+        l.style.filter = e < 1 ? `blur(${(1 - e) * 6}px)` : "";
       });
     };
     if (g) {
-      window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(rise); } }, { passive: true });
-      window.addEventListener("resize", rise);
-      rise();
+      window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(drive); } }, { passive: true });
+      window.addEventListener("resize", drive);
+      drive();
     }
   }
 
