@@ -33,6 +33,13 @@
       <div class="bday" id="bday" hidden></div>`;
   }
 
+  // Keep the header height in a CSS variable, so the home chat ticker can cover the navbar exactly when it sticks
+  const topbar = document.querySelector(".topbar");
+  const setTopbarH = () => topbar && document.documentElement.style.setProperty("--topbar-h", topbar.offsetHeight + "px");
+  setTopbarH();
+  if (topbar && "ResizeObserver" in window) new ResizeObserver(setTopbarH).observe(topbar);
+  else window.addEventListener("resize", setTopbarH);
+
   /* ---------- Footer ---------- */
   const footer = $("site-footer");
   if (footer) {

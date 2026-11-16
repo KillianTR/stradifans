@@ -454,7 +454,8 @@ section[hidden] { display: none; }
 
 /* ---------- Home: chat ticker ---------- */
 .ticker {
-  display: flex; align-items: center; padding: 0; height: 54px; overflow: hidden;
+  position: sticky; top: 0; z-index: 60; /* scrolled past it, the chat covers the navbar */
+  display: flex; align-items: center; padding: 0; height: max(54px, var(--topbar-h, 54px)); overflow: hidden;
   background: #0b0d10; border: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
   width: 100vw; margin: 0 0 24px calc(50% - 50vw); border-radius: 0;
 }
