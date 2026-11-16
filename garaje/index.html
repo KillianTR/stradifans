@@ -21,36 +21,50 @@
   <section class="page">
     <p class="crumbs"><a href="/">Inicio</a> › Garaje</p>
     <h1>El garaje</h1>
-    <p class="page-sub">Herramientas y juegos. Ninguno te baja el tiempo por vuelta.</p>
-    <div class="tools-grid">
-      <article class="tool">
-        <h3>Medidor del chat</h3>
-        <p>Las cinco cosas que más spamea el chat, en directo.</p>
-        <div class="tool-out tool-case">📊</div>
-        <a class="btn btn-primary" href="/garaje/medidor-chat/">Abrir el medidor</a>
+    <p class="page-sub">Herramientas y juegos del canal. Ninguno te baja el tiempo por vuelta.</p>
+    <div class="toolbox">
+      <article class="tool-sec" style="--c:#ea6f18">
+        <span class="rule"></span>
+        <h2>Medidor del chat</h2>
+        <p>Las cinco cosas que más spamea el chat, contadas en directo.</p>
+        <a class="tool-preview" href="/garaje/medidor-chat/">
+          <span class="pv-bar" style="--w:100%"><b>1</b>GG<em>412</em></span>
+          <span class="pv-bar" style="--w:72%"><b>2</b>F<em>296</em></span>
+          <span class="pv-bar" style="--w:48%"><b>3</b>Santi pesao<em>201</em></span>
+        </a>
+        <a class="tool-link" href="/garaje/medidor-chat/">Abrir el medidor &#8599;</a>
       </article>
-      <article class="tool">
-        <h3>Ruleta de clips</h3>
-        <p>Abre una caja y te toca un clip aleatorio de Stradi.</p>
-        <div class="tool-out tool-case">📦</div>
-        <a class="btn btn-primary" href="/garaje/ruleta-clips/">Abrir una caja</a>
+      <article class="tool-sec" style="--c:#009bfe">
+        <span class="rule"></span>
+        <h2>Ruleta de clips</h2>
+        <p>Abre una caja y te toca un clip de Stradi. Los más vistos, más difíciles.</p>
+        <a class="tool-preview pv-case" href="/garaje/ruleta-clips/">
+          <span class="pv-card" style="--t:#8b9bb0"></span><span class="pv-card" style="--t:#009bfe"></span><span class="pv-card" style="--t:#ffd200"></span><span class="pv-card" style="--t:#c04cf0"></span><span class="pv-card" style="--t:#8b9bb0"></span>
+          <span class="pv-marker"></span>
+        </a>
+        <a class="tool-link" href="/garaje/ruleta-clips/">Abrir una caja &#8599;</a>
       </article>
-      <article class="tool">
-        <h3>Generador de excusas</h3>
+      <article class="tool-sec" style="--c:#c04cf0">
+        <span class="rule"></span>
+        <h2>Generador de excusas</h2>
         <p>¿Te has estampado? ¿Has perdido 8 posiciones? Excusa certificada.</p>
-        <div class="tool-out" id="excuseOut">Pulsa el botón. Culpa a alguien.</div>
-        <button class="btn btn-primary" id="excuseBtn">Generar excusa</button>
+        <div class="tool-preview pv-text" id="excuseOut">Pulsa el botón. Culpa a alguien.</div>
+        <button class="tool-link as-btn" id="excuseBtn">Generar excusa &#8599;</button>
       </article>
-      <article class="tool">
-        <h3>Contador de incidentes</h3>
-        <p>Lleva la cuenta de los puntos de incidente. La estadística favorita del chat.</p>
-        <div class="incidents mono" id="incOut">0x</div>
-        <div class="tool-btns">
-          <button class="btn btn-ghost" data-inc="1">+1x</button>
-          <button class="btn btn-ghost" data-inc="2">+2x</button>
-          <button class="btn btn-ghost" data-inc="4">+4x</button>
-          <button class="btn btn-ghost" id="incReset">Reset</button>
+      <article class="tool-sec" style="--c:#2bd96b">
+        <span class="rule"></span>
+        <h2>Contador de incidentes</h2>
+        <p>Los puntos de incidente de la carrera. La estadística favorita del chat.</p>
+        <div class="tool-preview pv-inc">
+          <span class="incidents mono" id="incOut">0x</span>
+          <span class="tool-btns">
+            <button class="btn btn-ghost" data-inc="1">+1x</button>
+            <button class="btn btn-ghost" data-inc="2">+2x</button>
+            <button class="btn btn-ghost" data-inc="4">+4x</button>
+            <button class="btn btn-ghost" id="incReset">Reset</button>
+          </span>
         </div>
+        <span class="tool-link muted">Se guarda en tu navegador</span>
       </article>
     </div>
   </section>

@@ -18,17 +18,28 @@
 <div id="site-header"></div>
 
 <main>
-  <section class="hero hero-solo">
+  <section class="hero hero-split">
     <div class="hero-main">
       <p class="eyebrow">Web fan no oficial · Departamento de simracing</p>
       <h1>¿Está Stradi<br>en directo?</h1>
       <div class="answer" id="answer">...</div>
-      <p class="caption" id="caption">leyendo telemetría...</p>
+      <p class="hero-sub">El paddock fan de los directos de Stradi en Twitch, sus carreras y el lore del chat.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="https://www.twitch.tv/stradi" target="_blank" rel="noopener">Llévame al directo</a>
         <a class="btn btn-ghost" href="https://www.twitch.tv/stradi/videos" target="_blank" rel="noopener">Ver el último VOD</a>
       </div>
-      <p class="hero-sub">Directos, lore, memes del chat y puntos de incidente. Todo Stradi en un mismo paddock.</p>
+    </div>
+    <div class="start-lights" id="startLights">
+      <button class="gantry" id="gantry" aria-label="Prueba tu reacción de salida">
+        <span class="gantry-bar"></span>
+        <span class="pods">
+          <span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span><span class="pod"><i></i><i></i></span>
+        </span>
+        <span class="gantry-legs"><span></span><span></span></span>
+      </button>
+      <svg class="sl-arrow" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 6 C 10 40, 40 52, 74 50" fill="none" stroke="currentColor" stroke-width="3"/><path d="M0 14 L6 4 L14 12" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+      <p class="ribbon" id="caption">leyendo telemetría...</p>
+      <p class="sl-hint" id="slHint">Pulsa el semáforo y prueba tu salida</p>
     </div>
   </section>
 
@@ -70,13 +81,13 @@
   <section>
     <div class="section-head"><span class="tag">Paddock</span><h2>Explora</h2></div>
     <p class="section-sub">Todo lo que hay que saber del canal, cada cosa en su box.</p>
-    <div class="explore-grid">
-      <a class="explore" href="/stradipedia/"><span class="explore-ico">📖</span><h3>Stradipedia</h3><p>Memes, coñas y personajes del chat, clasificados por licencia.</p></a>
-      <a class="explore" href="/garaje/"><span class="explore-ico">🔧</span><h3>Garaje</h3><p>Medidor del chat, ruleta de clips, excusas y contador de incidentes.</p></a>
-      <a class="explore" href="/radio/"><span class="explore-ico">📻</span><h3>Radio</h3><p>El soundboard con las frases míticas del canal.</p></a>
-      <a class="explore" href="/lore/"><span class="explore-ico">🏁</span><h3>Lore</h3><p>La crónica de carrera de Stradi, de los semáforos a hoy.</p></a>
-      <a class="explore" href="/baul/"><span class="explore-ico">📦</span><h3>Baúl</h3><p>Memes, edits y fan arts de la comunidad.</p></a>
-      <a class="explore" href="/faq/"><span class="explore-ico">❓</span><h3>FAQ</h3><p>Lo que la gente busca en Google, respondido por el chat.</p></a>
+    <div class="explore-list">
+      <a class="explore-row" href="/stradipedia/" style="--c:#ea6f18"><span class="rule"></span><svg class="px-ico" width="28" height="28" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M2 1h5v1h-5zM9 1h5v1h-5zM1 2h1v1h-1zM7 2h2v1h-2zM14 2h1v1h-1zM1 3h1v1h-1zM3 3h3v1h-3zM7 3h2v1h-2zM10 3h3v1h-3zM14 3h1v1h-1zM1 4h1v1h-1zM7 4h2v1h-2zM14 4h1v1h-1zM1 5h1v1h-1zM3 5h3v1h-3zM7 5h2v1h-2zM10 5h3v1h-3zM14 5h1v1h-1zM1 6h1v1h-1zM7 6h2v1h-2zM14 6h1v1h-1zM1 7h1v1h-1zM3 7h3v1h-3zM7 7h2v1h-2zM10 7h3v1h-3zM14 7h1v1h-1zM1 8h1v1h-1zM7 8h2v1h-2zM14 8h1v1h-1zM1 9h1v1h-1zM3 9h3v1h-3zM7 9h2v1h-2zM10 9h3v1h-3zM14 9h1v1h-1zM1 10h1v1h-1zM7 10h2v1h-2zM14 10h1v1h-1zM1 11h1v1h-1zM7 11h2v1h-2zM14 11h1v1h-1zM2 12h5v1h-5zM9 12h5v1h-5zM7 13h2v1h-2z"/></svg><h3>Stradipedia</h3><p>Memes, coñas y personajes del chat, por licencia.</p><span class="go">Abrir la Stradipedia &#8599;</span></a>
+      <a class="explore-row" href="/garaje/" style="--c:#009bfe"><span class="rule"></span><svg class="px-ico" width="28" height="28" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M10 1h3v1h-3zM9 2h1v1h-1zM12 2h1v1h-1zM9 3h1v1h-1zM11 3h1v1h-1zM14 3h1v1h-1zM9 4h1v1h-1zM12 4h3v1h-3zM8 5h1v1h-1zM14 5h1v1h-1zM7 6h1v1h-1zM13 6h1v1h-1zM6 7h1v1h-1zM9 7h4v1h-4zM5 8h1v1h-1zM8 8h1v1h-1zM4 9h1v1h-1zM7 9h1v1h-1zM3 10h1v1h-1zM6 10h1v1h-1zM2 11h1v1h-1zM5 11h1v1h-1zM1 12h1v1h-1zM4 12h1v1h-1zM1 13h3v1h-3z"/></svg><h3>Garaje</h3><p>Medidor del chat, ruleta de clips, excusas e incidentes.</p><span class="go">Entrar al garaje &#8599;</span></a>
+      <a class="explore-row" href="/radio/" style="--c:#c04cf0"><span class="rule"></span><svg class="px-ico" width="28" height="28" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M11 1h2v1h-2zM9 2h2v1h-2zM7 3h2v1h-2zM2 4h12v1h-12zM1 5h1v1h-1zM14 5h1v1h-1zM1 6h1v1h-1zM3 6h4v1h-4zM10 6h2v1h-2zM14 6h1v1h-1zM1 7h1v1h-1zM3 7h1v1h-1zM6 7h1v1h-1zM9 7h1v1h-1zM12 7h1v1h-1zM14 7h1v1h-1zM1 8h1v1h-1zM3 8h4v1h-4zM9 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM1 9h1v1h-1zM3 9h1v1h-1zM6 9h1v1h-1zM10 9h2v1h-2zM14 9h1v1h-1zM1 10h1v1h-1zM3 10h4v1h-4zM14 10h1v1h-1zM1 11h1v1h-1zM14 11h1v1h-1zM2 12h12v1h-12zM2 13h1v1h-1zM13 13h1v1h-1z"/></svg><h3>Radio</h3><p>Las frases míticas del canal, para escuchar y descargar.</p><span class="go">Encender la radio &#8599;</span></a>
+      <a class="explore-row" href="/lore/" style="--c:#2bd96b"><span class="rule"></span><svg class="px-ico" width="28" height="28" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 1h12v1h-12zM1 2h4v1h-4zM9 2h4v1h-4zM1 3h4v1h-4zM9 3h4v1h-4zM1 4h1v1h-1zM5 4h4v1h-4zM13 4h1v1h-1zM1 5h1v1h-1zM5 5h4v1h-4zM13 5h1v1h-1zM1 6h4v1h-4zM9 6h4v1h-4zM1 7h4v1h-4zM9 7h4v1h-4zM1 8h1v1h-1zM5 8h4v1h-4zM13 8h1v1h-1zM1 9h12v1h-12zM1 10h1v1h-1zM1 11h1v1h-1zM1 12h1v1h-1zM1 13h1v1h-1zM1 14h1v1h-1z"/></svg><h3>Lore</h3><p>La crónica de carrera de Stradi, de los semáforos a hoy.</p><span class="go">Leer el lore &#8599;</span></a>
+      <a class="explore-row" href="/baul/" style="--c:#ffd200"><span class="rule"></span><svg class="px-ico" width="28" height="28" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M4 1h8v1h-8zM3 2h1v1h-1zM12 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM1 4h14v1h-14zM1 5h1v1h-1zM8 5h2v1h-2zM14 5h1v1h-1zM1 6h1v1h-1zM8 6h2v1h-2zM14 6h1v1h-1zM1 7h1v1h-1zM4 7h4v1h-4zM14 7h1v1h-1zM1 8h1v1h-1zM14 8h1v1h-1zM1 9h1v1h-1zM14 9h1v1h-1zM1 10h1v1h-1zM14 10h1v1h-1zM1 11h1v1h-1zM14 11h1v1h-1zM1 12h14v1h-14z"/></svg><h3>Baúl</h3><p>Memes, edits y fan arts de la comunidad.</p><span class="go">Abrir el baúl &#8599;</span></a>
+      <a class="explore-row" href="/faq/" style="--c:#ea6f18"><span class="rule"></span><svg class="px-ico" width="28" height="28" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M5 1h6v1h-6zM4 2h1v1h-1zM11 2h1v1h-1zM3 3h1v1h-1zM6 3h4v1h-4zM12 3h1v1h-1zM3 4h1v1h-1zM6 4h1v1h-1zM9 4h1v1h-1zM12 4h1v1h-1zM7 5h2v1h-2zM11 5h1v1h-1zM6 6h1v1h-1zM10 6h1v1h-1zM6 7h1v1h-1zM9 7h1v1h-1zM6 8h1v1h-1zM9 8h1v1h-1zM7 9h2v1h-2zM7 11h2v1h-2zM6 12h1v1h-1zM9 12h1v1h-1zM7 13h2v1h-2z"/></svg><h3>FAQ</h3><p>Lo que la gente busca en Google, respondido por el chat.</p><span class="go">Ver las preguntas &#8599;</span></a>
     </div>
   </section>
 

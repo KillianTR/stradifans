@@ -102,6 +102,65 @@
     }
   }
 
+  /* ---------- Home: pixel start lights (status + reaction game) ---------- */
+  if ($("gantry")) {
+    const box = $("startLights"), pods = [...document.querySelectorAll("#gantry .pod")];
+    const caption = $("caption"), hint = $("slHint");
+    let game = null, idleCaption = caption.textContent, liveState = null;
+    let best = null;
+    try { best = parseInt(localStorage.getItem("sf_best_reaction") || "", 10) || null; } catch (_) {}
+
+    const setPods = (n, cls) => pods.forEach((p, i) => { p.className = "pod" + (i < n && cls ? " " + cls : ""); });
+    function idle() {
+      game = null;
+      box.dataset.state = liveState === true ? "live" : liveState === false ? "off" : "unknown";
+      setPods(5, liveState === true ? "green" : liveState === false ? "red" : "amber");
+      caption.textContent = idleCaption;
+      hint.textContent = best ? `Pulsa el semáforo · tu récord: ${best} ms` : "Pulsa el semáforo y prueba tu salida";
+    }
+    window.onLiveStatus((st) => {
+      liveState = st.live;
+      idleCaption = $("caption").textContent;
+      if (!game) idle();
+    });
+
+    $("gantry").addEventListener("click", () => {
+      if (!game) {
+        // Start sequence: lights on one by one, then out after a random delay
+        game = { phase: "lights", timers: [] };
+        box.dataset.state = "game";
+        setPods(0);
+        caption.textContent = "Atento a los semáforos...";
+        hint.textContent = "Pulsa en cuanto se apaguen";
+        for (let i = 1; i <= 5; i++) game.timers.push(setTimeout(() => setPods(i, "red"), i * 900));
+        const out = 5 * 900 + 400 + Math.random() * 2600;
+        game.timers.push(setTimeout(() => { setPods(0); game.phase = "go"; game.t0 = performance.now(); caption.textContent = "¡YA!"; }, out));
+        return;
+      }
+      if (game.phase === "lights") {
+        game.timers.forEach(clearTimeout);
+        game = { phase: "done" };
+        setPods(5, "amber");
+        caption.textContent = "¡Salida en falso! Drive-through";
+        hint.textContent = "Pulsa otra vez para repetir";
+        setTimeout(() => { if (game && game.phase === "done") idle(); }, 3500);
+        return;
+      }
+      if (game.phase === "go") {
+        const ms = Math.round(performance.now() - game.t0);
+        game = { phase: "done" };
+        const record = !best || ms < best;
+        if (record) { best = ms; try { localStorage.setItem("sf_best_reaction", String(ms)); } catch (_) {} }
+        setPods(5, "green");
+        caption.textContent = `${ms} ms${record ? " · ¡récord!" : ""}`;
+        hint.textContent = ms < 200 ? "Reflejos de piloto de F1" : ms < 300 ? "Salida limpia" : "Te han pasado tres paid actors";
+        setTimeout(() => { if (game && game.phase === "done") idle(); }, 4000);
+        return;
+      }
+      if (game.phase === "done") idle();
+    });
+  }
+
   /* ---------- Home: live chat ticker (scrolls right to left) ---------- */
   if ($("tickerTrack")) {
     const track = $("tickerTrack"), viewport = $("tickerViewport");
@@ -334,16 +393,95 @@
     }, { passive: false });
   }
 
-  /* ---------- Baúl: vault ---------- */
+  /* ---------- Baúl: polaroid grid + lightbox (zoom, pan, prev/next) ---------- */
   if ($("vaultGrid")) {
-    $("vaultCount").textContent = S.vault.length;
-    $("vaultGrid").innerHTML = S.vault.length
-      ? S.vault.map((v) => `
-        <figure>
-          <img src="${esc(v.image)}" alt="${esc(v.title)}" loading="lazy">
-          <figcaption>${esc(v.title)}</figcaption>
-        </figure>`).join("")
+    const items = S.vault || [];
+    const num = (i) => "#" + String(i + 1).padStart(4, "0");
+    $("vaultCount").textContent = items.length;
+    $("vaultGrid").innerHTML = items.length
+      ? items.map((v, i) => `
+        <button class="vault-card" data-i="${i}" style="--tilt:${((i * 41) % 7) - 3}deg">
+          <span class="vault-img"><img src="${esc(v.image)}" alt="${esc(v.title)}" loading="lazy"></span>
+          <span class="vault-meta"><span class="mono">${num(i)}</span><span>${esc(v.title)}</span></span>
+        </button>`).join("")
       : `<p class="empty">El baúl está vacío. Mandad memes.</p>`;
+
+    // Lightbox
+    const lb = document.createElement("div");
+    lb.className = "lightbox";
+    lb.hidden = true;
+    lb.innerHTML = `
+      <div class="lb-top">
+        <span class="lb-count mono" id="lbCount"></span>
+        <div class="lb-actions">
+          <button class="lb-btn" id="lbZoomOut" aria-label="Alejar">&minus;</button>
+          <button class="lb-btn" id="lbZoomIn" aria-label="Acercar">+</button>
+          <a class="lb-btn" id="lbDownload" download aria-label="Descargar">&#8595;</a>
+          <button class="lb-btn" id="lbClose" aria-label="Cerrar">&times;</button>
+        </div>
+      </div>
+      <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior">&#8249;</button>
+      <div class="lb-stage" id="lbStage"><img id="lbImg" alt="" draggable="false"></div>
+      <button class="lb-nav lb-next" id="lbNext" aria-label="Siguiente">&#8250;</button>
+      <div class="lb-caption"><b id="lbTitle"></b><span id="lbNote"></span></div>`;
+    document.body.appendChild(lb);
+
+    const img = $("lbImg"), stage = $("lbStage");
+    let idx = 0, scale = 1, tx = 0, ty = 0;
+    const apply = () => {
+      img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+      stage.classList.toggle("zoomed", scale > 1);
+    };
+    const resetZoom = () => { scale = 1; tx = 0; ty = 0; apply(); };
+    const zoomTo = (s) => { scale = Math.min(5, Math.max(1, s)); if (scale === 1) { tx = 0; ty = 0; } apply(); };
+
+    function show(i) {
+      idx = (i + items.length) % items.length;
+      const v = items[idx];
+      img.src = v.image;
+      img.alt = v.title;
+      $("lbTitle").textContent = v.title;
+      $("lbNote").textContent = v.note || "";
+      $("lbCount").textContent = `${num(idx)} · ${idx + 1} / ${items.length}`;
+      $("lbDownload").href = v.image;
+      $("lbPrev").hidden = $("lbNext").hidden = items.length < 2;
+      resetZoom();
+    }
+    function open(i) { show(i); lb.hidden = false; document.body.style.overflow = "hidden"; }
+    function close() { lb.hidden = true; document.body.style.overflow = ""; }
+
+    $("vaultGrid").addEventListener("click", (e) => { const c = e.target.closest(".vault-card"); if (c) open(Number(c.dataset.i)); });
+    $("lbClose").addEventListener("click", close);
+    $("lbPrev").addEventListener("click", () => show(idx - 1));
+    $("lbNext").addEventListener("click", () => show(idx + 1));
+    $("lbZoomIn").addEventListener("click", () => zoomTo(scale * 1.5));
+    $("lbZoomOut").addEventListener("click", () => zoomTo(scale / 1.5));
+    lb.addEventListener("click", (e) => { if (e.target === lb || e.target === stage) close(); });
+    document.addEventListener("keydown", (e) => {
+      if (lb.hidden) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") show(idx - 1);
+      else if (e.key === "ArrowRight") show(idx + 1);
+      else if (e.key === "+" || e.key === "=") zoomTo(scale * 1.5);
+      else if (e.key === "-") zoomTo(scale / 1.5);
+    });
+    // Wheel zoom, double-click toggle
+    stage.addEventListener("wheel", (e) => { e.preventDefault(); zoomTo(scale * (e.deltaY < 0 ? 1.15 : 1 / 1.15)); }, { passive: false });
+    img.addEventListener("dblclick", () => zoomTo(scale > 1 ? 1 : 2.5));
+    // Drag to pan (mouse) and swipe to change image (touch)
+    let drag = null;
+    img.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y: e.clientY, tx, ty, t: Date.now() }; img.setPointerCapture(e.pointerId); });
+    img.addEventListener("pointermove", (e) => {
+      if (!drag || scale === 1) return;
+      tx = drag.tx + (e.clientX - drag.x); ty = drag.ty + (e.clientY - drag.y); apply();
+    });
+    img.addEventListener("pointerup", (e) => {
+      if (drag && scale === 1) {
+        const dx = e.clientX - drag.x;
+        if (Math.abs(dx) > 60 && Date.now() - drag.t < 600) show(idx + (dx < 0 ? 1 : -1));
+      }
+      drag = null;
+    });
   }
 
   /* ---------- FAQ ---------- */

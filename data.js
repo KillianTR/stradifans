@@ -230,9 +230,9 @@ window.SITE = {
     { sort: "2026-11-29", date: "29 nov 2026", title: "46 años", text: "El paddock entero celebra el cumple de Stradi." }
   ],
 
-  /* Baúl (memes / edits / fan art). Put images in /vault */
+  /* Baúl (memes / edits / fan art). Put images in /vault. Fields: title, image, note (optional). */
   vault: [
-    // { title: "Título del meme", image: "/vault/meme1.webp" }
+    { title: "Jodemos tu vuelta", image: "/vault/jodemos-tu-vuelta.png", note: "JodemosTuVuelta.Stradi.es" }
   ],
 
   /* FAQ - "Lo que la gente busca en Google" */

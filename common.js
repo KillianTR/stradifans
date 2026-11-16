@@ -130,11 +130,11 @@
       if (isToday) {
         bday.hidden = false;
         bday.classList.add("is-today");
-        bday.innerHTML = `<span class="bday-cake">🎂</span><span>¡Feliz cumpleaños, Stradi!</span><span class="bday-age">${age}</span><span>años · todo el paddock está contigo 🏁</span>`;
+        bday.innerHTML = `<svg class="px-ico bday-cake" width="22" height="22" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M7 1h1v1h-1zM6 2h2v1h-2zM7 3h1v1h-1zM3 4h1v1h-1zM7 4h1v1h-1zM11 4h1v1h-1zM3 5h1v1h-1zM7 5h1v1h-1zM11 5h1v1h-1zM1 6h13v1h-13zM1 7h1v1h-1zM13 7h1v1h-1zM1 8h2v1h-2zM4 8h2v1h-2zM7 8h2v1h-2zM10 8h2v1h-2zM13 8h1v1h-1zM1 9h1v1h-1zM3 9h1v1h-1zM6 9h1v1h-1zM9 9h1v1h-1zM12 9h2v1h-2zM1 10h1v1h-1zM13 10h1v1h-1zM1 11h13v1h-13zM0 12h1v1h-1zM14 12h1v1h-1zM0 13h15v1h-15z"/></svg><span>¡Feliz cumpleaños, Stradi!</span><span class="bday-age">${age}</span><span>años · todo el paddock está contigo</span>`;
       } else if (ms <= 30 * 86400000) {
         bday.hidden = false;
         bday.innerHTML =
-          `<span class="bday-cake">🎂</span>` +
+          `<svg class="px-ico bday-cake" width="22" height="22" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M7 1h1v1h-1zM6 2h2v1h-2zM7 3h1v1h-1zM3 4h1v1h-1zM7 4h1v1h-1zM11 4h1v1h-1zM3 5h1v1h-1zM7 5h1v1h-1zM11 5h1v1h-1zM1 6h13v1h-13zM1 7h1v1h-1zM13 7h1v1h-1zM1 8h2v1h-2zM4 8h2v1h-2zM7 8h2v1h-2zM10 8h2v1h-2zM13 8h1v1h-1zM1 9h1v1h-1zM3 9h1v1h-1zM6 9h1v1h-1zM9 9h1v1h-1zM12 9h2v1h-2zM1 10h1v1h-1zM13 10h1v1h-1zM1 11h13v1h-13zM0 12h1v1h-1zM14 12h1v1h-1zM0 13h15v1h-15z"/></svg>` +
           `<span>Stradi cumple</span><span class="bday-age">${age}</span>` +
           `<span>años el ${b.day} de ${MONTHS[b.month - 1]}</span>` +
           `<span class="bday-timer">` +
