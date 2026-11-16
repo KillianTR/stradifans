@@ -335,6 +335,16 @@ section[hidden] { display: none; }
 .entry-clip:hover { color: var(--text); }
 .entry-clip + .entry-clip { margin-left: 14px; }
 
+/* ---------- Emotes gallery ---------- */
+.page-section { padding-top: 0; border-bottom: 0; }
+.emote-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+.emote-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 10px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;
+}
+.emote-card img { width: 72px; height: 72px; object-fit: contain; }
+.emote-card figcaption { font: 600 12px "JetBrains Mono", monospace; color: var(--muted); word-break: break-all; }
+
 /* ---------- Footer ---------- */
 .footer { text-align: center; padding: 40px 24px 56px; color: var(--muted); font-size: 14px; }
 .footer p + p { margin-top: 6px; }

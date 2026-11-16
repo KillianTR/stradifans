@@ -121,6 +121,15 @@
     render();
   }
 
+  /* ---------- Stradipedia: emotes gallery ---------- */
+  if ($("emoteGrid")) {
+    $("emoteGrid").innerHTML = (S.emotes || []).map((e) => `
+      <figure class="emote-card">
+        <img src="${esc(e.image)}" alt="${esc(e.name || "Emote")}" loading="lazy">
+        ${e.name ? `<figcaption>${esc(e.name)}</figcaption>` : ""}
+      </figure>`).join("");
+  }
+
   /* ---------- Garaje: excuse generator ---------- */
   if ($("excuseBtn")) {
     let last = "";

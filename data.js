@@ -116,12 +116,18 @@ window.SITE = {
       clip: "https://www.twitch.tv/stradi/clip/EagerAliveFalconUWot-jRwvrC93YeS3Wjqn"
     },
     {
+      term: "Stradi en Fórmula 4", rarity: "D",
+      text: "La Fórmula 4 ya se puede correr con licencia D en iRacing. Y Stradi se ha subido a ella.",
+      clip: "https://www.twitch.tv/stradi/clip/NurturingEagerReindeerBudStar-HN1Se6M3JsTBgUPH"
+    },
+    {
       term: "Stradipuntos", rarity: "B",
       text: "Los puntos del canal que ganas viendo el directo. El chat ludópata se los juega en cada carrera: ganancia de iRating, pérdida de iRating o retirada."
     },
     {
       term: "¡Stradi liada!", rarity: "A",
       text: "A veces Stradi la lía. Y cuando la lía, el chat lo celebra con su propio emote. Este es el clip del que viene.",
+      emote: "https://static-cdn.jtvnw.net/emoticons/v2/301793622/default/dark/3.0",
       clip: "https://www.twitch.tv/stradi/clip/RacyColorfulWrenAMPEnergyCherry-ilHoofy6sd3G2RR0"
     },
     {
@@ -147,9 +153,39 @@ window.SITE = {
       text: "Sub de la casa. Entra, saluda y te suelta un chiste de los malos. Malos, pero a veces divertidos."
     },
     {
+      term: "Las gatas de Stradi", rarity: "C",
+      text: "Stradi tiene gatas, y alguna hasta tiene emote propio en el canal.",
+      emote: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_c215360c75db452cb5c90673c1bc9c26/default/dark/3.0"
+    },
+    {
       term: "El Civic", rarity: "C",
       text: "Su coche de verdad: un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco. Su \"nuevo mejor amigo\" desde 2019."
     }
+  ],
+
+  /* Channel emotes gallery (Stradipedia page). Image: Twitch CDN url (dark/3.0 for sharp images).
+     "name" is shown under the image; leave it empty if unknown. */
+  emotes: [
+    { name: "stradiemotCalvo", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_f95f907fa4a64e45951bae4cece2b81f/default/dark/3.0" },
+    { name: "Stradi liada", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793622/default/dark/3.0" },
+    { name: "La gata de Stradi", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_c215360c75db452cb5c90673c1bc9c26/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_f2e64d8b977b4da5b37b6e51418b955c/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_2cfc96959cfc49c7a7330d233ac90833/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793648/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793635/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_680742d3726f44ca88d53319f80d92fd/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/300951950/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908837/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908875/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908906/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908798/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908742/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_22c3ed59489c4967b0f5a6d59af683c9/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_7b11c1d9e81a40669c768609391b0ad4/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/301793657/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303908951/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/303994522/default/dark/3.0" },
+    { name: "", image: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_423385f46dd74ebfa1b4fb571d29e23b/default/dark/3.0" }
   ],
 
   /* Excuse generator */
