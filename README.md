@@ -2,14 +2,15 @@
 
 Unofficial fan hub for the Spanish sim racing streamer [Stradi](https://www.twitch.tv/stradi): live status, live chat, chat meter, clip roulette, glossary, soundboard, lore timeline and more. The site itself is in Spanish.
 
-Created by Vznum - v1.2.0 - https://stradifans.vercel.app
+Created by Vznum - v1.4.0 - https://stradifans.vercel.app
 
 ## Structure
 
 - `index.html` - home page
 - `stradipedia/`, `garaje/`, `radio/`, `lore/`, `baul/`, `faq/` - one page per section
 - `garaje/medidor-chat/` - chat meter (top 5 things the chat spams, live)
-- `garaje/ruleta-clips/` - clip roulette (case-opening style random clip)
+- `garaje/ruleta-clips/` - clip roulette
+- `garaje/eres-stradi/` - "Are you the real Stradi?" quiz (case-opening style random clip)
 - `styles.css` - design (brand colors in `:root`)
 - `data.js` - **all the content**: lore, glossary, sounds, timeline, FAQ, links, clip tiers
 - `common.js` - shared header, menu, footer, live badge, birthday banner

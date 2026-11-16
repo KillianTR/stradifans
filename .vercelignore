@@ -7,3 +7,6 @@ sound-clips.txt
 .publish.log
 sounds/_raw
 README.md
+dev.bat
+dev.ps1
+.env.local

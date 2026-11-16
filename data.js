@@ -6,8 +6,9 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.2.0",
-  author: "Vznum",
+  version: "1.4.0",
+  author: "KillianTR",
+  authorUrl: "https://killiantr.vercel.app",
   twitchUser: "stradi",
   twitchId: "178443161",
 
@@ -329,6 +330,67 @@ window.SITE = {
     { name: "Instagram", url: "https://www.instagram.com/stradi_81/" },
     { name: "X", url: "https://x.com/Stradi81" },
     { name: "TikTok", url: "https://www.tiktok.com/@stradi81" }
+  ],
+
+  /* "¿Eres el verdadero Stradi?" test. Each answer gives 0-100 Stradi points; the result is the average. */
+  quiz: [
+    { q: "Es lunes. ¿Cómo sales a la carrera?", a: [
+      ["Bandera negra en la qualy y a remontar desde el fondo", 100],
+      ["Hago la qualy normal, como una persona seria", 20],
+      ["Los lunes no corro", 0] ] },
+    { q: "Te adelantan tres coches seguidos sin pelear nada. ¿Qué piensas?", a: [
+      ["Paid actors. Clarísimo", 100],
+      ["Que hoy voy lento", 25],
+      ["El netcode, como siempre", 60] ] },
+    { q: "Valdeon86 te dice por radio que toca ahorrar combustible.", a: [
+      ["Gas a tope. Cuidao con el ahorro", 100],
+      ["Ahorro exactamente lo que me diga el ingeniero", 45],
+      ["¿Qué ingeniero?", 10] ] },
+    { q: "Clavas frenos y te salvas de un accidente por centímetros. ¿Qué grita el chat?", a: [
+      ["ESREEEPEEEE", 100],
+      ["F", 20],
+      ["GG", 40] ] },
+    { q: "Alguien en el chat pregunta por qué has hecho algo.", a: [
+      ["!porque → Porque me sale de los huevos", 100],
+      ["Se lo explico con calma y con datos", 15],
+      ["Hago como que no lo he leído", 45] ] },
+    { q: "Acabáis de hacer podio con Keny500 y JaSoiLRace. ¿Qué haces?", a: [
+      ["Los despido del equipo", 100],
+      ["Les doy las gracias por la carrera", 30],
+      ["Pido que me paguen la gasolina", 55] ] },
+    { q: "Te cruzas con Max Verstappen en un server de iRacing.", a: [
+      ["Verstappen guarro", 100],
+      ["Le pido un autógrafo por el chat", 30],
+      ["Me aparto, que es el campeón", 20] ] },
+    { q: "santih91 escribe en el chat.", a: [
+      ["Santi pesao", 100],
+      ["Hola Santi, ¿qué tal?", 50],
+      ["¿Quién es Santi?", 0] ] },
+    { q: "¿A qué apuestas tus Stradipuntos?", a: [
+      ["Retirada. Siempre retirada", 100],
+      ["Ganancia de iRating", 60],
+      ["No apuesto, soy una persona responsable", 10] ] },
+    { q: "Llegas a la meta en P2 de las 24h de Daytona.", a: [
+      ["Trompo a propósito en la línea de meta", 100],
+      ["Cruzo la meta tranquilamente", 30],
+      ["Me quedo sin gasolina a 100 metros", 50] ] },
+    { q: "¿Qué coche tienes en el garaje de casa?", a: [
+      ["Un Honda Civic blanco, mi mejor amigo", 100],
+      ["Un coche cualquiera", 20],
+      ["El simulador cuenta como coche", 55] ] },
+    { q: "¿De dónde sale ese bíceps?", a: [
+      ["De años de balonmano", 100],
+      ["Del gimnasio", 35],
+      ["De pelearme con el volante de Fanatec hasta romperlo", 75] ] }
+  ],
+
+  /* Result tiers for the test (from the highest "min") */
+  quizTiers: [
+    { min: 90, title: "Stradi certificado", text: "O eres Stradi o vives en su chat. Probablemente las dos cosas.", color: "#ea6f18" },
+    { min: 70, title: "Mod de confianza", text: "Te sabes el lore mejor que el propio Stradi. Sergio Tarrias estaría orgulloso.", color: "#009bfe" },
+    { min: 50, title: "Sub de la casa", text: "Entras, saludas y te sabes los memes. Nivel topotamadre_x.", color: "#c04cf0" },
+    { min: 30, title: "Paid actor", text: "Te dejas adelantar demasiado fácil. Sospechoso.", color: "#2bd96b" },
+    { min: 0,  title: "Piloto de F4", text: "Recién sacada la licencia D y sin poder volver a Rookie. Hay que ver más directos.", color: "#8b9bb0" }
   ],
 
   /* Clips that are always in the roulette, on top of the most viewed ones.

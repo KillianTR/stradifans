@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Eres el verdadero Stradi? · StradiFans</title>
+  <meta name="description" content="Responde 12 preguntas y descubre qué porcentaje de Stradi tienes.">
+  <meta name="theme-color" content="#061b2a">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page">
+    <p class="crumbs"><a href="/">Inicio</a> › <a href="/garaje/">Garaje</a> › ¿Eres el verdadero Stradi?</p>
+    <h1>¿Eres el verdadero Stradi?</h1>
+    <p class="page-sub">Doce preguntas. Demuéstralo o desinstala iRacing.</p>
+
+    <div class="quiz" id="quiz">
+      <div class="quiz-start" id="quizStart">
+        <div class="quiz-badge" style="--c:#ea6f18">??%</div>
+        <p class="quiz-hint" id="quizBest"></p>
+        <button class="btn btn-primary" id="quizGo">Empezar el test</button>
+      </div>
+
+      <div class="quiz-q" id="quizQ" hidden>
+        <div class="quiz-progress"><span id="quizBar"></span></div>
+        <p class="quiz-step mono" id="quizStep"></p>
+        <h2 id="quizText"></h2>
+        <div class="quiz-answers" id="quizAnswers"></div>
+      </div>
+
+      <div class="quiz-result" id="quizResult" hidden>
+        <div class="quiz-badge" id="resBadge"></div>
+        <p class="quiz-name">Stradi</p>
+        <h2 id="resTitle"></h2>
+        <p class="quiz-hint" id="resText"></p>
+        <div class="quiz-actions">
+          <button class="btn btn-primary" id="quizAgain">Repetir el test</button>
+          <button class="btn btn-ghost" id="quizShare">Copiar resultado</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="/data.js"></script>
+<script src="/chat.js"></script>
+<script src="/common.js"></script>
+<script>
+(function () {
+  const S = window.SITE, esc = window.StradiChat.esc;
+  const $ = (id) => document.getElementById(id);
+  const qs = S.quiz || [];
+  let i = 0, score = 0, lastPct = 0;
+  let best = null;
+  try { best = parseInt(localStorage.getItem("sf_quiz_best") || "", 10); if (isNaN(best)) best = null; } catch (_) {}
+  const showBest = () => { $("quizBest").textContent = best !== null ? `Tu mejor resultado: ${best}% Stradi` : "Nadie sale de aquí sin su porcentaje."; };
+  showBest();
+
+  const shuffle = (arr) => arr.map((v) => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map((x) => x[1]);
+
+  function show(view) {
+    $("quizStart").hidden = view !== "start";
+    $("quizQ").hidden = view !== "q";
+    $("quizResult").hidden = view !== "result";
+  }
+
+  function ask() {
+    const q = qs[i];
+    $("quizStep").textContent = `Pregunta ${i + 1} de ${qs.length}`;
+    $("quizBar").style.width = `${(i / qs.length) * 100}%`;
+    $("quizText").textContent = q.q;
+    $("quizAnswers").innerHTML = shuffle(q.a).map(([txt, pts]) =>
+      `<button class="quiz-answer" data-pts="${pts}">${esc(txt)}</button>`).join("");
+  }
+
+  function finish() {
+    const pct = Math.round(score / qs.length);
+    lastPct = pct;
+    const tier = (S.quizTiers || []).find((t) => pct >= t.min) || { title: "", text: "", color: "#ea6f18" };
+    $("quizBar").style.width = "100%";
+    const badge = $("resBadge");
+    badge.style.setProperty("--c", tier.color);
+    badge.textContent = "0%";
+    $("resTitle").textContent = tier.title;
+    $("resText").textContent = tier.text;
+    show("result");
+    // count-up animation
+    const t0 = performance.now();
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / 1200);
+      badge.textContent = Math.round(pct * (1 - Math.pow(1 - k, 3))) + "%";
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+    if (best === null || pct > best) { best = pct; try { localStorage.setItem("sf_quiz_best", String(pct)); } catch (_) {} }
+    showBest();
+  }
+
+  $("quizGo").addEventListener("click", () => { i = 0; score = 0; show("q"); ask(); });
+  $("quizAgain").addEventListener("click", () => { i = 0; score = 0; show("q"); ask(); });
+  $("quizAnswers").addEventListener("click", (e) => {
+    const b = e.target.closest(".quiz-answer");
+    if (!b || $("quizAnswers").dataset.lock) return;
+    $("quizAnswers").dataset.lock = "1";
+    b.classList.add("picked");
+    score += Number(b.dataset.pts);
+    setTimeout(() => {
+      delete $("quizAnswers").dataset.lock;
+      i++;
+      if (i < qs.length) ask(); else finish();
+    }, 280);
+  });
+  $("quizShare").addEventListener("click", async () => {
+    const text = `Soy un ${lastPct}% Stradi (${$("resTitle").textContent}). ¿Y tú? ${location.origin}/garaje/eres-stradi/`;
+    try { await navigator.clipboard.writeText(text); $("quizShare").textContent = "¡Copiado!"; }
+    catch (_) { $("quizShare").textContent = text; }
+    setTimeout(() => { $("quizShare").textContent = "Copiar resultado"; }, 2500);
+  });
+})();
+</script>
+</body>
+</html>

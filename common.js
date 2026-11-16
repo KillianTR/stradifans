@@ -39,7 +39,7 @@
     footer.outerHTML = `
       <footer class="footer">
         <p>StradiFans es una web fan no oficial. No la gestiona Stradi y no está afiliada a Twitch, iRacing ni Le Mans Ultimate.</p>
-        <p>Creado por <b>${S.author}</b> · <span class="mono">v${S.version}</span></p>
+        <p>Creado por ${S.authorUrl ? `<a class="foot-author" href="${S.authorUrl}" target="_blank" rel="noopener">${S.author}</a>` : `<b>${S.author}</b>`} · <span class="mono">v${S.version}</span></p>
       </footer>`;
   }
 

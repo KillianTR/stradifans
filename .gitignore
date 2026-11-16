@@ -3,3 +3,5 @@
 sounds/_raw/
 .DS_Store
 Thumbs.db
+.env.local
+.env*.local
