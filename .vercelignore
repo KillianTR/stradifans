@@ -1,3 +1,5 @@
 deploy.bat
 publish.bat
+publish.ps1
+.publish.log
 README.md

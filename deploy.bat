@@ -24,7 +24,7 @@ if errorlevel 1 (
 
 echo.
 echo Deploying StradiFans to Vercel...
-call vercel deploy --prod --yes
+call vercel deploy --prod --yes --scope killiantrs-projects
 echo.
 echo Done. The production URL is shown above.
 pause
