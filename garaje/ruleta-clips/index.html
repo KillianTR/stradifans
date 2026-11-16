@@ -32,6 +32,7 @@
           </div>
           <div class="case-actions">
             <button class="btn btn-primary" id="spinBtn" disabled>Cargando clips...</button>
+            <button class="btn btn-ghost sound-toggle" id="soundBtn" aria-pressed="true">Sonido: sí</button>
             <a class="btn btn-ghost" href="https://www.twitch.tv/stradi/clips?range=all" target="_blank" rel="noopener">Ver clips en Twitch</a>
           </div>
           <p class="notice" id="notice" hidden></p>
@@ -93,6 +94,61 @@
     return `<div class="case-item" style="border-bottom-color:${t.color}"><img src="${esc(c.thumb)}" alt="" loading="lazy"><span>${esc(c.title)}</span></div>`;
   }
 
+  /* Case sounds (synthesised with Web Audio, no files): unlock, a tick per clip, and a reveal by tier */
+  const Sfx = (() => {
+    let ctx = null, out = null, on = true, noise = null;
+    try { on = localStorage.getItem("sf_roulette_sound") !== "off"; } catch (_) {}
+    const init = () => {
+      if (!ctx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        ctx = new AC(); out = ctx.createGain(); out.gain.value = 0.45; out.connect(ctx.destination);
+        noise = ctx.createBuffer(1, ctx.sampleRate * 0.3, ctx.sampleRate);
+        const d = noise.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      }
+      if (ctx.state === "suspended") ctx.resume();
+      return ctx;
+    };
+    const tone = (freq, at, dur, type = "sine", vol = 0.5) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = type; o.frequency.setValueAtTime(freq, at);
+      g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(vol, at + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+      o.connect(g).connect(out); o.start(at); o.stop(at + dur + 0.02);
+    };
+    const burst = (at, dur, freq, vol) => {
+      const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+      s.buffer = noise; f.type = "bandpass"; f.frequency.value = freq; f.Q.value = 2;
+      g.gain.setValueAtTime(vol, at); g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+      s.connect(f).connect(g).connect(out); s.start(at); s.stop(at + dur);
+    };
+    return {
+      get on() { return on; },
+      toggle() { on = !on; try { localStorage.setItem("sf_roulette_sound", on ? "on" : "off"); } catch (_) {} return on; },
+      unlock() {
+        if (!on || !init()) return;
+        const t = ctx.currentTime;
+        burst(t, 0.06, 3200, 0.8); tone(520, t, 0.08, "square", 0.12);
+        burst(t + 0.09, 0.12, 1800, 0.6); tone(880, t + 0.09, 0.18, "triangle", 0.25);
+      },
+      tick() {
+        if (!on || !ctx) return;
+        const t = ctx.currentTime;
+        burst(t, 0.03, 4200, 0.5); tone(1500 + Math.random() * 120, t, 0.035, "square", 0.08);
+      },
+      reveal(rank) { // rank 0 = lowest tier
+        if (!on || !ctx) return;
+        const t = ctx.currentTime;
+        const notes = [[392, 523], [440, 554, 659], [523, 659, 784], [587, 740, 880, 1175], [659, 831, 988, 1319, 1661]][Math.min(rank, 4)];
+        notes.forEach((f, i) => { tone(f, t + i * 0.09, 0.5 + rank * 0.12, "triangle", 0.3); tone(f * 2, t + i * 0.09, 0.25, "sine", 0.08); });
+        if (rank >= 3) burst(t, 0.6, 6000, 0.25);
+      }
+    };
+  })();
+  const syncSoundBtn = () => { $("soundBtn").textContent = Sfx.on ? "Sonido: sí" : "Sonido: no"; $("soundBtn").setAttribute("aria-pressed", String(Sfx.on)); };
+  syncSoundBtn();
+  $("soundBtn").addEventListener("click", () => { Sfx.toggle(); syncSoundBtn(); });
+
   let spinning = false;
   function spin() {
     if (spinning || !all.length) return;
@@ -115,8 +171,20 @@
     const windowW = strip.parentElement.clientWidth;
     const jitter = (Math.random() - 0.5) * 150;
     const offset = WIN_AT * ITEM_W + 100 - windowW / 2 + jitter;
+    Sfx.unlock();
     strip.style.transition = "transform 6s cubic-bezier(.12,.75,.15,1)";
     strip.style.transform = `translateX(${-offset}px)`;
+
+    // One tick each time a clip crosses the marker
+    let lastIdx = Math.floor((windowW / 2) / ITEM_W);
+    const watch = () => {
+      if (!spinning) return;
+      const x = new DOMMatrixReadOnly(getComputedStyle(strip).transform).m41;
+      const idx = Math.floor((windowW / 2 - x) / ITEM_W);
+      if (idx !== lastIdx) { lastIdx = idx; Sfx.tick(); }
+      requestAnimationFrame(watch);
+    };
+    requestAnimationFrame(watch);
 
     setTimeout(() => {
       spinning = false;
@@ -128,6 +196,7 @@
 
   function showResult(c) {
     const t = tierFor(c.views);
+    Sfx.reveal(tiers.length - 1 - tiers.indexOf(t));
     $("resTier").textContent = t.name;
     $("resTier").style.background = t.color;
     $("resTitle").textContent = c.title;

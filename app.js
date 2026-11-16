@@ -284,6 +284,24 @@
       </figure>`).join("");
   }
 
+  /* ---------- Garaje: roulette preview = a random clip thumbnail ---------- */
+  if ($("pvClip")) {
+    fetch("/api/clips?extra=" + encodeURIComponent((S.rouletteClips || []).join(",")))
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        const list = d && d.clips && d.clips.filter((c) => c.thumb);
+        if (!list || !list.length) return;
+        const c = list[Math.floor(Math.random() * list.length)];
+        $("pvClip").style.backgroundImage = `url("${c.thumb.replace(/"/g, "")}")`;
+        $("pvClip").title = c.title || "";
+        if (c.duration) {
+          const s = Math.round(c.duration);
+          $("pvClipDur").textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+        }
+      })
+      .catch(() => {});
+  }
+
   /* ---------- Garaje: excuse generator ---------- */
   if ($("excuseBtn")) {
     let last = "";

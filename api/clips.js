@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
         views: c.view_count,
         creator: c.creator_name,
         date: c.created_at,
-        thumb: c.thumbnail_url,
+        thumb: c.thumbnail_url, duration: c.duration,
         url: c.url
       }));
       cursor = data.pagination && data.pagination.cursor;
@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
       const r = await fetch(url, { headers: { "Client-Id": clientId, Authorization: "Bearer " + token } });
       if (r.ok) (await r.json()).data.forEach((c) => clips.push({
         id: c.id, title: c.title, views: c.view_count, creator: c.creator_name,
-        date: c.created_at, thumb: c.thumbnail_url, url: c.url
+        date: c.created_at, thumb: c.thumbnail_url, duration: c.duration, url: c.url
       }));
     }
 
