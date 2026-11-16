@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.13.0",
+  version: "1.13.1",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -14,7 +14,7 @@ window.SITE = {
   twitchId: "178443161",
 
   /* Birthday banner: shows a countdown and celebrates on the day */
-  birthday: { year: 1980, month: 11, day: 29 },
+  birthday: { year: 1981, month: 11, day: 29 },
 
   /* Upcoming event shown on the home page. It hides itself after "until". */
   event: {
@@ -277,7 +277,7 @@ window.SITE = {
     { clip: "DifferentLivelyDaikonNononoCat-bKIH-JAJAW2uL0Oz", title: "Adiós al volante de Fanatec", text: "No aguantó más golpes." },
     { clip: "TsundereObservantWatermelonEleGiggle-9YrvNzwF3qNp-fCA", title: "2.000 subs en un mes", text: "Un hito para el canal y para toda la comunidad." },
     { clip: "PolishedAntediluvianGarbageTBTacoRight-fzmVLwo0MuoqidwJ", title: "P2 en las 24h de Daytona", text: "Con JaSoiLRace y Keny500, y trompo a propósito en la meta." },
-    { sort: "2026-11-29", date: "29 nov 2026", title: "46 años", text: "El paddock entero celebra el cumple de Stradi." }
+    { sort: "2026-11-29", date: "29 nov 2026", title: "45 años", text: "El paddock entero celebra el cumple de Stradi." }
   ],
 
   /* Baúl (memes / edits / fan art). Put images in /vault. Fields: title, image, note (optional). */
@@ -297,8 +297,8 @@ window.SITE = {
   faq: [
     { cat: "personal", q: "¿Quién es Stradi?", a: "Javier Soto, streamer español de simracing en Twitch. Corre sobre todo en iRacing y también en Le Mans Ultimate. Ganador de las 24 horas de Nürburgring en iRacing, rey del lunes sin qualy y dueño de un chat que apuesta sus puntos a que no acaba la carrera." },
     { cat: "personal", q: "¿Cómo se llama Stradi de verdad?", a: "Javier Soto." },
-    { cat: "personal", q: "¿Cuántos años tiene Stradi?", a: "Tiene {edad} años. Nació el 29 de noviembre de 1980. Experiencia de sobra en pista; la paciencia con los de la F4, ya es otra cosa." },
-    { cat: "personal", q: "¿Cuándo es el cumpleaños de Stradi?", a: "El 29 de noviembre. Es Sagitario. En 2026 cumple 46 y la cuenta atrás está arriba del todo de la web." },
+    { cat: "personal", q: "¿Cuántos años tiene Stradi?", a: "Tiene {edad} años. Nació el 29 de noviembre de 1981. Experiencia de sobra en pista; la paciencia con los de la F4, ya es otra cosa." },
+    { cat: "personal", q: "¿Cuándo es el cumpleaños de Stradi?", a: "El 29 de noviembre. Es Sagitario. En 2026 cumple 45 y la cuenta atrás está arriba del todo de la web." },
     { cat: "personal", q: "¿De dónde es Stradi?", a: "De España. Por eso el directo es en español y los gritos también." },
     { cat: "personal", q: "¿Stradi tiene mascota?", a: "Sí: Trusi, su gata. Es la única del canal con varios emotes propios: Trusi, Trusi1 y Trusi2.", link: "/stradipedia/" },
     { cat: "personal", q: "¿Stradi ha hecho deporte?", a: "Jugó a balonmano muchos años, y se nota: tremendo bíceps. El chat tiene emote para recordárselo.", link: "/stradipedia/" },
