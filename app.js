@@ -40,8 +40,19 @@
         const gap = Date.now() - finished[finished.length - 1].end;
         if (gap > best.ms) best = { ms: gap, from: finished[finished.length - 1].end };
       }
+      const hist = window.STREAM_DAYS;
       if (S.longestBreak) $("longestBreak").textContent = S.longestBreak;
-      else if (best.from) {
+      else if (hist) {
+        // Full history since 2020 (tracker-data.js): longest run of days without a stream
+        const bits = hist.days.replace(/\s/g, "");
+        let bestLen = 0, bestAt = 0;
+        bits.replace(/0+/g, (m, at) => { if (m.length > bestLen) { bestLen = m.length; bestAt = at; } return m; });
+        const d = new Date(Date.parse(hist.from + "T00:00:00Z") + bestAt * 86400000);
+        if (best.from && Math.round(best.ms / 86400000) > bestLen) {
+          const b = new Date(best.from); bestLen = Math.round(best.ms / 86400000);
+          $("longestBreak").textContent = `${bestLen} días (${MON[b.getMonth()]} ${b.getFullYear()})`;
+        } else $("longestBreak").textContent = `${bestLen} días (${MON[d.getUTCMonth()]} ${d.getUTCFullYear()})`;
+      } else if (best.from) {
         const d = new Date(best.from), days = Math.max(1, Math.round(best.ms / 86400000));
         $("longestBreak").textContent = `${days} ${days === 1 ? "día" : "días"} (${MON[d.getMonth()]} ${d.getFullYear()})`;
       }
@@ -351,6 +362,22 @@
         <img src="${esc(e.image)}" alt="${esc(e.name || "Emote")}" loading="lazy">
         <figcaption>${e.name ? esc(e.name) : "#" + (i + 1)}</figcaption>
       </figure>`).join("");
+  }
+
+  /* ---------- Garaje: tracker preview = the last 26 weeks of the history ---------- */
+  if ($("pvTrk") && window.STREAM_DAYS) {
+    const H = window.STREAM_DAYS, bits = H.days.replace(/\s/g, "");
+    // Start on a Monday so every row is a weekday
+    const fromDow = (new Date(H.from + "T00:00:00Z").getUTCDay() + 6) % 7;
+    let start = Math.max(0, bits.length - 26 * 7);
+    start -= (fromDow + start) % 7;
+    const tail = bits.slice(Math.max(0, start));
+    let cells = "";
+    for (let i = 0; i < tail.length; i++) cells += `<i class="${tail[i] === "1" ? "on" : ""}"></i>`;
+    $("pvTrk").innerHTML = cells;
+    let gap = 0, best = 0;
+    for (const c of bits) { gap = c === "0" ? gap + 1 : 0; best = Math.max(best, gap); }
+    $("pvTrkNote").textContent = `\u2191 Parada más larga: ${best} días`;
   }
 
   /* ---------- Garaje: roulette preview = a random clip thumbnail ---------- */

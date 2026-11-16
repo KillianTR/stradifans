@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracker de directos · StradiFans</title>
+  <meta name="description" content="Cada día de directo y cada parada en boxes de Stradi desde abril de 2020.">
+  <meta name="theme-color" content="#061b2a">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page">
+    <p class="crumbs"><a href="/">Inicio</a> › <a href="/garaje/">Garaje</a> › Tracker de directos</p>
+    <h1>Tracker de directos</h1>
+    <p class="page-sub">Cada día de directo y cada parada en boxes desde abril de 2020.</p>
+
+    <div class="trk">
+      <div class="trk-top">
+        <div>
+          <p class="trk-since" id="trkSinceLabel">Desde el último directo</p>
+          <div class="led" id="ledTimer">
+            <div><b id="ledD">--</b><span>días</span></div><i>:</i>
+            <div><b id="ledH">--</b><span>horas</span></div><i>:</i>
+            <div><b id="ledM">--</b><span>min</span></div>
+          </div>
+        </div>
+        <dl class="trk-stats" id="trkStats"></dl>
+      </div>
+
+      <div class="trk-tabs" id="trkTabs" role="tablist"></div>
+      <div class="trk-scroll"><div class="trk-grid-wrap" id="trkGrid"></div></div>
+      <p class="trk-sum mono" id="trkSum"></p>
+      <div class="trk-legend">
+        <span><i class="c-on"></i>Directo</span>
+        <span><i class="c-off"></i>Parada en boxes</span>
+        <span><i class="c-long"></i>Parada larga (7+ días)</span>
+        <span><i class="c-none"></i>Aún no: antes de su primer directo o por venir</span>
+      </div>
+
+      <h2 class="trk-h">Paradas largas</h2>
+      <div class="trk-breaks" id="trkBreaks"></div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="/data.js"></script>
+<script src="/chat.js"></script>
+<script src="/common.js"></script>
+<script src="/tracker-data.js"></script>
+<script src="/tracker.js"></script>
+</body>
+</html>
