@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "0.4.0",
+  version: "0.5.0",
   author: "Vznum",
   twitchUser: "stradi",
   twitchId: "178443161",
@@ -206,23 +206,28 @@ window.SITE = {
     "Es lunes. Salía último a propósito."
   ],
 
-  /* Soundboard: put mp3 files in /sounds and reference them here */
+  /* Soundboard: put mp3 files in /sounds. Only sounds with a "file" are shown. "key": keyboard shortcut. */
   sounds: [
-    { title: "Verstappen guarro", file: "" },
-    { title: "Keny, estás despedido", file: "" },
-    { title: "PENDIENTE: clip 3", file: "" }
+    { title: "Verstappen guarro", file: "/sounds/verstappen-guarro.mp3", key: "1" },
+    { title: "Keny, estás despedido", file: "/sounds/keny-estas-despedido.mp3", key: "2" },
+    { title: "¡No, noooo!", file: "/sounds/no-noooo.mp3", key: "3" }
   ],
 
-  /* Lore timeline */
+  /* Lore timeline (horizontal, with polaroids).
+     "clip": Twitch clip id -> its thumbnail and date are loaded automatically.
+     "date": display text; leave it out to use the clip's date. "image": a picture instead of a clip thumbnail.
+     "sort": optional ISO date to place items that have no clip (e.g. "2019-09-22"). */
   timeline: [
-    { date: "22/09/2019", title: "Llega el Civic", text: "Presenta a su \"nuevo mejor amigo\": un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco." },
-    { date: "2023", title: "Primer podio en la Porsche All Star", text: "Primera vez en el podio de la Porsche All Star." },
-    { date: "2024", title: "Gana las 24h de Nürburgring", text: "Victoria en las 24 horas de Nürburgring en iRacing junto a SaxoGaming y Keny500." },
-    { date: "2026", title: "P2 en las 24h de Daytona", text: "Segundo puesto en las 24 horas de Daytona con JaSoiLRace y Keny500, rematado con un trompo a propósito en la línea de meta." },
-    { date: "PENDIENTE", title: "2.000 subs en un mes", text: "El canal alcanza los 2.000 subs en un solo mes." },
-    { date: "PENDIENTE", title: "Primera victoria en la Porsche All Star", text: "Primera victoria de Stradi en la Porsche All Star." },
-    { date: "PENDIENTE", title: "Verstappen guarro", text: "Se cruza con Max Verstappen en iRacing y nace un clásico del canal." },
-    { date: "29/11/2026", title: "46 años", text: "El paddock entero celebra el cumple de Stradi." }
+    { sort: "2019-09-22", date: "22 sep 2019", title: "Llega el Civic", text: "Presenta a su \"nuevo mejor amigo\": un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco." },
+    { clip: "TangentialFriendlyGoshawkStrawBeary-GGNQrPzucq0hwyOq", title: "Primer podio en la Porsche All Star", text: "Primera vez en el podio de la Porsche All Star." },
+    { clip: "CrazyColdbloodedTruffleMoreCowbell-DaAt-l1FHnEFgd7O", title: "Primera victoria en la Porsche All Star", text: "Por fin en lo más alto del podio." },
+    { clip: "JoyousGrossButterNomNom-WUhvTGJQUpLypBGr", title: "Gana las 24h de Nürburgring", text: "Victoria en iRacing junto a SaxoGaming y Keny500." },
+    { clip: "PlausibleRockyTapirTheTarFu-J7deoLWRUY6jA6ke", title: "Saxo pide indicaciones", text: "En plenas 24h de Nürburgring. El mejor clip del canal." },
+    { clip: "RepleteCuteMetalMikeHogu-e8h4Km65hfCf9-AM", title: "Verstappen guarro", text: "Se cruza con Max Verstappen en iRacing y nace un clásico." },
+    { clip: "DifferentLivelyDaikonNononoCat-bKIH-JAJAW2uL0Oz", title: "Adiós al volante de Fanatec", text: "No aguantó más golpes." },
+    { clip: "TsundereObservantWatermelonEleGiggle-9YrvNzwF3qNp-fCA", title: "2.000 subs en un mes", text: "Un hito para el canal y para toda la comunidad." },
+    { clip: "PolishedAntediluvianGarbageTBTacoRight-fzmVLwo0MuoqidwJ", title: "P2 en las 24h de Daytona", text: "Con JaSoiLRace y Keny500, y trompo a propósito en la meta." },
+    { sort: "2026-11-29", date: "29 nov 2026", title: "46 años", text: "El paddock entero celebra el cumple de Stradi." }
   ],
 
   /* Baúl (memes / edits / fan art). Put images in /vault */

@@ -42,6 +42,17 @@
       </footer>`;
   }
 
+  /* ---------- Back-to-top keycap ---------- */
+  const top = document.createElement("button");
+  top.className = "keycap-top";
+  top.setAttribute("aria-label", "Volver arriba");
+  top.innerHTML = `<span class="keycap-face"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M7 3h2v11H7zM5 5h2v2H5zM9 5h2v2H9zM3 7h2v2H3zM11 7h2v2h-2z"/></svg></span>`;
+  top.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  document.body.appendChild(top);
+  const toggleTop = () => top.classList.toggle("show", window.scrollY > 400);
+  window.addEventListener("scroll", toggleTop, { passive: true });
+  toggleTop();
+
   /* ---------- Mobile menu ---------- */
   const menuBtn = $("menuBtn"), nav = $("nav");
   if (menuBtn && nav) menuBtn.addEventListener("click", () => nav.classList.toggle("open"));
@@ -61,28 +72,46 @@
   window.onLiveStatus = (fn) => listeners.push(fn);
 
   async function checkLive() {
-    let state = { live: null, uptime: null };
+    let state = { live: null, uptime: null, startedAt: null, sessions: null };
+    // 1) Our own Twitch API endpoint (exact start time + stream history)
     try {
-      const res = await fetch(`https://decapi.me/twitch/uptime/${encodeURIComponent(S.twitchUser)}`, { cache: "no-store" });
-      if (!res.ok) throw new Error(res.status);
-      const txt = (await res.text()).trim();
-      if (/offline/i.test(txt)) state = { live: false, uptime: null };
-      else {
-        const sec = parseUptime(txt);
-        if (sec === null) throw new Error("unexpected");
-        state = { live: true, uptime: sec };
+      const r = await fetch("/api/stream-stats", { cache: "no-store" });
+      if (r.ok) {
+        const d = await r.json();
+        state = {
+          live: d.live,
+          startedAt: d.startedAt,
+          uptime: d.live && d.startedAt ? Math.max(0, Math.floor((Date.now() - Date.parse(d.startedAt)) / 1000)) : null,
+          sessions: d.sessions || []
+        };
       }
-    } catch (_) { /* unknown */ }
+    } catch (_) {}
+    // 2) Fallback: public decapi.me endpoint (no history)
+    if (state.live === null) {
+      try {
+        const res = await fetch(`https://decapi.me/twitch/uptime/${encodeURIComponent(S.twitchUser)}`, { cache: "no-store" });
+        if (!res.ok) throw new Error(res.status);
+        const txt = (await res.text()).trim();
+        if (/offline/i.test(txt)) state.live = false;
+        else {
+          const sec = parseUptime(txt);
+          if (sec === null) throw new Error("unexpected");
+          state.live = true;
+          state.uptime = sec;
+        }
+      } catch (_) { /* unknown */ }
+    }
 
     const badge = $("liveBadge"), text = $("liveBadgeText");
     if (badge && text) {
       badge.classList.toggle("is-live", state.live === true);
       text.textContent = state.live === true ? "En directo" : state.live === false ? "Offline" : "Twitch";
     }
+    window.liveState = state;
     listeners.forEach((fn) => fn(state));
   }
   setTimeout(checkLive, 0); // let page scripts register listeners first
-  setInterval(checkLive, 120000);
+  setInterval(checkLive, 60000);
 
   /* ---------- Birthday banner ---------- */
   const MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];

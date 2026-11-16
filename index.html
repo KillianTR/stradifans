@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
 <div id="site-header"></div>
 
 <main>
-  <section class="hero">
+  <section class="hero hero-solo">
     <div class="hero-main">
       <p class="eyebrow">Web fan no oficial · Departamento de simracing</p>
       <h1>¿Está Stradi<br>en directo?</h1>
@@ -30,21 +30,35 @@
       </div>
       <p class="hero-sub">Directos, lore, memes del chat y puntos de incidente. Todo Stradi en un mismo paddock.</p>
     </div>
-    <aside class="chat-panel">
-      <div class="chat-head">
-        <span>Chat en directo</span>
-        <span class="chat-status" id="chatStatus">conectando...</span>
-      </div>
-      <div class="chat-feed" id="chatFeed"><p class="chat-empty">Esperando mensajes del chat...</p></div>
-    </aside>
   </section>
 
-  <section class="pitwall">
-    <div class="stat stat-live">
-      <span class="stat-label">Tiempo de sesión</span>
-      <span class="stat-value mono" id="uptime">--:--:--</span>
-      <span class="stat-note" id="uptimeNote">desde la bandera verde</span>
+  <section class="pitboard">
+    <div class="pit-timer">
+      <span class="pit-label" id="timerLabel">Desde el último directo</span>
+      <div class="led" id="ledTimer">
+        <div><b id="ledD">--</b><span>días</span></div><i>:</i>
+        <div><b id="ledH">--</b><span>horas</span></div><i>:</i>
+        <div><b id="ledM">--</b><span>min</span></div><i>:</i>
+        <div><b id="ledS">--</b><span>seg</span></div>
+      </div>
     </div>
+    <div class="pit-stat">
+      <span class="pit-label"><span class="pit-dot"></span>Descanso más largo</span>
+      <span class="pit-value" id="longestBreak">--</span>
+      <span class="pit-note">en el historial reciente de directos</span>
+    </div>
+    <div class="pit-stat">
+      <span class="pit-label">Directos este mes</span>
+      <div class="pit-month"><span class="pit-value" id="monthCount">--</span><div class="day-grid" id="dayGrid"></div></div>
+    </div>
+  </section>
+
+  <section class="ticker" id="ticker">
+    <span class="ticker-label" id="tickerLabel"><span class="ticker-dot"></span><span id="tickerLabelText">Chat offline</span></span>
+    <div class="ticker-viewport" id="tickerViewport"><div class="ticker-track" id="tickerTrack"></div></div>
+  </section>
+
+  <section class="pitwall pitwall-static">
     <div id="statsHost" class="stats-host"></div>
   </section>
 
@@ -77,6 +91,7 @@
 <script src="/data.js"></script>
 <script src="/chat.js"></script>
 <script src="/common.js"></script>
+<script src="/meter.js"></script>
 <script src="/app.js"></script>
 </body>
 </html>

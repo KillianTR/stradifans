@@ -8,10 +8,26 @@
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+  /* BetterTTV (global + channel + shared). Animated emotes come as animated webp. */
+  async function loadBttv(twitchId) {
+    const add = (list) => (list || []).forEach((e) => thirdParty.set(e.code, `https://cdn.betterttv.net/emote/${e.id}/2x.webp`));
+    try { const r = await fetch("https://api.betterttv.net/3/cached/emotes/global"); if (r.ok) add(await r.json()); } catch (_) {}
+    try {
+      const r = await fetch(`https://api.betterttv.net/3/cached/users/twitch/${twitchId}`);
+      if (r.ok) { const d = await r.json(); add(d.channelEmotes); add(d.sharedEmotes); }
+    } catch (_) {}
+  }
+
+  /* All third-party emotes: BTTV + 7TV (7TV wins on name clashes, loaded last) */
+  async function loadEmotes(twitchId) {
+    await loadBttv(twitchId);
+    await loadSevenTv(twitchId);
+  }
+
   async function loadSevenTv(twitchId) {
     const add = (set) => (set && set.emotes || []).forEach((e) => {
       const host = e.data && e.data.host;
-      if (host && host.url) thirdParty.set(e.name, `https:${host.url}/1x.webp`);
+      if (host && host.url) thirdParty.set(e.name, `https:${host.url}/2x.webp`);
     });
     try { const r = await fetch(SEVENTV_GLOBAL); if (r.ok) add(await r.json()); } catch (_) {}
     try { const r = await fetch(SEVENTV_URL(twitchId)); if (r.ok) add((await r.json()).emote_set); } catch (_) {}
@@ -49,7 +65,7 @@
       if (n) {
         flush();
         const name = chars.slice(i, n.end + 1).join("");
-        tokens.push({ text: name, emote: `https://static-cdn.jtvnw.net/emoticons/v2/${n.id}/default/dark/1.0` });
+        tokens.push({ text: name, emote: `https://static-cdn.jtvnw.net/emoticons/v2/${n.id}/default/dark/2.0` });
         i = n.end + 1;
         continue;
       }
@@ -113,5 +129,5 @@
     open();
   }
 
-  window.StradiChat = { connect, loadSevenTv, toHtml, esc, emoteUrl: (name) => thirdParty.get(name) || null };
+  window.StradiChat = { connect, loadEmotes, loadSevenTv: loadEmotes, toHtml, esc, emoteUrl: (name) => thirdParty.get(name) || null };
 })();
