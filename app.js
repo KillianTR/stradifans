@@ -99,8 +99,6 @@
       if (st.sessions) renderStats(st);
       setTimer();
 
-      const tl = $("tickerLabel");
-      if (tl) { tl.classList.toggle("is-live", !!st.live); $("tickerLabelText").textContent = st.live ? "Chat en directo" : "Chat offline"; }
       if (st.live) embedPlayer();
     });
 
@@ -193,49 +191,63 @@
     }
   }
 
-  /* ---------- Home: live chat ticker (scrolls right to left) ---------- */
-  if ($("tickerTrack")) {
-    const track = $("tickerTrack"), viewport = $("tickerViewport");
+  /* ---------- Live chat tickers (home strip + the bar that covers the navbar in the lore) ---------- */
+  const tickerEls = [...document.querySelectorAll(".ticker")];
+  if (tickerEls.length) {
     const GAP = 40;
-    let x = viewport.clientWidth, last = performance.now();
-    const queue = [];
-
-    track.innerHTML = `<span class="tick-msg tick-wait">Esperando mensajes del chat...</span>`;
-
+    const tickers = tickerEls.map((el) => {
+      const track = el.querySelector(".ticker-track"), viewport = el.querySelector(".ticker-viewport");
+      track.innerHTML = `<span class="tick-msg tick-wait">Esperando mensajes del chat...</span>`;
+      return { el, track, viewport, x: viewport.clientWidth };
+    });
+    let last = performance.now();
     function frame(t) {
       const dt = Math.min(0.1, (t - last) / 1000); last = t;
-      const backlog = track.scrollWidth + x - viewport.clientWidth; // px still off-screen to the right
-      const speed = 70 + Math.min(Math.max(0, backlog), 1500) * 0.12; // catch up when chat is busy (capped)
-      if (track.querySelector(".tick-wait")) x = 44;      // placeholder stays still
-      else if (track.children.length) x -= speed * dt;
-      // drop messages that have left on the left side
-      let first = track.firstElementChild;
-      while (first && x + first.offsetWidth + GAP < 0) {
-        x += first.offsetWidth + GAP;
-        first.remove();
-        first = track.firstElementChild;
-      }
-      if (!track.children.length) x = viewport.clientWidth;
-      track.style.transform = `translateX(${x}px)`;
+      tickers.forEach((k) => {
+        const { track, viewport } = k;
+        if (!viewport.clientWidth) return; // hidden
+        const backlog = track.scrollWidth + k.x - viewport.clientWidth; // px still off-screen to the right
+        const speed = 70 + Math.min(Math.max(0, backlog), 1500) * 0.12; // catch up when chat is busy (capped)
+        if (track.querySelector(".tick-wait")) k.x = 44;      // placeholder stays still
+        else if (track.children.length) k.x -= speed * dt;
+        let first = track.firstElementChild;
+        while (first && k.x + first.offsetWidth + GAP < 0) {
+          k.x += first.offsetWidth + GAP;
+          first.remove();
+          first = track.firstElementChild;
+        }
+        if (!track.children.length) k.x = viewport.clientWidth;
+        track.style.transform = `translateX(${k.x}px)`;
+      });
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
+
+    window.onLiveStatus((st) => {
+      document.querySelectorAll(".ticker-label").forEach((tl) => {
+        tl.classList.toggle("is-live", !!st.live);
+        tl.querySelector(".ticker-label-text").textContent = st.live ? "Chat en directo" : "Chat offline";
+      });
+    });
 
     window.StradiChat.loadEmotes(S.twitchId).finally(() => {
       window.StradiChat.connect(S.twitchUser, {
         historyLimit: 20,
         onMessage: (m) => {
           if (window.StradiMeter) window.StradiMeter.add(m);
-          const wait = track.querySelector(".tick-wait");
-          if (wait) { wait.remove(); x = viewport.clientWidth; }
           const sub = m.badges.includes("subscriber") || m.badges.includes("founder");
           const mod = m.badges.includes("moderator") || m.badges.includes("broadcaster");
-          const el = document.createElement("span");
-          el.className = "tick-msg";
-          el.innerHTML = (mod ? `<span class="chat-badge mod">MOD</span>` : sub ? `<span class="chat-badge sub">SUB</span>` : "") +
+          const html = (mod ? `<span class="chat-badge mod">MOD</span>` : sub ? `<span class="chat-badge sub">SUB</span>` : "") +
             `<b style="color:${esc(m.color || "#ea6f18")}">${esc(m.user)}</b> <span>${m.html}</span>`;
-          track.appendChild(el);
-          while (track.children.length > 80) { x += track.firstElementChild.offsetWidth + GAP; track.firstElementChild.remove(); }
+          tickers.forEach((k) => {
+            const wait = k.track.querySelector(".tick-wait");
+            if (wait) { wait.remove(); k.x = k.viewport.clientWidth; }
+            const el = document.createElement("span");
+            el.className = "tick-msg";
+            el.innerHTML = html;
+            k.track.appendChild(el);
+            while (k.track.children.length > 80) { k.x += k.track.firstElementChild.offsetWidth + GAP; k.track.firstElementChild.remove(); }
+          });
         }
       });
     });

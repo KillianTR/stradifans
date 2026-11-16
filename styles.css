@@ -498,7 +498,6 @@ section[hidden] { display: none; }
 
 /* ---------- Home: chat ticker ---------- */
 .ticker {
-  position: sticky; top: 0; z-index: 60; /* scrolled past it, the chat covers the navbar */
   display: flex; align-items: center; padding: 0; height: max(54px, var(--topbar-h, 54px)); overflow: hidden;
   background: #0b0d10; border: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
   width: 100vw; margin: 0 0 24px calc(50% - 50vw); border-radius: 0;
@@ -508,6 +507,19 @@ section[hidden] { display: none; }
   font: 700 12px "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
   background: #0b0d10; border-right: 1px solid var(--line); position: relative; z-index: 2;
 }
+.ticker-blind {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 70; width: auto; margin: 0; border-top: 0;
+  clip-path: inset(0 0 100% 0); transition: clip-path .5s cubic-bezier(.77,0,.18,1); pointer-events: none;
+}
+.ticker-blind::after { /* blind slats sweeping as it rolls */
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,.07) 0 2px, transparent 2px 9px);
+  opacity: 0; transition: opacity .5s;
+}
+.ticker-blind.down { clip-path: inset(0 0 0 0); pointer-events: auto; }
+.ticker-blind.down::after { animation: slats .6s ease-out; }
+@keyframes slats { 0% { opacity: 1; transform: translateY(-100%); } 100% { opacity: 0; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .ticker-blind { transition: none; } }
 .ticker-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
 .ticker-label.is-live { color: #fff; }
 .ticker-label.is-live .ticker-dot { background: #ff3b30; animation: pulse 1.2s infinite; box-shadow: 0 0 8px #ff3b30; }

@@ -33,6 +33,28 @@
       <div class="bday" id="bday" hidden></div>`;
   }
 
+  // Lore: once you scroll into it, the live chat rolls down over the navbar like a blind
+  const lorePin = document.querySelector(".lore-pin");
+  if (lorePin && header !== null) {
+    const bar = document.createElement("div");
+    bar.className = "ticker ticker-blind";
+    bar.setAttribute("aria-hidden", "true");
+    bar.innerHTML = `<span class="ticker-label"><span class="ticker-dot"></span><span class="ticker-label-text">Chat offline</span></span>
+      <div class="ticker-viewport"><div class="ticker-track"></div></div>`;
+    document.body.appendChild(bar);
+    let down = false, raf = 0;
+    const check = () => {
+      raf = 0;
+      const top = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--topbar-h")) || 60;
+      const r = lorePin.getBoundingClientRect();
+      const inLore = r.top <= top + 1 && r.bottom > top + 40 && window.scrollY > 40;
+      if (inLore !== down) { down = inLore; bar.classList.toggle("down", down); }
+    };
+    window.addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(check); }, { passive: true });
+    window.addEventListener("resize", check);
+    check();
+  }
+
   // Keep the header height in a CSS variable, so the home chat ticker can cover the navbar exactly when it sticks
   const topbar = document.querySelector(".topbar");
   const setTopbarH = () => topbar && document.documentElement.style.setProperty("--topbar-h", topbar.offsetHeight + "px");
