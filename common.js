@@ -46,7 +46,23 @@
     const handle = S.authorX ? "@" + S.authorX.replace(/^.*\//, "") : S.author;
     const authorHref = S.authorX ? (S.authorX.startsWith("http") ? S.authorX : "https://x.com/" + S.authorX) : S.authorUrl;
     const authorLink = authorHref ? `<a class="foot-author" href="${authorHref}" target="_blank" rel="noopener">${handle}</a>` : `<b>${handle}</b>`;
-    const giant = "STRADIFANS".split("").map((c, i) => `<span class="foot-char" style="--i:${i}">${c}</span>`).join("");
+    // Giant pixel wordmark: each letter is a 5x7 block glyph, drawn as one SVG
+    const GLYPHS = {
+      S: [".####", "#....", "#....", ".###.", "....#", "....#", "####."],
+      T: ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", "..#.."],
+      R: ["####.", "#...#", "#...#", "####.", "#.#..", "#..#.", "#...#"],
+      A: [".###.", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
+      D: ["####.", "#...#", "#...#", "#...#", "#...#", "#...#", "####."],
+      I: ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", "#####"],
+      F: ["#####", "#....", "#....", "####.", "#....", "#....", "#...."],
+      N: ["#...#", "##..#", "#.#.#", "#..##", "#...#", "#...#", "#...#"]
+    };
+    const giant = `<svg class="foot-word" viewBox="0 0 59 7" shape-rendering="crispEdges" aria-hidden="true">` +
+      "STRADIFANS".split("").map((ch, i) => {
+        let d = "";
+        GLYPHS[ch].forEach((row, y) => [...row].forEach((c, x) => { if (c === "#") d += `M${i * 6 + x} ${y}h1v1h-1z`; }));
+        return `<path class="foot-letter${i >= 6 ? " fans" : ""}" style="--i:${i}" d="${d}"/>`;
+      }).join("") + `</svg>`;
     // Pixel fade between the page and the footer: denser at the bottom
     const cols = 48, rows = 4;
     let px = "";
@@ -71,10 +87,26 @@
           <p class="foot-giant" aria-hidden="true">${giant}</p>
         </div>
       </footer>`;
+    // The letters rise out of the bottom edge as you scroll down to the end of the page
     const g = document.querySelector(".foot-giant");
-    if (g && "IntersectionObserver" in window) {
-      new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { g.classList.add("in"); o.disconnect(); } }, { threshold: 0.3 }).observe(g);
-    } else if (g) g.classList.add("in");
+    const letters = g ? [...g.querySelectorAll(".foot-letter")] : [];
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let ticking = false;
+    const rise = () => {
+      ticking = false;
+      const r = g.getBoundingClientRect(), vh = window.innerHeight;
+      const p = Math.min(1, Math.max(0, (vh - r.top) / (r.height * 1.1))); // 0 = just appearing, 1 = fully in view
+      letters.forEach((l, i) => {
+        const k = still ? 1 : Math.min(1, Math.max(0, p * 1.5 - i * 0.05));
+        const e = 1 - Math.pow(1 - k, 3);
+        l.style.transform = `translateY(${(1 - e) * 8}px)`;
+      });
+    };
+    if (g) {
+      window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(rise); } }, { passive: true });
+      window.addEventListener("resize", rise);
+      rise();
+    }
   }
 
   /* ---------- Back-to-top keycap ---------- */
