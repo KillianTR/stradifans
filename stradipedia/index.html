@@ -23,10 +23,16 @@
     <h1>Stradipedia</h1>
     <p class="page-sub">Todo lo que sabe el chat, clasificado por licencia de iRacing.</p>
     <div class="pedia-controls">
-      <input type="search" id="pediaSearch" placeholder="Buscar en el paddock...">
-      <div class="filters" id="pediaFilters"></div>
+      <label class="faq-search pedia-search">
+        <svg viewBox="0 0 21 21" aria-hidden="true"><circle cx="8.2" cy="8.2" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12l6.3 6.3" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="sr-only">Buscar en la Stradipedia</span>
+        <input type="search" id="pediaSearch" placeholder="Buscar en el paddock… prueba «Saxo»" autocomplete="off">
+      </label>
+      <div class="pedia-lics" id="pediaFilters" role="group" aria-label="Licencia"></div>
     </div>
-    <div class="pedia-grid" id="pediaGrid"></div>
+    <p class="faq-count mono" id="pediaCount" aria-live="polite"></p>
+    <div class="pedia-list" id="pediaGrid"></div>
+    <img class="pedia-peek" id="pediaPeek" alt="" hidden>
   </section>
 
   <section class="page-section">

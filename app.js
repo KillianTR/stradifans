@@ -240,39 +240,108 @@
       </div>`).join("");
   }
 
-  /* ---------- Stradipedia ---------- */
+  /* ---------- Stradipedia: entries by iRacing license, hover shows a picture ---------- */
   if ($("pediaGrid")) {
-    const classes = ["TODAS", "PRO", "A", "B", "C", "D", "R"];
-    let activeClass = "TODAS";
-    $("pediaFilters").innerHTML = classes.map((c) =>
-      `<button class="filter${c === "TODAS" ? " active" : ""}" data-c="${c}">${c === "TODAS" || c === "PRO" ? c : "CLASE " + c}</button>`).join("");
+    const LICS = [
+      { id: "R", name: "Rookie" }, { id: "D", name: "Clase D" }, { id: "C", name: "Clase C" },
+      { id: "B", name: "Clase B" }, { id: "A", name: "Clase A" }, { id: "PRO", name: "Pro" }
+    ];
+    const order = LICS.map((l) => l.id);
+    const lic = (id) => LICS.find((l) => l.id === id) || LICS[0];
+    const clipId = (url) => { const m = String(url || "").match(/(?:\/clip\/|clips\.twitch\.tv\/)([A-Za-z0-9_-]+)/); return m ? m[1] : null; };
+    const slug = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const entries = S.glossary.map((g, i) => ({ ...g, i, id: slug(g.term) }))
+      .sort((a, b) => order.indexOf(a.rarity) - order.indexOf(b.rarity) || a.i - b.i);
+    const sounds = S.sounds || [];
+    const thumbs = {};
+    let active = "", audio = null;
+
+    $("pediaFilters").innerHTML = `<button class="pedia-lic" aria-pressed="true" data-c="">Todas</button>` +
+      LICS.map((l) => {
+        const n = entries.filter((g) => g.rarity === l.id).length;
+        return n ? `<button class="pedia-lic lv-${l.id}" aria-pressed="false" data-c="${l.id}"><b>${l.id === "PRO" ? "P" : l.id}</b>${l.name}<span>${n}</span></button>` : "";
+      }).join("");
 
     const render = () => {
-      const q = $("pediaSearch").value.toLowerCase().trim();
-      const items = S.glossary.filter((g) =>
-        (activeClass === "TODAS" || g.rarity === activeClass) &&
-        (!q || (g.term + " " + g.text).toLowerCase().includes(q)));
+      const q = $("pediaSearch").value.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
+      const items = entries.filter((g) => (!active || g.rarity === active) &&
+        (!q || (g.term + " " + g.text).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").includes(q)));
+      $("pediaCount").textContent = `${items.length} ${items.length === 1 ? "entrada" : "entradas"}`;
       $("pediaGrid").innerHTML = items.length
-        ? items.map((g) => `
-          <article class="entry">
-            <span class="lic lic-${esc(g.rarity)}">${esc(g.rarity)}</span>
-            <h3>${g.emote ? `<img class="entry-emote" src="${esc(g.emote)}" alt="">` : ""}${esc(g.term)}</h3>
-            <p>${esc(g.text)}</p>
-            ${g.clip ? `<a class="entry-clip" href="${esc(g.clip)}" target="_blank" rel="noopener">&#9654; Ver clip</a>` : ""}
-            ${g.clipAlt ? `<a class="entry-clip" href="${esc(g.clipAlt)}" target="_blank" rel="noopener">&#9654; ${esc(g.clipAltLabel || "Otra versión")}</a>` : ""}
-            ${g.link ? `<a class="entry-clip" href="${esc(g.link)}" target="_blank" rel="noopener">${esc(g.linkLabel || "Ver enlace")} &#8599;</a>` : ""}
-          </article>`).join("")
+        ? items.map((g) => {
+          const snd = g.sound && sounds.find((s) => s.key === g.sound && s.file);
+          const peek = g.image || thumbs[clipId(g.clip)] || "";
+          return `
+          <article class="pedia-entry lv-${esc(g.rarity)}" id="${g.id}" data-peek="${esc(peek)}">
+            <span class="pedia-mark" aria-hidden="true"></span>
+            <div>
+              <h2>${g.emote ? `<img class="entry-emote" src="${esc(g.emote)}" alt="">` : ""}${esc(g.term)}<span class="sr-only"> (${lic(g.rarity).name})</span></h2>
+              <p>${esc(g.text)}</p>
+              <div class="pedia-links">
+                ${snd ? `<button class="pedia-link" data-sound="${esc(snd.file)}"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 5h3v6H1zM4 4h2v8H4zM6 2h2v12H6zM10 5h1v6h-1zM12 3h1v10h-1z"/></svg>Escuchar en la Radio</button>` : ""}
+                ${g.clip ? `<a class="pedia-link" href="${esc(g.clip)}" target="_blank" rel="noopener">&#9654; Ver clip</a>` : ""}
+                ${g.clipAlt ? `<a class="pedia-link" href="${esc(g.clipAlt)}" target="_blank" rel="noopener">&#9654; ${esc(g.clipAltLabel || "Otra versión")}</a>` : ""}
+                ${g.link ? `<a class="pedia-link" href="${esc(g.link)}" target="_blank" rel="noopener">${esc(g.linkLabel || "Ver enlace")} &#8599;</a>` : ""}
+              </div>
+            </div>
+          </article>`;
+        }).join("")
         : `<p class="empty">No hay nada. Bandera negra.</p>`;
     };
     $("pediaSearch").addEventListener("input", render);
     $("pediaFilters").addEventListener("click", (e) => {
-      const b = e.target.closest(".filter");
+      const b = e.target.closest(".pedia-lic");
       if (!b) return;
-      activeClass = b.dataset.c;
-      document.querySelectorAll(".filter").forEach((f) => f.classList.toggle("active", f === b));
+      active = b.dataset.c;
+      $("pediaFilters").querySelectorAll(".pedia-lic").forEach((f) => f.setAttribute("aria-pressed", String(f === b)));
       render();
     });
+    $("pediaGrid").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-sound]");
+      if (!b) return;
+      if (audio) { audio.pause(); audio = null; }
+      if (b.classList.contains("playing")) { b.classList.remove("playing"); return; }
+      document.querySelectorAll(".pedia-link.playing").forEach((x) => x.classList.remove("playing"));
+      audio = new Audio(b.dataset.sound);
+      b.classList.add("playing");
+      audio.addEventListener("ended", () => b.classList.remove("playing"));
+      audio.play().catch(() => b.classList.remove("playing"));
+    });
+
+    // Hover peek: the picture follows the mouse (desktop only)
+    const peek = $("pediaPeek");
+    if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      let cur = null;
+      $("pediaGrid").addEventListener("mousemove", (e) => {
+        const it = e.target.closest(".pedia-entry");
+        const src = it && it.dataset.peek;
+        if (!src) { peek.hidden = true; cur = null; return; }
+        if (cur !== it) { cur = it; peek.src = src; peek.style.setProperty("--tilt", (((it.id.length * 7) % 7) - 3) + "deg"); }
+        peek.hidden = false;
+        const w = peek.offsetWidth || 280, h = peek.offsetHeight || 170;
+        const x = e.clientX + 24 + w > window.innerWidth ? e.clientX - w - 24 : e.clientX + 24;
+        const y = Math.min(window.innerHeight - h - 12, Math.max(12, e.clientY - h / 2));
+        peek.style.transform = `translate(${x}px, ${y}px) rotate(var(--tilt))`;
+      });
+      $("pediaGrid").addEventListener("mouseleave", () => { peek.hidden = true; cur = null; });
+    }
+
     render();
+    // Clip thumbnails for the hover pictures
+    const ids = [...new Set(entries.map((g) => clipId(g.clip)).filter(Boolean))];
+    if (ids.length) {
+      fetch("/api/clips?extra=" + encodeURIComponent(ids.join(",")))
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          if (!d || !d.clips) return;
+          d.clips.forEach((c) => { if (c.thumb) thumbs[c.id] = c.thumb; });
+          document.querySelectorAll(".pedia-entry").forEach((el) => {
+            const g = entries.find((x) => x.id === el.id);
+            if (g && !el.dataset.peek && thumbs[clipId(g.clip)]) el.dataset.peek = thumbs[clipId(g.clip)];
+          });
+        })
+        .catch(() => {});
+    }
   }
 
   /* ---------- Stradipedia: emotes gallery ---------- */

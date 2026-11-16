@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.12.0",
+  version: "1.13.0",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -54,12 +54,15 @@ window.SITE = {
 
   /* Stradipedia. Rarity uses iRacing license classes: R, D, C, B, A, PRO.
      Optional "clip": link to a Twitch clip ("clipAlt" + "clipAltLabel" for a second one).
-     Optional "emote": image URL shown on the card. Optional "link" + "linkLabel": any other link. */
+     Optional "emote": image URL shown next to the title. Optional "link" + "linkLabel": any other link.
+     Optional "image": picture shown when hovering the entry (if missing, the clip thumbnail is used).
+     Optional "sound": key of a sound in "sounds" (plays it from the entry). */
   glossary: [
     {
       term: "Verstappen guarro", rarity: "PRO",
       text: "Stradi se ha cruzado más de una vez en iRacing con Max Verstappen, cuatro veces campeón de F1. De uno de esos encuentros nació el grito que el chat ya nunca olvidará.",
-      clip: "https://www.twitch.tv/stradi/clip/RepleteCuteMetalMikeHogu-e8h4Km65hfCf9-AM"
+      clip: "https://www.twitch.tv/stradi/clip/RepleteCuteMetalMikeHogu-e8h4Km65hfCf9-AM",
+      sound: "1"
     },
     {
       term: "Paid actors", rarity: "PRO",
@@ -101,7 +104,8 @@ window.SITE = {
     {
       term: "¡Despedidos!", rarity: "A",
       text: "La coña de siempre: Stradi despide del equipo a JaSoiLRace y a Keny500. Los mismos con los que se sube al podio.",
-      clip: "https://www.twitch.tv/stradi/clip/StupidBumblingToothDBstyle-I4sRk2Af_5UBMwJo"
+      clip: "https://www.twitch.tv/stradi/clip/StupidBumblingToothDBstyle-I4sRk2Af_5UBMwJo",
+      sound: "2"
     },
     {
       term: "Valdeon86, el ingeniero", rarity: "PRO",
@@ -202,7 +206,8 @@ window.SITE = {
     },
     {
       term: "El Civic", rarity: "C",
-      text: "Su coche de verdad: un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco. Su \"nuevo mejor amigo\" desde 2019."
+      text: "Su coche de verdad: un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco. Su \"nuevo mejor amigo\" desde 2019.",
+      image: "/vault/civic.jpg"
     }
   ],
 
