@@ -62,6 +62,7 @@
   const S = window.SITE, esc = window.StradiChat.esc;
   const $ = (id) => document.getElementById(id);
   const feed = $("chatFeed");
+  const COLORS = ["#ffd200", "#ea6f18", "#c04cf0", "#009bfe", "#2bd96b"];
 
   function render() {
     const top = window.StradiMeter.top(5);
@@ -69,10 +70,10 @@
     $("meterList").innerHTML = top.length
       ? top.map((t, i) => `
         <li class="meter-row">
-          <span class="meter-bar" style="width:${Math.max(6, (t.count / max) * 100)}%"></span>
           <span class="meter-pos">${i + 1}</span>
           <span class="meter-ico">${t.emote ? `<img src="${esc(t.emote)}" alt="">` : '<svg class="px-ico" width="28" height="28" viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><path d="M1 1h13v1h-13zM1 2h1v1h-1zM13 2h1v1h-1zM1 3h1v1h-1zM3 3h8v1h-8zM13 3h1v1h-1zM1 4h1v1h-1zM13 4h1v1h-1zM1 5h1v1h-1zM3 5h6v1h-6zM13 5h1v1h-1zM1 6h1v1h-1zM13 6h1v1h-1zM1 7h4v1h-4zM6 7h8v1h-8zM4 8h1v1h-1zM6 8h1v1h-1zM4 9h2v1h-2zM4 10h1v1h-1z"/></svg>'}</span>
           <span class="meter-term">${esc(t.term)}</span>
+          <span class="meter-track"><span class="meter-bar" style="width:${Math.max(4, (t.count / max) * 100)}%;--c:${COLORS[i] || "#ea6f18"}"></span></span>
           <span class="meter-count">${t.count.toLocaleString("es-ES")}</span>
         </li>`).join("")
       : `<p class="empty">Todavía no hay mensajes. Cuando el chat hable, aparecerá aquí.</p>`;
