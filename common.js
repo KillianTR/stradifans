@@ -45,7 +45,7 @@
   if (footer) {
     const handle = S.authorX ? "@" + S.authorX.replace(/^.*\//, "") : S.author;
     const authorHref = S.authorX ? (S.authorX.startsWith("http") ? S.authorX : "https://x.com/" + S.authorX) : S.authorUrl;
-    const authorLink = authorHref ? `<a class="foot-author" href="${authorHref}" target="_blank" rel="noopener">${handle}</a>` : `<b>${handle}</b>`;
+    const authorLink = authorHref ? `<a class="foot-author" href="${authorHref}" target="_blank" rel="noopener" title="Abrir ${handle} en X"><svg class="foot-x" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9zm-1.3 19.4h2L6.5 3.2H4.3z"/></svg>${handle}</a>` : `<b>${handle}</b>`;
     // Giant pixel wordmark: each letter is a 5x7 block glyph, drawn as one SVG
     const GLYPHS = {
       S: [".####", "#....", "#....", ".###.", "....#", "....#", "####."],
@@ -80,7 +80,7 @@
             </div>
             <div class="foot-legal">
               <p>© ${new Date().getFullYear()} · No afiliada a Twitch, iRacing ni Le Mans Ultimate.</p>
-              <p class="foot-ai">Algunas animaciones y herramientas de la web se han hecho con ayuda de IA. Todo lo creativo lo he hecho ${authorHref ? `<a class="foot-author" href="${authorHref}" target="_blank" rel="noopener">yo</a>` : "yo"}.</p>
+              <p class="foot-ai">Algunas animaciones y herramientas de la web se han hecho con ayuda de IA. Todo lo creativo lo he hecho yo.</p>
               <p class="foot-ver mono">v${S.version}</p>
             </div>
           </div>

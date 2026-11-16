@@ -435,6 +435,7 @@ section[hidden] { display: none; }
 .footer b { color: var(--text); }
 .footer .foot-author { color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent); }
 .footer .foot-author:hover { color: var(--accent); }
+.foot-x { vertical-align: -1px; margin-right: 4px; }
 .foot-giant { max-width: 1180px; margin: 46px auto 0; padding-bottom: 32px; overflow: hidden; line-height: 0; }
 .foot-word { display: block; width: 100%; height: auto; overflow: visible; }
 .foot-letter { fill: #e9edf2; transition: fill .2s; will-change: transform; }
