@@ -386,11 +386,29 @@ section[hidden] { display: none; }
 .emote-card figcaption { font: 600 12px "JetBrains Mono", monospace; color: var(--muted); word-break: break-all; }
 
 /* ---------- Footer ---------- */
-.footer { text-align: center; padding: 40px 24px 56px; color: var(--muted); font-size: 14px; }
-.footer p + p { margin-top: 6px; }
+.footer { margin-top: 60px; color: var(--muted); font-size: 14px; overflow: hidden; }
+.foot-pixels { display: grid; grid-template-columns: repeat(48, 1fr); grid-template-rows: repeat(4, auto); }
+.foot-pixels i { aspect-ratio: 1; background: #03111b; }
+.foot-body { background: #03111b; padding: 34px 32px 0; }
+.foot-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px 60px; }
+.foot-logo { margin-bottom: 12px; display: inline-flex; }
+.foot-about p { max-width: 420px; }
+.foot-legal p + p { margin-top: 8px; }
+.foot-ai { max-width: 460px; }
+.foot-ver { color: var(--accent); font-size: 12px; }
 .footer b { color: var(--text); }
 .footer .foot-author { color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent); }
 .footer .foot-author:hover { color: var(--accent); }
+.foot-giant { display: flex; justify-content: center; margin: 40px auto 0; font: 800 clamp(48px, 15.5vw, 230px)/.78 "JetBrains Mono", monospace; letter-spacing: -.04em; color: #0d2b40; user-select: none; }
+.foot-char { display: inline-block; transform: translateY(60%); opacity: 0; transition: transform .7s cubic-bezier(.2,.9,.25,1.25), opacity .5s, color .2s; transition-delay: calc(var(--i) * 45ms); }
+.foot-giant.in .foot-char { transform: translateY(0); opacity: 1; }
+.foot-char:nth-child(n+7) { color: rgba(234,111,24,.45); }
+.foot-giant.in .foot-char:hover { color: var(--accent); transform: translateY(-14%); transition-delay: 0s; transition-duration: .2s; }
+@media (prefers-reduced-motion: reduce) { .foot-char { transform: none; opacity: 1; transition: none; } }
+@media (max-width: 700px) {
+  .foot-inner { grid-template-columns: 1fr; }
+  .foot-body { padding: 26px 20px 0; }
+}
 
 /* ---------- Home: solo hero ---------- */
 .hero.hero-solo { grid-template-columns: 1fr; padding-bottom: 40px; }

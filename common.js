@@ -36,11 +36,38 @@
   /* ---------- Footer ---------- */
   const footer = $("site-footer");
   if (footer) {
+    const handle = S.authorX ? "@" + S.authorX.replace(/^.*\//, "") : S.author;
+    const authorHref = S.authorX ? (S.authorX.startsWith("http") ? S.authorX : "https://x.com/" + S.authorX) : S.authorUrl;
+    const authorLink = authorHref ? `<a class="foot-author" href="${authorHref}" target="_blank" rel="noopener">${handle}</a>` : `<b>${handle}</b>`;
+    const giant = "STRADIFANS".split("").map((c, i) => `<span class="foot-char" style="--i:${i}">${c}</span>`).join("");
+    // Pixel fade between the page and the footer: denser at the bottom
+    const cols = 48, rows = 4;
+    let px = "";
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      if (Math.random() < (r + 1) / (rows + 1)) px += `<i style="grid-area:${r + 1}/${c + 1}"></i>`;
+    }
     footer.outerHTML = `
       <footer class="footer">
-        <p>StradiFans es una web fan no oficial. No la gestiona Stradi y no está afiliada a Twitch, iRacing ni Le Mans Ultimate.</p>
-        <p>Creado por ${S.authorUrl ? `<a class="foot-author" href="${S.authorUrl}" target="_blank" rel="noopener">${S.author}</a>` : `<b>${S.author}</b>`} · <span class="mono">v${S.version}</span></p>
+        <div class="foot-pixels" aria-hidden="true">${px}</div>
+        <div class="foot-body">
+          <div class="foot-inner">
+            <div class="foot-about">
+              <a href="/" class="logo foot-logo"><img src="/assets/logo.png" alt="" class="logo-img"><span>Stradi<b>Fans</b></span></a>
+              <p>Web fan no oficial. No la gestiona Stradi. Hecha con cariño por ${authorLink}.</p>
+            </div>
+            <div class="foot-legal">
+              <p>© ${new Date().getFullYear()} · No afiliada a Twitch, iRacing ni Le Mans Ultimate.</p>
+              <p class="foot-ai">Algunas animaciones y herramientas de la web se han hecho con ayuda de IA. Todo lo creativo lo he hecho yo.</p>
+              <p class="foot-ver mono">v${S.version}</p>
+            </div>
+          </div>
+          <p class="foot-giant" aria-hidden="true">${giant}</p>
+        </div>
       </footer>`;
+    const g = document.querySelector(".foot-giant");
+    if (g && "IntersectionObserver" in window) {
+      new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { g.classList.add("in"); o.disconnect(); } }, { threshold: 0.3 }).observe(g);
+    } else if (g) g.classList.add("in");
   }
 
   /* ---------- Back-to-top keycap ---------- */
