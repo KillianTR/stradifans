@@ -10,6 +10,7 @@
     { href: "/radio/", label: "Radio" },
     { href: "/lore/", label: "Lore" },
     { href: "/baul/", label: "Baúl" },
+    { href: "/setup/", label: "Setup" },
     { href: "/faq/", label: "FAQ" }
   ];
   const path = location.pathname.replace(/index\.html$/, "");

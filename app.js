@@ -485,6 +485,22 @@
     });
   }
 
+  /* ---------- Setup ---------- */
+  if ($("setupList")) {
+    const COLORS = ["#ea6f18", "#009bfe", "#c04cf0"];
+    $("setupList").innerHTML = (S.setup || []).map((g, gi) => `
+      <article class="setup-group" style="--c:${COLORS[gi % COLORS.length]}">
+        <span class="rule"></span>
+        <h2>${esc(g.group)}</h2>
+        <dl>${g.items.map((it) => `
+          <div class="setup-row">
+            <dt>${esc(it.label)}</dt>
+            <dd>${it.url ? `<a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.value)} &#8599;</a>` : esc(it.value)}</dd>
+          </div>`).join("")}
+        </dl>
+      </article>`).join("");
+  }
+
   /* ---------- FAQ ---------- */
   if ($("faqList")) {
     $("faqList").innerHTML = S.faq.map((f) => `

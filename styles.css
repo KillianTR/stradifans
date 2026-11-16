@@ -615,6 +615,15 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
 .tool-link.as-btn { background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit; }
 @media (max-width: 820px) { .toolbox { grid-template-columns: 1fr; } }
 
+/* ---------- Setup page ---------- */
+.setup { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 48px; }
+.setup-group h2 { font: 700 30px "JetBrains Mono", monospace; letter-spacing: -.02em; margin-bottom: 16px; }
+.setup-row { display: grid; grid-template-columns: 130px 1fr; gap: 14px; padding: 11px 0; border-bottom: 1px dashed var(--line); }
+.setup-row dt { font: 600 12px "JetBrains Mono", monospace; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; padding-top: 3px; }
+.setup-row dd { font-weight: 600; }
+.setup-row a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--c); }
+.setup-row a:hover { color: var(--c); }
+
 /* ---------- Mobile ---------- */
 @media (max-width: 960px) {
   .hero, .page-grid { grid-template-columns: 1fr; }

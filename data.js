@@ -35,7 +35,7 @@ window.SITE = {
     { label: "Sim principal", value: "iRacing", note: "y Le Mans Ultimate" },
     { label: "Su coche", value: "Honda Civic", note: "Sport Plus 1.5 Turbo · 182 CV" },
     { label: "Su volante", value: "Artura Ultimate", note: "Ascher Racing McLaren" },
-    { label: "Sus pedales", value: "SRP", note: "SimRacing Pro" },
+    { label: "Sus pedales", value: "SRP GT-R", note: "3P Black Edition" },
     { label: "Seguidores", value: "57K+", note: "en Twitch" }
   ],
 
@@ -92,7 +92,8 @@ window.SITE = {
     },
     {
       term: "Valdeon86, el ingeniero", rarity: "PRO",
-      text: "El ingeniero que todo el mundo querría en el muro. En las carreras de resistencia le canta el consumo objetivo, cuándo entrar a boxes, si el P2 ha parado y con qué tiempo. Eso sí: siempre se le recuerda el \"gas a tope\" justo cuando no hay que ahorrar."
+      text: "El ingeniero que todo el mundo querría en el muro. En las carreras de resistencia le canta el consumo objetivo, cuándo entrar a boxes, si el P2 ha parado y con qué tiempo. Eso sí: siempre se le recuerda el \"gas a tope\" justo cuando no hay que ahorrar.",
+      emote: "https://static-cdn.jtvnw.net/emoticons/v2/301793648/default/dark/3.0"
     },
     {
       term: "Gas a tope / cuidao con el ahorro", rarity: "A",
@@ -100,17 +101,19 @@ window.SITE = {
     },
     {
       term: "Lunes sin qualy", rarity: "A",
-      text: "Los lunes Stradi sale a la clasificación con bandera negra para empezar desde el fondo de la parrilla. Remontada garantizada. Y paid actors, también."
+      text: "Los lunes Stradi sale a la clasificación con bandera negra para empezar desde el fondo de la parrilla. Remontada garantizada. Y paid actors, también.",
+      emote: "https://static-cdn.jtvnw.net/emoticons/v2/303908798/default/dark/3.0"
     },
     {
       term: "¡ESREEEPEEEE!", rarity: "A",
-      text: "Cuando Stradi clava frenos, se salva por centímetros o esquiva un accidente en el último momento, el chat se lo agradece a sus pedales SRP (SimRacing Pro). Pero no lo escribe: lo grita. ESREEEPEEEE.",
-      link: "https://simracing-pro.com/?ref=stradi", linkLabel: "Pedales SRP"
+      text: "Cuando Stradi clava frenos, se salva por centímetros o esquiva un accidente en el último momento, el chat se lo agradece a sus pedales SRP GT-R 3P Black Edition (SimRacing Pro). Pero no lo escribe: lo grita. ESREEEPEEEE.",
+      link: "https://www.simracing-pro.com/?ref=stradi", linkLabel: "Pedales SRP"
     },
     {
       term: "Las salvadas de Stradi", rarity: "A",
       text: "Cuando el coche ya está cruzado y el chat ya ha escrito F, Stradi lo recoge. Una de tantas:",
-      clip: "https://www.twitch.tv/stradi/clip/SingleBlightedKleeGrammarKing-uRg6uxuAKLDvGq16"
+      clip: "https://www.twitch.tv/stradi/clip/SingleBlightedKleeGrammarKing-uRg6uxuAKLDvGq16",
+      emote: "https://static-cdn.jtvnw.net/emoticons/v2/303908742/default/dark/3.0"
     },
     {
       term: "El volante de Fanatec roto", rarity: "PRO",
@@ -123,13 +126,14 @@ window.SITE = {
       clip: "https://www.twitch.tv/stradi/clip/EagerAliveFalconUWot-jRwvrC93YeS3Wjqn"
     },
     {
-      term: "Stradi en Fórmula 4", rarity: "D",
-      text: "La Fórmula 4 ya se puede correr con licencia D en iRacing. Y Stradi se ha subido a ella.",
+      term: "El piloto de F4", rarity: "D",
+      text: "Stradi imitando al piloto típico de la Fórmula 4: alguien que acaba de sacarse la licencia D en iRacing y, como le encantan los fórmulas, se pasa el día entero corriendo ahí. Total, de la D ya no se puede volver a Rookie: iRacing no lo permite.",
       clip: "https://www.twitch.tv/stradi/clip/NurturingEagerReindeerBudStar-HN1Se6M3JsTBgUPH"
     },
     {
       term: "Stradipuntos", rarity: "B",
-      text: "Los puntos del canal que ganas viendo el directo. El chat ludópata se los juega en cada carrera: ganancia de iRating, pérdida de iRating o retirada."
+      text: "Los puntos del canal que ganas viendo el directo. El chat ludópata se los juega en cada carrera: ganancia de iRating, pérdida de iRating o retirada.",
+      emote: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_7b11c1d9e81a40669c768609391b0ad4/default/dark/3.0"
     },
     {
       term: "¡Stradi liada!", rarity: "A",
@@ -231,7 +235,7 @@ window.SITE = {
      "date": display text; leave it out to use the clip's date. "image": a picture instead of a clip thumbnail.
      "sort": optional ISO date to place items that have no clip (e.g. "2019-09-22"). */
   timeline: [
-    { sort: "2019-09-22", date: "22 sep 2019", title: "Llega el Civic", text: "Presenta a su \"nuevo mejor amigo\": un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco." },
+    { sort: "2019-09-22", date: "22 sep 2019", title: "Llega el Civic", text: "Presenta a su \"nuevo mejor amigo\": un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco.", image: "/vault/civic.jpg" },
     { clip: "TangentialFriendlyGoshawkStrawBeary-GGNQrPzucq0hwyOq", title: "Primer podio en la Porsche All Star", text: "Primera vez en el podio de la Porsche All Star." },
     { clip: "CrazyColdbloodedTruffleMoreCowbell-DaAt-l1FHnEFgd7O", title: "Primera victoria en la Porsche All Star", text: "Por fin en lo más alto del podio." },
     { clip: "JoyousGrossButterNomNom-WUhvTGJQUpLypBGr", title: "Gana las 24h de Nürburgring", text: "Victoria en iRacing junto a SaxoGaming y Keny500." },
@@ -256,8 +260,40 @@ window.SITE = {
     { q: "¿A qué apuesto mis Stradipuntos?", a: "Ganancia de iRating, pérdida de iRating o retirada. Esto no es asesoramiento financiero." },
     { q: "¿Quién es Valdeon86?", a: "El ingeniero. Consumo, ventanas de boxes, tiempos del P2. Y algún que otro \"gas a tope\"." },
     { q: "¿Qué coche tiene?", a: "Un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco. Desde 2019 es su \"nuevo mejor amigo\"." },
-    { q: "¿Qué volante usa?", a: "Un Ascher Racing McLaren Artura Ultimate." },
+    { q: "¿Qué volante usa?", a: "Base Simagic Evo Ultra con volantes Simagic GT Neo y Ascher McLaren Artura Ultimate. Todo su setup está en la página Setup." },
     { q: "¿Por qué hace lo que hace?", a: "Escribe !porque en el chat y te lo explica él mismo." }
+  ],
+
+  /* Setup page. Optional "url" per item. */
+  setup: [
+    { group: "Setup simracing", items: [
+      { label: "Cockpit", value: "Next Level Racing GT ELITE" },
+      { label: "Base", value: "Simagic Evo Ultra" },
+      { label: "Volante", value: "Simagic GT Neo" },
+      { label: "Volante", value: "Ascher McLaren Artura Ultimate", url: "https://ascher-racing.com/int/shop/mclaren-lenkrader/ascher-racing-mclaren-artura-ultimate/" },
+      { label: "Pedales", value: "SRP GT-R 3P Black Edition", url: "https://www.simracing-pro.com/?ref=stradi" },
+      { label: "Monitor principal", value: "LG UltraGear 34GN73A" },
+      { label: "Monitor secundario", value: "BenQ ZOWIE XL2411P" }
+    ]},
+    { group: "PC simracing", items: [
+      { label: "CPU", value: "AMD Ryzen 7 9800X3D 5.2 GHz Socket AM5" },
+      { label: "Placa base", value: "Asus ROG Strix X870E-E Gaming WiFi Socket AM5" },
+      { label: "RAM", value: "DDR5 Corsair Vengeance RGB 64 GB (2×32 GB) 6400 MHz CL32" },
+      { label: "Gráfica", value: "MSI GeForce RTX 5080 Gaming Trio OC 16 GB GDDR7 DLSS4" },
+      { label: "Disco", value: "M.2 Corsair MP700 Pro 2 TB Gen5 PCIe x4 NVMe" },
+      { label: "Caja", value: "DeepCool Morpheus Digital Mesh Negro" },
+      { label: "Refrigeración", value: "Líquida DeepCool LS720 SE" },
+      { label: "Fuente", value: "Corsair RM1000x 80 Plus Gold 1000 W ATX 3.1 PCIe 5.1 Modular" }
+    ]},
+    { group: "PC stream", items: [
+      { label: "CPU", value: "AMD Ryzen 7 5800X 4.7 GHz" },
+      { label: "Placa base", value: "Asus ROG Strix X570-E Gaming" },
+      { label: "RAM", value: "Corsair Vengeance LPX Black 32 GB" },
+      { label: "Gráfica", value: "Asus TUF Gaming GeForce RTX 5060 Ti OC 16 GB GDDR7 DLSS4" },
+      { label: "Disco", value: "MP600 Force Series 1 TB PCIe Gen 4.0 x4 NVMe" },
+      { label: "Caja", value: "Corsair iCUE 4000X RGB Chasis ATX" },
+      { label: "Fuente", value: "Corsair RM850x 80 Plus Gold" }
+    ]}
   ],
 
   /* Where to find him */
