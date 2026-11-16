@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.20.0",
+  version: "1.20.1",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -368,8 +368,7 @@ window.SITE = {
     { name: "YouTube", url: "https://www.youtube.com/stradi" },
     { name: "Instagram", url: "https://www.instagram.com/stradi_81/" },
     { name: "X", url: "https://x.com/Stradi81" },
-    { name: "TikTok", url: "https://www.tiktok.com/@stradi81" },
-    { name: "SimRacing Pro", url: "https://www.simracing-pro.com/?ref=stradi", note: "sus pedales" }
+    { name: "TikTok", url: "https://www.tiktok.com/@stradi81" }
   ],
 
   /* "¿Eres el verdadero Stradi?" test. Each answer gives 0-100 Stradi points; the result is the average. */
