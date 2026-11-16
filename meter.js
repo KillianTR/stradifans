@@ -32,6 +32,7 @@
   }
 
   function add(msg) {
+    if (msg.historical) return;
     total++;
     const seen = new Set();
     msg.tokens.forEach((t) => {

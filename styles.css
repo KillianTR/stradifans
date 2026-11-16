@@ -380,6 +380,18 @@ section[hidden] { display: none; }
 .day.today.on { box-shadow: 0 0 0 2px var(--accent); background: var(--text); }
 .day.future { opacity: .45; }
 
+.cal { display: grid; grid-template-columns: repeat(7, 22px); gap: 3px; }
+.cal-h { font: 600 9px "JetBrains Mono", monospace; color: var(--muted); text-align: center; }
+.cal-d {
+  height: 20px; display: grid; place-items: center; font: 600 10px "JetBrains Mono", monospace; color: var(--muted);
+  border: 1px solid var(--line); background: transparent;
+}
+.cal-d.empty { border: 0; }
+.cal-d.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.cal-d.today { outline: 2px solid #fff; outline-offset: -1px; color: #fff; }
+.cal-d.future { opacity: .35; }
+.pitboard { grid-template-columns: auto 1fr auto; }
+
 /* ---------- Home: chat ticker ---------- */
 .ticker {
   display: flex; align-items: center; padding: 0; height: 54px; overflow: hidden;
@@ -387,7 +399,7 @@ section[hidden] { display: none; }
   width: 100vw; margin: 0 0 24px calc(50% - 50vw); border-radius: 0;
 }
 .ticker-label {
-  flex-shrink: 0; display: flex; align-items: center; gap: 8px; height: 100%; padding: 0 22px 0 max(22px, calc((100vw - 1180px) / 2 + 24px));
+  flex-shrink: 0; display: flex; align-items: center; gap: 8px; height: 100%; padding: 0 22px;
   font: 700 12px "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
   background: #0b0d10; border-right: 1px solid var(--line); position: relative; z-index: 2;
 }
@@ -489,6 +501,19 @@ section[hidden] { display: none; }
   .soundboard { grid-template-columns: 1fr; }
   .sb-portrait { width: 140px; height: 140px; margin: 0 auto; }
   .led b { font-size: 36px; } .led div { min-width: 42px; }
+}
+@media (max-width: 560px) {
+  .pitboard { padding: 20px 16px; }
+  .led { padding: 8px 10px 4px; gap: 2px; max-width: 100%; }
+  .led b { font-size: 26px; letter-spacing: 0; } .led i { font-size: 22px; } .led div { min-width: 30px; } .led span { font-size: 9px; }
+  .tool-sec h2 { font-size: 24px; }
+  .tool-sec > p { min-height: 0; }
+  .tool-preview { padding: 14px; }
+  .pv-inc .incidents { font-size: 42px; }
+  .pv-card { width: 56px; height: 72px; }
+  .explore-row h3 { font-size: 24px; }
+  .bday { font-size: 14px; gap: 6px; padding: 8px 12px; }
+  .bday-timer { margin-left: 0; }
 }
 
 /* ---------- Baúl: polaroid grid + lightbox ---------- */
@@ -613,7 +638,7 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
 .tool-link:hover { color: var(--c); }
 .tool-link.muted { color: var(--muted); font-weight: 500; }
 .tool-link.as-btn { background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit; }
-@media (max-width: 820px) { .toolbox { grid-template-columns: 1fr; } }
+@media (max-width: 820px) { .toolbox { grid-template-columns: minmax(0, 1fr); gap: 44px; } }
 
 /* ---------- Setup page ---------- */
 .setup { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 48px; }

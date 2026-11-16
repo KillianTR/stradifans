@@ -56,10 +56,14 @@
         if (d.getFullYear() === y && d.getMonth() === m) { count++; onDays.add(d.getDate()); }
       });
       $("monthCount").textContent = count;
-      let html = "";
+      $("monthDays").textContent = `${onDays.size} ${onDays.size === 1 ? "día" : "días"} con directo`;
+      // Monday-first mini calendar
+      const firstDow = (new Date(y, m, 1).getDay() + 6) % 7;
+      let html = ["L", "M", "X", "J", "V", "S", "D"].map((d) => `<span class="cal-h">${d}</span>`).join("");
+      for (let k = 0; k < firstDow; k++) html += `<span class="cal-d empty"></span>`;
       for (let day = 1; day <= daysInMonth; day++) {
-        const cls = ["day", onDays.has(day) ? "on" : "", day === now.getDate() ? "today" : "", day > now.getDate() ? "future" : ""].join(" ");
-        html += `<span class="${cls}" title="${day} ${MON[m]}"></span>`;
+        const cls = ["cal-d", onDays.has(day) ? "on" : "", day === now.getDate() ? "today" : "", day > now.getDate() ? "future" : ""].join(" ");
+        html += `<span class="${cls}" title="${day} ${MON[m]}${onDays.has(day) ? " · directo" : ""}">${day}</span>`;
       }
       $("dayGrid").innerHTML = html;
 
@@ -173,7 +177,7 @@
     function frame(t) {
       const dt = Math.min(0.1, (t - last) / 1000); last = t;
       const backlog = track.scrollWidth + x - viewport.clientWidth; // px still off-screen to the right
-      const speed = 70 + Math.max(0, backlog) * 0.25;                 // catch up when chat is busy
+      const speed = 70 + Math.min(Math.max(0, backlog), 1500) * 0.12; // catch up when chat is busy (capped)
       if (track.querySelector(".tick-wait")) x = 44;      // placeholder stays still
       else if (track.children.length) x -= speed * dt;
       // drop messages that have left on the left side
@@ -191,6 +195,7 @@
 
     window.StradiChat.loadEmotes(S.twitchId).finally(() => {
       window.StradiChat.connect(S.twitchUser, {
+        historyLimit: 20,
         onMessage: (m) => {
           if (window.StradiMeter) window.StradiMeter.add(m);
           const wait = track.querySelector(".tick-wait");

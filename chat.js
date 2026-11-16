@@ -87,6 +87,36 @@
     handlers = handlers || {};
     const status = (s) => handlers.onStatus && handlers.onStatus(s);
     let ws, retry = 1000;
+    const seenIds = new Set();
+
+    function handleLine(line, historical) {
+      const m = line.match(/^@(\S+) :(\w+)!\S+ PRIVMSG #\S+ :(.*)$/);
+      if (!m || !handlers.onMessage) return;
+      const tags = parseTags(m[1]);
+      if (tags.id) { if (seenIds.has(tags.id)) return; seenIds.add(tags.id); }
+      let text = m[3];
+      if (text.startsWith("\u0001ACTION ")) text = text.slice(8, -1);
+      const tokens = tokenize(text, tags.emotes);
+      handlers.onMessage({
+        user: tags["display-name"] || m[2],
+        color: tags.color || "",
+        badges: (tags.badges || "").split(",").filter(Boolean).map((b) => b.split("/")[0]),
+        text,
+        tokens,
+        html: toHtml(tokens),
+        historical
+      });
+    }
+
+    /* Recent chat history (public recent-messages service), so the chat isn't empty on load */
+    async function loadHistory() {
+      try {
+        const r = await fetch(`https://recent-messages.robotty.de/api/v2/recent-messages/${encodeURIComponent(channel.toLowerCase())}?limit=${handlers.historyLimit || 40}`);
+        if (!r.ok) return;
+        const d = await r.json();
+        (d.messages || []).forEach((line) => handleLine(line, true));
+      } catch (_) {}
+    }
 
     function open() {
       status("connecting");
@@ -103,20 +133,7 @@
         ev.data.split("\r\n").forEach((line) => {
           if (!line) return;
           if (line.startsWith("PING")) { ws.send("PONG :tmi.twitch.tv"); return; }
-          const m = line.match(/^@(\S+) :(\w+)!\S+ PRIVMSG #\S+ :(.*)$/);
-          if (!m || !handlers.onMessage) return;
-          const tags = parseTags(m[1]);
-          let text = m[3];
-          if (text.startsWith("\u0001ACTION ")) text = text.slice(8, -1);
-          const tokens = tokenize(text, tags.emotes);
-          handlers.onMessage({
-            user: tags["display-name"] || m[2],
-            color: tags.color || "",
-            badges: (tags.badges || "").split(",").filter(Boolean).map((b) => b.split("/")[0]),
-            text,
-            tokens,
-            html: toHtml(tokens)
-          });
+          handleLine(line, false);
         });
       };
       ws.onclose = () => {
@@ -126,7 +143,7 @@
       };
     }
 
-    open();
+    loadHistory().finally(open);
   }
 
   window.StradiChat = { connect, loadEmotes, loadSevenTv: loadEmotes, toHtml, esc, emoteUrl: (name) => thirdParty.get(name) || null };

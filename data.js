@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "0.5.0",
+  version: "0.6.0",
   author: "Vznum",
   twitchUser: "stradi",
   twitchId: "178443161",
@@ -140,6 +140,21 @@ window.SITE = {
       text: "A veces Stradi la lía. Y cuando la lía, el chat lo celebra con su propio emote. Este es el clip del que viene.",
       emote: "https://static-cdn.jtvnw.net/emoticons/v2/301793622/default/dark/3.0",
       clip: "https://www.twitch.tv/stradi/clip/RacyColorfulWrenAMPEnergyCherry-ilHoofy6sd3G2RR0"
+    },
+    {
+      term: "Peligro", rarity: "C",
+      text: "En pista siempre hay peligro: gente que parece que no sepa conducir y accidentes que esquivar en cada vuelta. Stradi corre en modo precaución permanente.",
+      emote: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_680742d3726f44ca88d53319f80d92fd/default/dark/3.0"
+    },
+    {
+      term: "Temblor", rarity: "C",
+      text: "El miedo a morir en carrera, convertido en emote. Para cuando la cosa se pone fea de verdad.",
+      emote: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_2cfc96959cfc49c7a7330d233ac90833/default/dark/3.0"
+    },
+    {
+      term: "Bíceps", rarity: "C",
+      text: "Stradi jugó a balonmano muchos años, y se nota: tremendo bíceps. El chat lo sabe y tiene emote para recordarlo.",
+      emote: "https://static-cdn.jtvnw.net/emoticons/v2/303908837/default/dark/3.0"
     },
     {
       term: "Retirada", rarity: "B",
