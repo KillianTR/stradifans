@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medidor del chat · StradiFans</title>
+  <meta name="description" content="Lo que más spamea el chat de Stradi, contado en directo.">
+  <meta name="theme-color" content="#061b2a">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../" class="logo"><img src="../assets/logo.png" alt="" class="logo-img"><span>Stradi<b>Fans</b></span></a>
+  <nav class="nav" id="nav">
+    <a href="../#pedia">Stradipedia</a>
+    <a href="../#tools">Garaje</a>
+    <a href="../#lore">Lore</a>
+    <a href="../ruleta-clips/">Ruleta de clips</a>
+  </nav>
+  <a class="live-badge" id="liveBadge" href="https://www.twitch.tv/stradi" target="_blank" rel="noopener">
+    <span class="dot"></span><span id="liveBadgeText">Comprobando...</span>
+  </a>
+  <button class="menu-btn" id="menuBtn" aria-label="Menú">&#9776;</button>
+</header>
+
+<div class="bday" id="bday" hidden><span class="bday-cake">🎂</span><span id="bdayText"></span></div>
+
+<main>
+  <section class="page">
+    <p class="crumbs"><a href="../">Inicio</a> › <a href="../#tools">Garaje</a> › Medidor del chat</p>
+    <h1>Medidor del chat</h1>
+    <p class="page-sub">Las cinco cosas que más spamea el chat de Stradi, contadas en directo.</p>
+
+    <div class="page-grid">
+      <div>
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Top 5 de hoy</h2>
+            <span class="chat-status" id="chatStatus2">conectando...</span>
+          </div>
+          <ol class="meter-list" id="meterList"></ol>
+          <div class="meter-foot">
+            <span><b class="mono" id="meterTotal">0</b> mensajes contados hoy en este navegador</span>
+            <button class="btn btn-ghost" id="meterReset">Reiniciar</button>
+          </div>
+        </div>
+        <div class="panel">
+          <p class="section-sub" style="margin:0">Cuenta cada palabra o emote una vez por mensaje e ignora palabras de relleno como "que" o "de". Empieza a contar al abrir esta página y guarda el recuento del día en tu navegador. No es 100% exacto.</p>
+        </div>
+      </div>
+      <aside class="chat-panel">
+        <div class="chat-head">
+          <span>Chat en directo</span>
+          <span class="chat-status" id="chatStatus">conectando...</span>
+        </div>
+        <div class="chat-feed" id="chatFeed"><p class="chat-empty">Esperando mensajes del chat...</p></div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>StradiFans es una web fan no oficial. No la gestiona Stradi y no está afiliada a Twitch, iRacing ni Le Mans Ultimate.</p>
+  <p>Creado por <b class="foot-author">Vznum</b> · <span class="mono foot-version">v0.0.0</span></p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="../chat.js"></script>
+<script src="../common.js"></script>
+<script src="../meter.js"></script>
+<script>
+(function () {
+  const S = window.SITE, esc = window.StradiChat.esc;
+  const $ = (id) => document.getElementById(id);
+  const feed = $("chatFeed");
+
+  function render() {
+    const top = window.StradiMeter.top(5);
+    const max = top.length ? top[0].count : 1;
+    $("meterList").innerHTML = top.length
+      ? top.map((t, i) => `
+        <li class="meter-row">
+          <span class="meter-bar" style="width:${Math.max(6, (t.count / max) * 100)}%"></span>
+          <span class="meter-pos">${i + 1}</span>
+          <span class="meter-ico">${t.emote ? `<img src="${esc(t.emote)}" alt="">` : "💬"}</span>
+          <span class="meter-term">${esc(t.term)}</span>
+          <span class="meter-count">${t.count.toLocaleString("es-ES")}</span>
+        </li>`).join("")
+      : `<p class="empty">Todavía no hay mensajes. Cuando el chat hable, aparecerá aquí.</p>`;
+    $("meterTotal").textContent = window.StradiMeter.total().toLocaleString("es-ES");
+  }
+
+  $("meterReset").addEventListener("click", () => { window.StradiMeter.reset(); render(); });
+
+  let timer = null;
+  const setStatus = (s) => {
+    const txt = { connecting: "conectando...", connected: "conectado", disconnected: "reconectando..." }[s] || s;
+    ["chatStatus", "chatStatus2"].forEach((id) => { $(id).textContent = txt; $(id).classList.toggle("ok", s === "connected"); });
+  };
+
+  window.StradiChat.loadSevenTv(S.twitchId).finally(() => {
+    render();
+    window.StradiChat.connect(S.twitchUser, {
+      onStatus: setStatus,
+      onMessage: (m) => {
+        window.StradiMeter.add(m);
+        const empty = feed.querySelector(".chat-empty");
+        if (empty) empty.remove();
+        const row = document.createElement("div");
+        row.className = "chat-msg";
+        row.innerHTML = `<b style="color:${esc(m.color || "#ea6f18")}">${esc(m.user)}</b>: <span>${m.html}</span>`;
+        feed.appendChild(row);
+        while (feed.children.length > 60) feed.firstChild.remove();
+        feed.scrollTop = feed.scrollHeight;
+        if (!timer) timer = setTimeout(() => { timer = null; render(); }, 1000);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

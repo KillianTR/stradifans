@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StradiFans - Is Stradi live right now?</title>
-  <meta name="description" content="Unofficial fan hub for Stradi: live status, lore, glossary, soundboard and sim racing nonsense.">
-  <meta name="theme-color" content="#0d0f12">
+  <title>StradiFans · ¿Está Stradi en directo?</title>
+  <meta name="description" content="Web fan no oficial de Stradi: directo, lore, glosario, soundboard y tonterías de simracing.">
+  <meta name="theme-color" content="#061b2a">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -14,58 +16,72 @@
 <body>
 
 <header class="topbar">
-  <a href="#" class="logo"><span class="logo-mark">S</span><span>Stradi<b>Fans</b></span></a>
+  <a href="/" class="logo"><img src="assets/logo.png" alt="" class="logo-img"><span>Stradi<b>Fans</b></span></a>
   <nav class="nav" id="nav">
-    <a href="#pedia">Stradi-pedia</a>
-    <a href="#tools">Tools</a>
-    <a href="#sounds">Sounds</a>
+    <a href="#pedia">Stradipedia</a>
+    <a href="#tools">Garaje</a>
+    <a href="#sounds">Radio</a>
     <a href="#lore">Lore</a>
-    <a href="#vault">Vault</a>
+    <a href="#vault">Baúl</a>
     <a href="#faq">FAQ</a>
   </nav>
   <a class="live-badge" id="liveBadge" href="https://www.twitch.tv/stradi" target="_blank" rel="noopener">
-    <span class="dot"></span><span id="liveBadgeText">Checking...</span>
+    <span class="dot"></span><span id="liveBadgeText">Comprobando...</span>
   </a>
-  <button class="menu-btn" id="menuBtn" aria-label="Menu">&#9776;</button>
+  <button class="menu-btn" id="menuBtn" aria-label="Menú">&#9776;</button>
 </header>
+
+<div class="bday" id="bday" hidden>
+  <span class="bday-cake">🎂</span>
+  <span id="bdayText"></span>
+</div>
 
 <main>
 
   <!-- HERO -->
   <section class="hero">
-    <p class="eyebrow">Unofficial fan hub &middot; Sim racing department</p>
-    <h1>Is Stradi live<br>right now?</h1>
-    <div class="answer" id="answer">...</div>
-    <p class="caption" id="caption">checking telemetry...</p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://www.twitch.tv/stradi" target="_blank" rel="noopener">Take me to the stream</a>
-      <a class="btn btn-ghost" href="https://www.twitch.tv/stradi/videos" target="_blank" rel="noopener">Watch the latest VOD</a>
+    <div class="hero-main">
+      <p class="eyebrow">Web fan no oficial · Departamento de simracing</p>
+      <h1>¿Está Stradi<br>en directo?</h1>
+      <div class="answer" id="answer">...</div>
+      <p class="caption" id="caption">leyendo telemetría...</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://www.twitch.tv/stradi" target="_blank" rel="noopener">Llévame al directo</a>
+        <a class="btn btn-ghost" href="https://www.twitch.tv/stradi/videos" target="_blank" rel="noopener">Ver el último VOD</a>
+      </div>
+      <p class="hero-sub">Directos, lore, memes del chat y puntos de incidente. Todo Stradi en un mismo paddock.</p>
     </div>
-    <p class="hero-sub">Streams, lore, chat memes and incident points. Everything about Stradi in one paddock.</p>
+    <aside class="chat-panel">
+      <div class="chat-head">
+        <span>Chat en directo</span>
+        <span class="chat-status" id="chatStatus">conectando...</span>
+      </div>
+      <div class="chat-feed" id="chatFeed"><p class="chat-empty">Esperando mensajes del chat...</p></div>
+    </aside>
   </section>
 
   <!-- PIT WALL STATS -->
   <section class="pitwall">
     <div class="stat stat-live">
-      <span class="stat-label">Session time</span>
+      <span class="stat-label">Tiempo de sesión</span>
       <span class="stat-value mono" id="uptime">--:--:--</span>
-      <span class="stat-note" id="uptimeNote">since green flag</span>
+      <span class="stat-note" id="uptimeNote">desde la bandera verde</span>
     </div>
     <div id="statsHost" class="stats-host"></div>
   </section>
 
   <!-- TWITCH EMBED -->
   <section class="player-wrap" id="playerWrap" hidden>
-    <div class="section-head"><span class="tag">On track</span><h2>Live onboard</h2></div>
+    <div class="section-head"><span class="tag">En pista</span><h2>Cámara onboard</h2></div>
     <div class="player" id="player"></div>
   </section>
 
-  <!-- STRADI-PEDIA -->
+  <!-- STRADIPEDIA -->
   <section id="pedia">
-    <div class="section-head"><span class="tag">01</span><h2>Stradi-pedia</h2></div>
-    <p class="section-sub">Everything chat knows, graded by license class.</p>
+    <div class="section-head"><span class="tag">01</span><h2>Stradipedia</h2></div>
+    <p class="section-sub">Todo lo que sabe el chat, clasificado por licencia.</p>
     <div class="pedia-controls">
-      <input type="search" id="pediaSearch" placeholder="Search the paddock...">
+      <input type="search" id="pediaSearch" placeholder="Buscar en el paddock...">
       <div class="filters" id="pediaFilters"></div>
     </div>
     <div class="pedia-grid" id="pediaGrid"></div>
@@ -73,18 +89,30 @@
 
   <!-- TOOLBOX -->
   <section id="tools">
-    <div class="section-head"><span class="tag">02</span><h2>The garage</h2></div>
-    <p class="section-sub">Tools and games. None of them improve your lap time.</p>
+    <div class="section-head"><span class="tag">02</span><h2>El garaje</h2></div>
+    <p class="section-sub">Herramientas y juegos. Ninguno te baja el tiempo por vuelta.</p>
     <div class="tools-grid">
       <article class="tool">
-        <h3>Excuse generator</h3>
-        <p>Crashed? Lost 8 positions? Get a certified excuse.</p>
-        <div class="tool-out" id="excuseOut">Press the button. Blame someone.</div>
-        <button class="btn btn-primary" id="excuseBtn">Generate excuse</button>
+        <h3>Medidor del chat</h3>
+        <p>Las cinco cosas que más spamea el chat, en directo.</p>
+        <div class="tool-out mini-meter" id="miniMeter">Escuchando al chat...</div>
+        <a class="btn btn-primary" href="medidor-chat/">Abrir el medidor</a>
       </article>
       <article class="tool">
-        <h3>Incident counter</h3>
-        <p>Track the incident points live. Chat's favourite stat.</p>
+        <h3>Ruleta de clips</h3>
+        <p>Abre una caja y te toca un clip aleatorio de Stradi.</p>
+        <div class="tool-out tool-case">📦</div>
+        <a class="btn btn-primary" href="ruleta-clips/">Abrir una caja</a>
+      </article>
+      <article class="tool">
+        <h3>Generador de excusas</h3>
+        <p>¿Te has estampado? ¿Has perdido 8 posiciones? Excusa certificada.</p>
+        <div class="tool-out" id="excuseOut">Pulsa el botón. Culpa a alguien.</div>
+        <button class="btn btn-primary" id="excuseBtn">Generar excusa</button>
+      </article>
+      <article class="tool">
+        <h3>Contador de incidentes</h3>
+        <p>Lleva la cuenta de los puntos de incidente. La estadística favorita del chat.</p>
         <div class="incidents mono" id="incOut">0x</div>
         <div class="tool-btns">
           <button class="btn btn-ghost" data-inc="1">+1x</button>
@@ -93,60 +121,53 @@
           <button class="btn btn-ghost" id="incReset">Reset</button>
         </div>
       </article>
-      <article class="tool tool-soon">
-        <h3>Guess the track</h3>
-        <p>One corner. One guess. Coming soon.</p>
-        <span class="soon">In development</span>
-      </article>
-      <article class="tool tool-soon">
-        <h3>Clip roulette</h3>
-        <p>A random clip from the archives. Coming soon.</p>
-        <span class="soon">In development</span>
-      </article>
     </div>
   </section>
 
   <!-- SOUNDBOARD -->
   <section id="sounds">
-    <div class="section-head"><span class="tag">03</span><h2>Team radio</h2></div>
-    <p class="section-sub">The soundboard. Click to play.</p>
+    <div class="section-head"><span class="tag">03</span><h2>Radio del equipo</h2></div>
+    <p class="section-sub">El soundboard. Pulsa para escuchar.</p>
     <ol class="sound-list" id="soundList"></ol>
   </section>
 
   <!-- LORE -->
   <section id="lore">
-    <div class="section-head"><span class="tag">04</span><h2>The lore</h2></div>
-    <p class="section-sub">Race report, from lights out until today.</p>
+    <div class="section-head"><span class="tag">04</span><h2>El lore</h2></div>
+    <p class="section-sub">Crónica de carrera, desde que se apagaron los semáforos hasta hoy.</p>
     <ol class="timeline" id="timeline"></ol>
   </section>
 
   <!-- VAULT -->
   <section id="vault">
-    <div class="section-head"><span class="tag">05</span><h2>The vault</h2></div>
-    <p class="section-sub"><span id="vaultCount">0</span> memes, edits and fan pictures.</p>
+    <div class="section-head"><span class="tag">05</span><h2>El baúl</h2></div>
+    <p class="section-sub"><span id="vaultCount">0</span> memes, edits y fan arts.</p>
     <div class="vault-grid" id="vaultGrid"></div>
   </section>
 
   <!-- FAQ -->
   <section id="faq">
-    <div class="section-head"><span class="tag">06</span><h2>Things people Google</h2></div>
+    <div class="section-head"><span class="tag">06</span><h2>Lo que la gente busca en Google</h2></div>
     <div class="faq" id="faqList"></div>
   </section>
 
   <!-- LINKS -->
   <section id="links">
-    <div class="section-head"><span class="tag">07</span><h2>Where to find him</h2></div>
+    <div class="section-head"><span class="tag">07</span><h2>Dónde encontrarle</h2></div>
     <div class="links" id="linkList"></div>
   </section>
 
 </main>
 
 <footer class="footer">
-  <p>StradiFans is an unofficial fan site. It is not run by Stradi and is not affiliated with Twitch, iRacing or Le Mans Ultimate.</p>
-  <p>Created by <b id="footAuthor">Vznum</b> &middot; <span class="mono" id="footVersion">v0.0.0</span></p>
+  <p>StradiFans es una web fan no oficial. No la gestiona Stradi y no está afiliada a Twitch, iRacing ni Le Mans Ultimate.</p>
+  <p>Creado por <b class="foot-author">Vznum</b> · <span class="mono foot-version">v0.0.0</span></p>
 </footer>
 
 <script src="data.js"></script>
+<script src="chat.js"></script>
+<script src="common.js"></script>
+<script src="meter.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

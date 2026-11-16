@@ -1,57 +1,42 @@
-/* StradiFans - app logic. Content comes from data.js (window.SITE). */
+/* StradiFans - home page logic. Content comes from data.js (window.SITE). */
 (function () {
   const S = window.SITE;
   const $ = (id) => document.getElementById(id);
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const esc = window.StradiChat.esc;
 
-  /* ---------- Footer / version ---------- */
-  $("footAuthor").textContent = S.author;
-  $("footVersion").textContent = "v" + S.version;
-
-  /* ---------- Mobile menu ---------- */
-  $("menuBtn").addEventListener("click", () => $("nav").classList.toggle("open"));
-  $("nav").addEventListener("click", (e) => { if (e.target.tagName === "A") $("nav").classList.remove("open"); });
-
-  /* ---------- Live status ----------
-     Uses the public decapi.me endpoint (no API key needed).
-     Response is "X hours, Y minutes, Z seconds" when live, or "<user> is offline". */
+  /* ---------- Hero answer + uptime ---------- */
   let uptimeSeconds = null;
+  const fmt = (sec) => [Math.floor(sec / 3600), Math.floor((sec % 3600) / 60), sec % 60]
+    .map((v) => String(v).padStart(2, "0")).join(":");
 
-  function parseUptime(txt) {
-    let total = 0, found = false;
-    const units = { day: 86400, hour: 3600, minute: 60, second: 1 };
-    txt.replace(/(\d+)\s*(day|hour|minute|second)s?/gi, (_, n, u) => {
-      total += parseInt(n, 10) * units[u.toLowerCase()];
-      found = true;
-    });
-    return found ? total : null;
-  }
-
-  function fmt(sec) {
-    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
-    return [h, m, s].map((v) => String(v).padStart(2, "0")).join(":");
-  }
-
-  function setLive(isLive) {
+  window.onLiveStatus((st) => {
     const answer = $("answer");
-    answer.textContent = isLive ? "YES." : "NO.";
-    answer.className = "answer " + (isLive ? "yes" : "no");
-    $("caption").textContent = pick(isLive ? S.liveCaptions : S.offlineCaptions);
-    $("liveBadge").classList.toggle("is-live", isLive);
-    $("liveBadgeText").textContent = isLive ? "Live now on Twitch" : "Offline";
-    if (!isLive) {
-      $("uptime").textContent = "--:--:--";
-      $("uptimeNote").textContent = "car is in the garage";
+    if (st.live === null) {
+      answer.textContent = "QUIZÁ.";
+      answer.className = "answer";
+      $("caption").textContent = "se ha perdido la telemetría. mira Twitch directamente.";
+      return;
     }
-    if (isLive) embedPlayer();
-  }
+    answer.textContent = st.live ? "SÍ." : "NO.";
+    answer.className = "answer " + (st.live ? "yes" : "no");
+    if (!answer.dataset.captioned || answer.dataset.captioned !== String(st.live)) {
+      $("caption").textContent = pick(st.live ? S.liveCaptions : S.offlineCaptions);
+      answer.dataset.captioned = String(st.live);
+    }
+    uptimeSeconds = st.live ? st.uptime : null;
+    if (!st.live) {
+      $("uptime").textContent = "--:--:--";
+      $("uptimeNote").textContent = "el coche está en el garaje";
+    } else {
+      $("uptimeNote").textContent = "desde la bandera verde";
+      embedPlayer();
+    }
+  });
 
-  function setUnknown() {
-    $("answer").textContent = "MAYBE.";
-    $("caption").textContent = "telemetry lost. check Twitch directly.";
-    $("liveBadgeText").textContent = "Twitch";
-  }
+  setInterval(() => {
+    if (uptimeSeconds !== null) { uptimeSeconds++; $("uptime").textContent = fmt(uptimeSeconds); }
+  }, 1000);
 
   function embedPlayer() {
     const wrap = $("playerWrap");
@@ -62,27 +47,41 @@
     wrap.hidden = false;
   }
 
-  async function checkLive() {
-    try {
-      const res = await fetch(`https://decapi.me/twitch/uptime/${encodeURIComponent(S.twitchUser)}`, { cache: "no-store" });
-      if (!res.ok) throw new Error(res.status);
-      const txt = (await res.text()).trim();
-      if (/offline/i.test(txt)) { uptimeSeconds = null; setLive(false); return; }
-      const sec = parseUptime(txt);
-      if (sec === null) throw new Error("unexpected response");
-      uptimeSeconds = sec;
-      $("uptimeNote").textContent = "since green flag";
-      setLive(true);
-    } catch (err) {
-      setUnknown();
-    }
+  /* ---------- Live chat panel + mini meter ---------- */
+  const feed = $("chatFeed");
+  const MAX_MSGS = 40;
+  function renderMini() {
+    const t = window.StradiMeter.top(3);
+    $("miniMeter").innerHTML = t.length
+      ? t.map((x, i) => `<div class="mini-row"><span class="mono">${i + 1}</span>${x.emote ? `<img class="emote" src="${esc(x.emote)}" alt="">` : ""}<b>${esc(x.term)}</b><span class="mono">${x.count}</span></div>`).join("")
+      : "Escuchando al chat...";
   }
+  let miniTimer = null;
 
-  setInterval(() => {
-    if (uptimeSeconds !== null) { uptimeSeconds++; $("uptime").textContent = fmt(uptimeSeconds); }
-  }, 1000);
-  checkLive();
-  setInterval(checkLive, 120000);
+  window.StradiChat.loadSevenTv(S.twitchId).finally(() => {
+    window.StradiChat.connect(S.twitchUser, {
+      onStatus: (s) => {
+        $("chatStatus").textContent = { connecting: "conectando...", connected: "conectado", disconnected: "reconectando..." }[s] || s;
+        $("chatStatus").classList.toggle("ok", s === "connected");
+      },
+      onMessage: (m) => {
+        window.StradiMeter.add(m);
+        const empty = feed.querySelector(".chat-empty");
+        if (empty) empty.remove();
+        const row = document.createElement("div");
+        row.className = "chat-msg";
+        const sub = m.badges.includes("subscriber") || m.badges.includes("founder");
+        const mod = m.badges.includes("moderator") || m.badges.includes("broadcaster");
+        row.innerHTML = (mod ? `<span class="chat-badge mod">MOD</span>` : sub ? `<span class="chat-badge sub">SUB</span>` : "") +
+          `<b style="color:${esc(m.color || "#ea6f18")}">${esc(m.user)}</b>: <span>${m.html}</span>`;
+        feed.appendChild(row);
+        while (feed.children.length > MAX_MSGS) feed.firstChild.remove();
+        feed.scrollTop = feed.scrollHeight;
+        if (!miniTimer) miniTimer = setTimeout(() => { miniTimer = null; renderMini(); }, 1500);
+      }
+    });
+  });
+  renderMini();
 
   /* ---------- Stats ---------- */
   $("statsHost").innerHTML = S.stats.map((s) => `
@@ -92,16 +91,16 @@
       <span class="stat-note">${esc(s.note || "")}</span>
     </div>`).join("");
 
-  /* ---------- Stradi-pedia ---------- */
-  const classes = ["ALL", "PRO", "A", "B", "C", "D", "R"];
-  let activeClass = "ALL";
+  /* ---------- Stradipedia ---------- */
+  const classes = ["TODAS", "PRO", "A", "B", "C", "D", "R"];
+  let activeClass = "TODAS";
   $("pediaFilters").innerHTML = classes.map((c) =>
-    `<button class="filter${c === "ALL" ? " active" : ""}" data-c="${c}">${c === "ALL" ? "ALL" : c === "PRO" ? "PRO" : "CLASS " + c}</button>`).join("");
+    `<button class="filter${c === "TODAS" ? " active" : ""}" data-c="${c}">${c === "TODAS" || c === "PRO" ? c : "CLASE " + c}</button>`).join("");
 
   function renderPedia() {
     const q = $("pediaSearch").value.toLowerCase().trim();
     const items = S.glossary.filter((g) =>
-      (activeClass === "ALL" || g.rarity === activeClass) &&
+      (activeClass === "TODAS" || g.rarity === activeClass) &&
       (!q || (g.term + " " + g.text).toLowerCase().includes(q)));
     $("pediaGrid").innerHTML = items.length
       ? items.map((g) => `
@@ -110,7 +109,7 @@
           <h3>${esc(g.term)}</h3>
           <p>${esc(g.text)}</p>
         </article>`).join("")
-      : `<p class="empty">Nothing found. Black flag.</p>`;
+      : `<p class="empty">No hay nada. Bandera negra.</p>`;
   }
   $("pediaSearch").addEventListener("input", renderPedia);
   $("pediaFilters").addEventListener("click", (e) => {
@@ -147,9 +146,9 @@
   let current = null;
   $("soundList").innerHTML = S.sounds.map((s, i) => `
     <li>
-      <button data-snd="${i}" ${s.file ? "" : "disabled"} aria-label="Play">&#9654;</button>
+      <button data-snd="${i}" ${s.file ? "" : "disabled"} aria-label="Reproducir">&#9654;</button>
       <span>${esc(s.title)}</span>
-      ${s.file ? `<a href="${esc(s.file)}" download>Download</a>` : ""}
+      ${s.file ? `<a href="${esc(s.file)}" download>Descargar</a>` : ""}
     </li>`).join("");
   $("soundList").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-snd]");
@@ -175,7 +174,7 @@
         <img src="${esc(v.image)}" alt="${esc(v.title)}" loading="lazy">
         <figcaption>${esc(v.title)}</figcaption>
       </figure>`).join("")
-    : `<p class="empty">The vault is empty. Send memes.</p>`;
+    : `<p class="empty">El baúl está vacío. Mandad memes.</p>`;
 
   /* ---------- FAQ ---------- */
   $("faqList").innerHTML = S.faq.map((f) => `

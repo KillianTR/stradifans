@@ -1,5 +1,8 @@
 deploy.bat
 publish.bat
 publish.ps1
+get-sound.bat
+get-sound.ps1
 .publish.log
+sounds/_raw
 README.md

@@ -1,31 +1,36 @@
 # StradiFans
 
-Unofficial fan hub for the Twitch streamer Stradi: live status, glossary, tools, soundboard, lore timeline, vault and FAQ.
+Unofficial fan hub for the Spanish sim racing streamer [Stradi](https://www.twitch.tv/stradi): live status, live chat, chat meter, clip roulette, glossary, soundboard, lore timeline and more. The site itself is in Spanish.
 
-Created by Vznum - v0.1.1
+Created by Vznum - v0.2.0 - https://stradifans.vercel.app
 
 ## Structure
 
-- `index.html` - page layout
+- `index.html` - home page
+- `medidor-chat/` - chat meter (top 5 things the chat spams, live)
+- `ruleta-clips/` - clip roulette (case-opening style random clip)
 - `styles.css` - design (brand colors in `:root`)
-- `app.js` - logic (live check, filters, tools)
-- `data.js` - **all the content**: edit this file to add lore, glossary entries, sounds, timeline, FAQ and links
+- `data.js` - **all the content**: lore, glossary, sounds, timeline, FAQ, links, clip tiers
+- `common.js` - shared header/footer logic, live badge, birthday banner
+- `chat.js` - read-only Twitch chat client (anonymous IRC over WebSocket) with Twitch + 7TV emotes
+- `meter.js` - chat word/emote counter
+- `app.js` - home page logic
+- `api/clips.js` - Vercel serverless function that returns the channel's clips from the Twitch API
+- `assets/` - logo and favicon
 - `sounds/` - mp3 clips for the soundboard
 - `vault/` - images for the vault
 
-## Run locally
+## Clip roulette setup
 
-Open `index.html` in a browser, or run any static server (e.g. `npx serve .`).
+The roulette needs a Twitch application:
 
-## Deploy (Vercel)
+1. Create an app at https://dev.twitch.tv/console/apps (OAuth redirect URL: `http://localhost`, category: Website Integration).
+2. In the Vercel project, go to Settings > Environment Variables and add `TWITCH_CLIENT_ID` and `TWITCH_CLIENT_SECRET`.
+3. Redeploy.
 
-Static site (Framework preset: "Other", no build command), hosted at https://stradifans.vercel.app.
-The Vercel project is connected to this repository, so every push to `main` is published automatically.
-On Windows, `publish.bat` commits the changes and pushes them.
+## Deploy
 
-## Live status
-
-Uses the public `decapi.me` uptime endpoint for the Twitch channel, refreshed every 2 minutes. When the channel is live, the Twitch player is embedded automatically.
+Static site + one serverless function on Vercel. The Vercel project is connected to this repository, so every push to `main` is published automatically.
 
 ## Disclaimer
 
