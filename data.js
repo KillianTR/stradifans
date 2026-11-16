@@ -6,13 +6,24 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.1.0",
+  version: "1.2.0",
   author: "Vznum",
   twitchUser: "stradi",
   twitchId: "178443161",
 
   /* Birthday banner: shows a countdown and celebrates on the day */
   birthday: { year: 1980, month: 11, day: 29 },
+
+  /* Upcoming event shown on the home page. It hides itself after "until". */
+  event: {
+    label: "Próximo evento",
+    title: "Extensible 24h",
+    when: "Sábado 21 de noviembre",
+    text: "Todo el día corriendo la Toyota GR Cup de iRacing, sin parar, y con sorteos para subs y no subs del canal.",
+    tags: ["Toyota GR Cup", "iRacing", "24 horas", "Sorteos para todos"],
+    start: "2026-11-21T00:00:00",
+    until: "2026-11-22T23:59:59"
+  },
 
   /* Captions under the big SÍ / NO answer (one is picked at random) */
   liveCaptions: [

@@ -162,6 +162,26 @@
     });
   }
 
+  /* ---------- Home: upcoming event ---------- */
+  if ($("eventCard") && S.event) {
+    const ev = S.event, start = Date.parse(ev.start), until = Date.parse(ev.until);
+    if (!isNaN(until) && Date.now() <= until) {
+      $("eventLabel").textContent = ev.label || "Próximo evento";
+      $("eventTitle").textContent = ev.title;
+      $("eventText").textContent = ev.text || "";
+      $("eventWhen").textContent = ev.when || "";
+      $("eventTags").innerHTML = (ev.tags || []).map((t) => `<span>${esc(t)}</span>`).join("");
+      const tick = () => {
+        const ms = start - Date.now();
+        if (isNaN(start) || ms <= 0) { $("eventCount").textContent = "¡Es hoy!"; $("eventCard").classList.add("is-now"); return; }
+        const d = Math.floor(ms / 86400000), h = Math.floor((ms % 86400000) / 3600000), m = Math.floor((ms % 3600000) / 60000);
+        $("eventCount").textContent = `Faltan ${d}d ${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m`;
+      };
+      tick(); setInterval(tick, 30000);
+      $("eventCard").hidden = false;
+    }
+  }
+
   /* ---------- Home: live chat ticker (scrolls right to left) ---------- */
   if ($("tickerTrack")) {
     const track = $("tickerTrack"), viewport = $("tickerViewport");
