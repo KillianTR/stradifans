@@ -6,10 +6,10 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.13.1",
+  version: "1.13.2",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
-  authorX: "", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
+  authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
   twitchUser: "stradi",
   twitchId: "178443161",
 
