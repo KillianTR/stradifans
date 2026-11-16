@@ -556,9 +556,59 @@
   }
 
   /* ---------- FAQ ---------- */
-  if ($("faqList")) {
-    $("faqList").innerHTML = S.faq.map((f) => `
-      <details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("");
+  if ($("faqBody")) {
+    const cats = S.faqCategories || [];
+    const b = S.birthday, now = new Date();
+    let age = now.getFullYear() - b.year;
+    if (now.getMonth() + 1 < b.month || (now.getMonth() + 1 === b.month && now.getDate() < b.day)) age--;
+    const slug = (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const plural = (n) => `${n} ${n === 1 ? "pregunta" : "preguntas"}`;
+    const items = S.faq.map((f) => ({ ...f, a: f.a.replace("{edad}", age), id: slug(f.q) }));
+    const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let active = "", query = "";
+
+    $("faqTotal").textContent = plural(items.length);
+    $("faqChips").innerHTML = `<button class="faq-chip" aria-pressed="true" data-cat="">Todas</button>` +
+      cats.map((c) => `<button class="faq-chip" style="--c:${c.color}" aria-pressed="false" data-cat="${c.id}">${esc(c.name)}<span>${items.filter((f) => f.cat === c.id).length}</span></button>`).join("");
+    $("faqBody").innerHTML = cats.map((c) => {
+      const list = items.filter((f) => f.cat === c.id);
+      if (!list.length) return "";
+      return `<section class="faq-group" id="${c.id}" data-cat="${c.id}" style="--c:${c.color}">
+        <header class="faq-aside"><h2>${esc(c.name)}</h2><p class="faq-tally"><span></span><b data-tally>${plural(list.length)}</b></p></header>
+        <div class="faq-items">${list.map((f) => `
+          <article class="faq-item" id="${f.id}" data-text="${esc(norm(f.q + " " + f.a))}">
+            <h3><a href="#${f.id}">${esc(f.q)}</a></h3>
+            <p>${esc(f.a)}</p>
+            ${f.link ? `<a class="faq-link" href="${esc(f.link)}">Saber más &#8599;</a>` : ""}
+          </article>`).join("")}
+        </div>
+      </section>`;
+    }).join("");
+
+    function apply() {
+      const q = norm(query.trim());
+      let shown = 0;
+      document.querySelectorAll(".faq-group").forEach((g) => {
+        let n = 0;
+        g.querySelectorAll(".faq-item").forEach((it) => {
+          const ok = (!active || g.dataset.cat === active) && (!q || it.dataset.text.includes(q));
+          it.hidden = !ok; if (ok) n++;
+        });
+        g.hidden = n === 0;
+        g.querySelector("[data-tally]").textContent = plural(n);
+        shown += n;
+      });
+      $("faqCount").textContent = plural(shown);
+      $("faqEmpty").hidden = shown > 0;
+    }
+    $("faqChips").addEventListener("click", (e) => {
+      const btn = e.target.closest(".faq-chip"); if (!btn) return;
+      active = btn.dataset.cat;
+      $("faqChips").querySelectorAll(".faq-chip").forEach((c) => c.setAttribute("aria-pressed", String(c === btn)));
+      apply();
+    });
+    $("faqSearch").addEventListener("input", (e) => { query = e.target.value; apply(); });
+    apply();
   }
 
   /* ---------- Links ---------- */

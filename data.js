@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.8.0",
+  version: "1.9.0",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   twitchUser: "stradi",
@@ -280,15 +280,48 @@ window.SITE = {
   ],
 
   /* FAQ - "Lo que la gente busca en Google" */
+  faqCategories: [
+    { id: "personal", name: "Personal", color: "#8b9bb0" },
+    { id: "directos", name: "Directos", color: "#009bfe" },
+    { id: "simracing", name: "Simracing y setup", color: "#c04cf0" },
+    { id: "comunidad", name: "Comunidad y lore", color: "#ea6f18" },
+    { id: "web", name: "Sobre StradiFans", color: "#ffd200" }
+  ],
+  // FAQ: "cat" = category id above; {edad} is replaced by Stradi's current age; optional "link" = page with more info
   faq: [
-    { q: "¿Está Stradi en directo ahora mismo?", a: "Mira la portada. Hay una sección entera para eso." },
-    { q: "¿Por qué sale último los lunes?", a: "Es el lunes sin qualy: sale a clasificar con bandera negra para empezar desde el fondo. Es a propósito. Casi siempre." },
-    { q: "¿Los rivales son actores pagados?", a: "Oficialmente, no. Extraoficialmente, mira el clip de los paid actors en la Stradipedia y juzga tú." },
-    { q: "¿A qué apuesto mis Stradipuntos?", a: "Ganancia de iRating, pérdida de iRating o retirada. Esto no es asesoramiento financiero." },
-    { q: "¿Quién es Valdeon86?", a: "El ingeniero. Consumo, ventanas de boxes, tiempos del P2. Y algún que otro \"gas a tope\"." },
-    { q: "¿Qué coche tiene?", a: "Un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco. Desde 2019 es su \"nuevo mejor amigo\"." },
-    { q: "¿Qué volante usa?", a: "Base Simagic Alpha EVO Ultra con volantes Simagic GT Neo y Ascher McLaren Artura Ultimate. Todo su setup está en la página Setup." },
-    { q: "¿Por qué hace lo que hace?", a: "Escribe !porque en el chat y te lo explica él mismo." }
+    { cat: "personal", q: "¿Quién es Stradi?", a: "Javier Soto, streamer español de simracing en Twitch. Corre sobre todo en iRacing y también en Le Mans Ultimate. Ganador de las 24 horas de Nürburgring en iRacing, rey del lunes sin qualy y dueño de un chat que apuesta sus puntos a que no acaba la carrera." },
+    { cat: "personal", q: "¿Cómo se llama Stradi de verdad?", a: "Javier Soto." },
+    { cat: "personal", q: "¿Cuántos años tiene Stradi?", a: "Tiene {edad} años. Nació el 29 de noviembre de 1980. Experiencia de sobra en pista; la paciencia con los de la F4, ya es otra cosa." },
+    { cat: "personal", q: "¿Cuándo es el cumpleaños de Stradi?", a: "El 29 de noviembre. Es Sagitario. En 2026 cumple 46 y la cuenta atrás está arriba del todo de la web." },
+    { cat: "personal", q: "¿De dónde es Stradi?", a: "De España. Por eso el directo es en español y los gritos también." },
+    { cat: "personal", q: "¿Stradi tiene mascota?", a: "Sí: Trusi, su gata. Es la única del canal con varios emotes propios: Trusi, Trusi1 y Trusi2.", link: "/stradipedia/" },
+    { cat: "personal", q: "¿Stradi ha hecho deporte?", a: "Jugó a balonmano muchos años, y se nota: tremendo bíceps. El chat tiene emote para recordárselo.", link: "/stradipedia/" },
+    { cat: "personal", q: "¿Stradi es calvo?", a: "El chat lleva años diciéndoselo. Tanto que el canal tiene su propio emote: Calvo. Saca tus propias conclusiones.", link: "/stradipedia/" },
+    { cat: "personal", q: "¿Qué coche tiene Stradi en la vida real?", a: "Un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco. Su \"nuevo mejor amigo\" desde 2019." },
+    { cat: "directos", q: "¿Está Stradi en directo ahora mismo?", a: "Mira la portada: arriba del todo pone si está en directo y, si no, cuánto lleva sin emitir.", link: "/" },
+    { cat: "directos", q: "¿Cuántos seguidores tiene Stradi en Twitch?", a: "Más de 57.000. Y en un mes llegó a los 2.000 subs." },
+    { cat: "directos", q: "¿A qué juega Stradi?", a: "Sobre todo a iRacing. También corre en Le Mans Ultimate. Coches de GT, resistencias y, cuando toca sufrir, algún fórmula." },
+    { cat: "directos", q: "¿Qué es el lunes sin qualy?", a: "Un clásico del canal: cada lunes sale a la qualy con bandera negra y empieza todas las carreras desde el fondo de la parrilla. Mientras remonta, el chat apuesta sus Stradipuntos.", link: "/stradipedia/" },
+    { cat: "directos", q: "¿Qué son los Stradipuntos?", a: "Los puntos del canal que ganas viendo el directo. Se apuestan en cada carrera: ganancia de iRating, pérdida de iRating o retirada. Esto no es asesoramiento financiero.", link: "/stradipedia/" },
+    { cat: "directos", q: "¿Cuál es el próximo evento del canal?", a: "El Extensible 24h: el sábado 21 de noviembre, todo el día corriendo la Toyota GR Cup de iRacing sin parar y con sorteos para subs y no subs.", link: "/" },
+    { cat: "directos", q: "¿Dónde más puedo seguir a Stradi?", a: "En YouTube, Instagram, X y TikTok. Tienes todos los enlaces al final de la portada.", link: "/#enlaces" },
+    { cat: "simracing", q: "¿Qué volante usa Stradi?", a: "Una base Simagic Alpha EVO Ultra de 28 Nm con dos volantes: el Simagic GT Neo y el Ascher Racing McLaren Artura Ultimate.", link: "/setup/" },
+    { cat: "simracing", q: "¿Qué pedales usa Stradi?", a: "Unos SRP GT-R 3P Black Edition de SimRacing Pro. Si alguna vez oyes al chat gritar ESREEEPEEEE, ya sabes por qué.", link: "/stradipedia/" },
+    { cat: "simracing", q: "¿Qué PC tiene Stradi?", a: "Para correr, un Ryzen 7 9800X3D con una RTX 5080 y 64 GB de RAM. Para el stream, otro PC aparte. Todo el detalle en Setup.", link: "/setup/" },
+    { cat: "simracing", q: "¿Qué ha ganado Stradi en iRacing?", a: "Las 24 horas de Nürburgring junto a SaxoGaming y Keny500, un P2 en las 24 horas de Daytona con JaSoiLRace y Keny500, y podios y victorias en la Porsche All Star.", link: "/lore/" },
+    { cat: "simracing", q: "¿Stradi ha corrido contra Verstappen?", a: "Sí, se ha cruzado más de una vez con Max Verstappen en iRacing. De uno de esos encuentros nació el grito de \"Verstappen guarro\".", link: "/stradipedia/" },
+    { cat: "simracing", q: "¿Qué le pasó al volante de Fanatec?", a: "No aguantó más golpes y se rompió. Descanse en paz.", link: "/stradipedia/" },
+    { cat: "simracing", q: "¿Qué es el piloto de F4?", a: "Stradi imitando al piloto típico de la Fórmula 4: el que acaba de sacarse la licencia D en iRacing y se pasa el día en los fórmulas. Total, de la D ya no se puede volver a Rookie.", link: "/stradipedia/" },
+    { cat: "comunidad", q: "¿Quién es Valdeon86?", a: "El ingeniero. En las resistencias le canta el consumo, cuándo entrar a boxes y qué hace el P2. Y alguna vez, \"gas a tope\".", link: "/stradipedia/" },
+    { cat: "comunidad", q: "¿Qué significa \"gas a tope\" o \"cuidao con el ahorro\"?", a: "La coña eterna con Valdeon86: o vamos a fondo cuando hay que ahorrar, o ahorramos cuando hay que ir a fondo.", link: "/stradipedia/" },
+    { cat: "comunidad", q: "¿Por qué el chat dice \"Santi pesao\"?", a: "Porque santih91 es el rey del cariño en el chat. Cada vez que escribe, el chat le responde lo mismo.", link: "/stradipedia/" },
+    { cat: "comunidad", q: "¿Quién es Sergio Tarrias?", a: "Mod del canal y miembro fijo del departamento de chistes. Si hay broma en el chat, probablemente la ha empezado él.", link: "/stradipedia/" },
+    { cat: "comunidad", q: "¿Quién es topotamadre_x?", a: "Sub de la casa. Entra, saluda y suelta un chiste de los malos. Malos, pero a veces divertidos.", link: "/stradipedia/" },
+    { cat: "comunidad", q: "¿Los rivales de Stradi son actores pagados?", a: "Oficialmente, no. Pero cuando adelanta demasiado fácil, el chat lo tiene claro: paid actors.", link: "/stradipedia/" },
+    { cat: "comunidad", q: "¿Por qué Stradi despide a JaSoiLRace y Keny500?", a: "Es la coña de siempre: los despide del equipo. Los mismos con los que se sube al podio.", link: "/stradipedia/" },
+    { cat: "comunidad", q: "¿Qué es \"Saxo pide indicaciones\"?", a: "En plenas 24 horas de Nürburgring, SaxoGaming pidió indicaciones por radio. Para muchos, el mejor clip de la historia del canal.", link: "/stradipedia/" },
+    { cat: "comunidad", q: "¿Por qué Stradi hace lo que hace?", a: "Escribe !porque en el chat. La respuesta oficial: \"Porque me sale de los huevos\".", link: "/stradipedia/" },
+    { cat: "web", q: "¿StradiFans es la web oficial de Stradi?", a: "No. Es una web fan no oficial, hecha por y para la comunidad. Ni Stradi ni Twitch la gestionan." }
   ],
 
   /* Setup page. Optional "url" per item. */

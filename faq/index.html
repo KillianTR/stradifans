@@ -18,11 +18,35 @@
 <div id="site-header"></div>
 
 <main>
-  <section class="page">
+  <section class="page faq-page">
     <p class="crumbs"><a href="/">Inicio</a> › FAQ</p>
-    <h1>Lo que la gente busca en Google</h1>
-    <p class="page-sub">Respuestas oficiales del chat. O sea, nada oficiales.</p>
-    <div class="faq" id="faqList"></div>
+    <div class="faq-head">
+      <h1>Preguntas sobre Stradi</h1>
+      <p class="faq-total mono" id="faqTotal"></p>
+    </div>
+    <p class="page-sub">Lo que la gente busca en Google, respondido por el chat.</p>
+
+    <div class="faq-tools">
+      <label class="faq-search">
+        <svg viewBox="0 0 21 21" aria-hidden="true"><circle cx="8.2" cy="8.2" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12l6.3 6.3" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="sr-only">Buscar en las preguntas</span>
+        <input type="search" id="faqSearch" placeholder="Buscar en las preguntas" autocomplete="off">
+      </label>
+      <p class="faq-count mono" id="faqCount" aria-live="polite"></p>
+    </div>
+    <div class="faq-chips" id="faqChips" role="group" aria-label="Categoría"></div>
+
+    <div class="faq-body" id="faqBody"></div>
+    <p class="empty" id="faqEmpty" hidden>Ninguna pregunta coincide. Prueba con otra palabra o pregúntalo en el chat.</p>
+
+    <div class="faq-more">
+      <h2>¿Te queda alguna duda?</h2>
+      <p>Lo más probable es que esté en la Stradipedia. Y si no, pregúntalo en el chat: alguien te contestará. Probablemente Santi.</p>
+      <div class="faq-more-links">
+        <a class="btn btn-primary" href="/stradipedia/">Ir a la Stradipedia</a>
+        <a class="btn btn-ghost" href="https://www.twitch.tv/stradi" target="_blank" rel="noopener">Preguntar en el chat</a>
+      </div>
+    </div>
   </section>
 </main>
 
