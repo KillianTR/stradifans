@@ -1,12 +1,7 @@
 deploy.bat
-publish.bat
-publish.ps1
 get-sound.bat
 get-sound.ps1
 sound-clips.txt
-.publish.log
 sounds/_raw
 README.md
-dev.bat
-dev.ps1
 .env.local
