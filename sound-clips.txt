@@ -1,0 +1,3 @@
+# Clips whose audio get-sound.bat downloads into sounds/_raw (name = clip url)
+verstappen-clip = https://www.twitch.tv/stradi/clip/RepleteCuteMetalMikeHogu-e8h4Km65hfCf9-AM
+keny-despedido-clip = https://www.twitch.tv/stradi/clip/StupidBumblingToothDBstyle-I4sRk2Af_5UBMwJo

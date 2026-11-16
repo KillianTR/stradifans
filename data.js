@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "0.3.0",
+  version: "0.4.0",
   author: "Vznum",
   twitchUser: "stradi",
   twitchId: "178443161",
@@ -66,6 +66,21 @@ window.SITE = {
       clip: "https://www.twitch.tv/stradi/clip/CrazyColdbloodedTruffleMoreCowbell-DaAt-l1FHnEFgd7O"
     },
     {
+      term: "P2 en las 24h de Daytona", rarity: "PRO",
+      text: "Segundos en las 24 horas de Daytona de este año junto a JaSoiLRace y Keny500. Y para celebrarlo, trompo a propósito cruzando la línea de meta.",
+      clip: "https://www.twitch.tv/stradi/clip/PolishedAntediluvianGarbageTBTacoRight-fzmVLwo0MuoqidwJ"
+    },
+    {
+      term: "2.000 subs en un mes", rarity: "PRO",
+      text: "El mes en que el canal llegó a los 2.000 subs. Un hito para el canal y para toda la comunidad.",
+      clip: "https://www.twitch.tv/stradi/clip/TsundereObservantWatermelonEleGiggle-9YrvNzwF3qNp-fCA"
+    },
+    {
+      term: "¡Despedidos!", rarity: "A",
+      text: "La coña de siempre: Stradi despide del equipo a JaSoiLRace y a Keny500. Los mismos con los que se sube al podio.",
+      clip: "https://www.twitch.tv/stradi/clip/StupidBumblingToothDBstyle-I4sRk2Af_5UBMwJo"
+    },
+    {
       term: "Valdeon86, el ingeniero", rarity: "PRO",
       text: "El ingeniero que todo el mundo querría en el muro. En las carreras de resistencia le canta el consumo objetivo, cuándo entrar a boxes, si el P2 ha parado y con qué tiempo. Eso sí: siempre se le recuerda el \"gas a tope\" justo cuando no hay que ahorrar."
     },
@@ -81,6 +96,11 @@ window.SITE = {
       term: "Las salvadas de Stradi", rarity: "A",
       text: "Cuando el coche ya está cruzado y el chat ya ha escrito F, Stradi lo recoge. Una de tantas:",
       clip: "https://www.twitch.tv/stradi/clip/SingleBlightedKleeGrammarKing-uRg6uxuAKLDvGq16"
+    },
+    {
+      term: "El volante de Fanatec roto", rarity: "PRO",
+      text: "El día que el volante de Fanatec no aguantó más golpes y se rompió. Un clásico del canal.",
+      clip: "https://www.twitch.tv/stradi/clip/DifferentLivelyDaikonNononoCat-bKIH-JAJAW2uL0Oz"
     },
     {
       term: "El volante dice basta", rarity: "C",
@@ -140,17 +160,17 @@ window.SITE = {
   /* Soundboard: put mp3 files in /sounds and reference them here */
   sounds: [
     { title: "Verstappen guarro", file: "" },
-    { title: "PENDIENTE: clip 2", file: "" },
+    { title: "Keny, estás despedido", file: "" },
     { title: "PENDIENTE: clip 3", file: "" }
   ],
 
   /* Lore timeline */
   timeline: [
-    { date: "PENDIENTE", title: "Primer directo", text: "PENDIENTE" },
-    { date: "PENDIENTE", title: "Partner de Twitch", text: "PENDIENTE" },
     { date: "22/09/2019", title: "Llega el Civic", text: "Presenta a su \"nuevo mejor amigo\": un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco." },
     { date: "2023", title: "Primer podio en la Porsche All Star", text: "Primera vez en el podio de la Porsche All Star." },
     { date: "2024", title: "Gana las 24h de Nürburgring", text: "Victoria en las 24 horas de Nürburgring junto a SaxoGaming y Keny500." },
+    { date: "2026", title: "P2 en las 24h de Daytona", text: "Segundo puesto en las 24 horas de Daytona con JaSoiLRace y Keny500, rematado con un trompo a propósito en la línea de meta." },
+    { date: "PENDIENTE", title: "2.000 subs en un mes", text: "El canal alcanza los 2.000 subs en un solo mes." },
     { date: "PENDIENTE", title: "Primera victoria en la Porsche All Star", text: "Primera victoria de Stradi en la Porsche All Star." },
     { date: "PENDIENTE", title: "Verstappen guarro", text: "Se cruza con Max Verstappen en iRacing y nace un clásico del canal." },
     { date: "29/11/2026", title: "46 años", text: "El paddock entero celebra el cumple de Stradi." }
@@ -196,7 +216,23 @@ window.SITE = {
     "EagerAliveFalconUWot-jRwvrC93YeS3Wjqn",
     "TangentialFriendlyGoshawkStrawBeary-GGNQrPzucq0hwyOq",
     "AliveRacyFlamingoOSsloth-bvgt42N6AYuKP0HO",
-    "CrepuscularSmallSwordWow-SEZroj9NQCSHJikO"
+    "CrepuscularSmallSwordWow-SEZroj9NQCSHJikO",
+    "UglyBashfulParrotUnSane-cPpbx4Rj2wV-UZSR",
+    "CrypticUnsightlyBaconChefFrank-rtefTBYSX8ncj_cl",
+    "TenderCoweringBorkResidentSleeper-CpppOshUikzbxF3A",
+    "PolishedAntediluvianGarbageTBTacoRight-fzmVLwo0MuoqidwJ",
+    "DifferentLivelyDaikonNononoCat-bKIH-JAJAW2uL0Oz",
+    "FilthyCrowdedSharkWow-cCWjyeMyo1AM4pAr",
+    "TsundereObservantWatermelonEleGiggle-9YrvNzwF3qNp-fCA",
+    "BoredHonorableSushiPeteZaroll-MLIa4ocHvfU_dpxT",
+    "MagnificentResoluteBillJebaited--fommT8BNCu-px4K",
+    "NurturingEagerReindeerBudStar-HN1Se6M3JsTBgUPH",
+    "PoliteLachrymoseFiddleheadsPhilosoraptor-T9fVgsBR4IdghuDp",
+    "RelentlessPlayfulCookieDendiFace-hV9JPO5fCC3XarFH",
+    "LovelyEvilOpossumDeIlluminati-Ry-DHIHt5-IT3CDU",
+    "ResourcefulTallPorcupineKeyboardCat-WJPhf2AVU4qwl2oB",
+    "StupidBumblingToothDBstyle-I4sRk2Af_5UBMwJo",
+    "WildSingleWaspPlanking-WVg8LtYdQX4kQHHi"
   ],
 
   /* Clip roulette tiers (by view count). Odds are in % and must add up to 100. */
