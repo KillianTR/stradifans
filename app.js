@@ -106,6 +106,7 @@
             <h3>${g.emote ? `<img class="entry-emote" src="${esc(g.emote)}" alt="">` : ""}${esc(g.term)}</h3>
             <p>${esc(g.text)}</p>
             ${g.clip ? `<a class="entry-clip" href="${esc(g.clip)}" target="_blank" rel="noopener">&#9654; Ver clip</a>` : ""}
+            ${g.clipAlt ? `<a class="entry-clip" href="${esc(g.clipAlt)}" target="_blank" rel="noopener">&#9654; ${esc(g.clipAltLabel || "Otra versión")}</a>` : ""}
           </article>`).join("")
         : `<p class="empty">No hay nada. Bandera negra.</p>`;
     };

@@ -333,6 +333,7 @@ section[hidden] { display: none; }
   color: var(--accent-2); text-transform: uppercase; letter-spacing: .06em;
 }
 .entry-clip:hover { color: var(--text); }
+.entry-clip + .entry-clip { margin-left: 14px; }
 
 /* ---------- Footer ---------- */
 .footer { text-align: center; padding: 40px 24px 56px; color: var(--muted); font-size: 14px; }

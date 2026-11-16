@@ -38,7 +38,8 @@ window.SITE = {
   ],
 
   /* Stradipedia. Rarity uses iRacing license classes: R, D, C, B, A, PRO.
-     Optional "clip": link to a Twitch clip. Optional "emote": image URL shown on the card. */
+     Optional "clip": link to a Twitch clip ("clipAlt" + "clipAltLabel" for a second one).
+     Optional "emote": image URL shown on the card. */
   glossary: [
     {
       term: "Verstappen guarro", rarity: "PRO",
@@ -51,8 +52,15 @@ window.SITE = {
       clip: "https://www.twitch.tv/stradi/clip/CovertHumbleGoatAMPEnergyCherry-g3cgxovRFlrqQyhl"
     },
     {
+      term: "Saxo pide indicaciones", rarity: "PRO",
+      text: "En plenas 24 horas de Nürburgring en iRacing, SaxoGaming pidió indicaciones por radio. Para muchos, el mejor clip de la historia del canal. Sin discusión.",
+      clip: "https://www.twitch.tv/stradi/clip/PlausibleRockyTapirTheTarFu-J7deoLWRUY6jA6ke",
+      clipAlt: "https://www.twitch.tv/saxogamingtv/clip/SwissWrongTortoiseBudStar-snp6CPhNz7UEfJSE",
+      clipAltLabel: "Versión de SaxoGamingTV"
+    },
+    {
       term: "Ganador de las 24h de Nürburgring", rarity: "PRO",
-      text: "Hace dos años, Stradi ganó las 24 horas de Nürburgring junto a SaxoGaming y Keny500. Un día entero en el Infierno Verde y la victoria para casa.",
+      text: "Hace dos años, Stradi ganó las 24 horas de Nürburgring en iRacing junto a SaxoGaming y Keny500. Un día entero en el Infierno Verde y la victoria para casa.",
       clip: "https://www.twitch.tv/stradi/clip/JoyousGrossButterNomNom-WUhvTGJQUpLypBGr"
     },
     {
@@ -112,6 +120,11 @@ window.SITE = {
       text: "Los puntos del canal que ganas viendo el directo. El chat ludópata se los juega en cada carrera: ganancia de iRating, pérdida de iRating o retirada."
     },
     {
+      term: "¡Stradi liada!", rarity: "A",
+      text: "A veces Stradi la lía. Y cuando la lía, el chat lo celebra con su propio emote. Este es el clip del que viene.",
+      clip: "https://www.twitch.tv/stradi/clip/RacyColorfulWrenAMPEnergyCherry-ilHoofy6sd3G2RR0"
+    },
+    {
       term: "Retirada", rarity: "B",
       text: "La apuesta maldita: el coche no llega a meta por un contacto, un golpe o un abrazo con el muro."
     },
@@ -168,7 +181,7 @@ window.SITE = {
   timeline: [
     { date: "22/09/2019", title: "Llega el Civic", text: "Presenta a su \"nuevo mejor amigo\": un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco." },
     { date: "2023", title: "Primer podio en la Porsche All Star", text: "Primera vez en el podio de la Porsche All Star." },
-    { date: "2024", title: "Gana las 24h de Nürburgring", text: "Victoria en las 24 horas de Nürburgring junto a SaxoGaming y Keny500." },
+    { date: "2024", title: "Gana las 24h de Nürburgring", text: "Victoria en las 24 horas de Nürburgring en iRacing junto a SaxoGaming y Keny500." },
     { date: "2026", title: "P2 en las 24h de Daytona", text: "Segundo puesto en las 24 horas de Daytona con JaSoiLRace y Keny500, rematado con un trompo a propósito en la línea de meta." },
     { date: "PENDIENTE", title: "2.000 subs en un mes", text: "El canal alcanza los 2.000 subs en un solo mes." },
     { date: "PENDIENTE", title: "Primera victoria en la Porsche All Star", text: "Primera victoria de Stradi en la Porsche All Star." },
@@ -232,7 +245,12 @@ window.SITE = {
     "LovelyEvilOpossumDeIlluminati-Ry-DHIHt5-IT3CDU",
     "ResourcefulTallPorcupineKeyboardCat-WJPhf2AVU4qwl2oB",
     "StupidBumblingToothDBstyle-I4sRk2Af_5UBMwJo",
-    "WildSingleWaspPlanking-WVg8LtYdQX4kQHHi"
+    "WildSingleWaspPlanking-WVg8LtYdQX4kQHHi",
+    "PlausibleRockyTapirTheTarFu-J7deoLWRUY6jA6ke",
+    "RacyColorfulWrenAMPEnergyCherry-ilHoofy6sd3G2RR0",
+    "CrazyObliviousBadgerHassanChop-YYLDgZ4gdXH5H4M6",
+    "DirtyPoorPoultryDAESuppy-rLtd9bOu_9-ZgC8x",
+    "AssiduousDignifiedShrimpPMSTwin-NzK1L-doXA-qMDG-"
   ],
 
   /* Clip roulette tiers (by view count). Odds are in % and must add up to 100. */
