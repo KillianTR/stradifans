@@ -753,9 +753,44 @@
     apply();
   }
 
-  /* ---------- Links ---------- */
+  /* ---------- Home / Lore: vault preview (latest pictures) ---------- */
+  if ($("vaultPreview")) {
+    const v = S.vault || [];
+    const num = (i) => "#" + String(i + 1).padStart(4, "0");
+    $("vaultPrevCount").textContent = `${v.length} ${v.length === 1 ? "meme, edit o foto de Stradi" : "memes, edits y fotos de Stradi"}, y subiendo.`;
+    $("vaultPreview").innerHTML = v.map((x, i) => ({ x, i })).reverse().slice(0, 5).map(({ x, i }) => `
+      <a class="vault-card" href="/baul/#${i + 1}" style="--tilt:${((i * 41) % 7) - 3}deg">
+        <span class="vault-img"><img src="${esc(x.image)}" alt="${esc(x.title)}" loading="lazy"></span>
+        <span class="vault-meta"><span class="mono">${num(i)}</span><span>${esc(x.title)}</span></span>
+      </a>`).join("") || `<p class="empty">El baúl está vacío. Mandad memes.</p>`;
+  }
+
+  /* ---------- Home / Lore: a few FAQ answers ---------- */
+  if ($("faqPreview")) {
+    const b = S.birthday, now = new Date();
+    let age = now.getFullYear() - b.year;
+    if (now.getMonth() + 1 < b.month || (now.getMonth() + 1 === b.month && now.getDate() < b.day)) age--;
+    const pickQ = S.faq.filter((f) => f.cat === "personal").slice(0, 4).concat(S.faq.filter((f) => f.cat === "directos").slice(2, 4));
+    $("faqPreview").innerHTML = pickQ.map((f) => `
+      <details class="faq-prev-item"><summary>${esc(f.q)}</summary><p>${esc(f.a.replace("{edad}", age))}</p></details>`).join("");
+    document.querySelectorAll(".home-faq .go-link").forEach((a) => { a.innerHTML = a.innerHTML.replace("${n}", S.faq.length); });
+  }
+
+  /* ---------- Where to find him: socials with their icons ---------- */
   if ($("linkList")) {
+    const ICONS = {
+      twitch: '<path d="M4 2 2 6v14h5v3h3l3-3h4l5-5V2zm16 12-3 3h-5l-3 3v-3H5V4h15zM16 7h2v6h-2zm-5 0h2v6h-2z"/>',
+      youtube: '<path d="M22.5 6.4a3 3 0 0 0-2.1-2.1C18.5 3.8 12 3.8 12 3.8s-6.5 0-8.4.5A3 3 0 0 0 1.5 6.4 31 31 0 0 0 1 12a31 31 0 0 0 .5 5.6 3 3 0 0 0 2.1 2.1c1.9.5 8.4.5 8.4.5s6.5 0 8.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23 12a31 31 0 0 0-.5-5.6zM9.8 15.5v-7l6 3.5z"/>',
+      x: '<path d="M18.9 1.2h3.7l-8 9.2 9.4 12.4h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9zm-1.3 19.4h2L6.5 3.2H4.3z"/>',
+      instagram: '<path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/>',
+      tiktok: '<path d="M12.5 0h4a5.6 5.6 0 0 0 5 5v4a9.4 9.4 0 0 1-5-1.6v8.1A7.6 7.6 0 1 1 9 8v4.1a3.5 3.5 0 1 0 3.5 3.5z"/>',
+      link: '<path d="M10.6 13.4a1 1 0 0 1 0-1.4l3.5-3.5a1 1 0 1 1 1.4 1.4L12 13.4a1 1 0 0 1-1.4 0zM8.5 20a4.5 4.5 0 0 1-3.2-7.7l2.5-2.5a1 1 0 0 1 1.4 1.4l-2.5 2.5a2.5 2.5 0 0 0 3.5 3.5l2.5-2.5a1 1 0 0 1 1.4 1.4l-2.5 2.5A4.5 4.5 0 0 1 8.5 20zm7-6.4a1 1 0 0 1-.7-1.7l2.5-2.5a2.5 2.5 0 0 0-3.5-3.5l-2.5 2.5a1 1 0 0 1-1.4-1.4l2.5-2.5a4.5 4.5 0 0 1 6.4 6.4l-2.5 2.5a1 1 0 0 1-.8.2z"/>'
+    };
+    const iconFor = (n) => { const k = n.toLowerCase(); return ICONS[k] || (k === "x" ? ICONS.x : ICONS.link); };
     $("linkList").innerHTML = S.links.filter((l) => l.url).map((l) => `
-      <a href="${esc(l.url)}" target="_blank" rel="noopener" class="${/twitch/i.test(l.name) ? "twitch" : ""}">${esc(l.name)}</a>`).join("");
+      <a class="find-link" href="${esc(l.url)}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${iconFor(l.name)}</svg>
+        <span>${esc(l.name)}${l.note ? `<small>${esc(l.note)}</small>` : ""}</span>
+      </a>`).join("");
   }
 })();
