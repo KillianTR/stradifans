@@ -660,6 +660,10 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
 }
 .event-card[hidden] { display: none; }
 .event-ico { color: var(--accent); }
+.checker-flag { display: block; overflow: visible; filter: drop-shadow(3px 3px 0 rgba(0,0,0,.45)); }
+.checker-flag .cf-col { animation: cf-wave 1.4s ease-in-out infinite; animation-delay: calc(var(--i) * -0.18s); }
+@keyframes cf-wave { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
+@media (prefers-reduced-motion: reduce) { .checker-flag .cf-col { animation: none; } }
 .event-label { font: 700 12px "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); }
 .event-body h2 { font: 700 34px "JetBrains Mono", monospace; letter-spacing: -.02em; margin: 2px 0 6px; }
 .event-body p { color: var(--text); opacity: .85; max-width: 620px; }
