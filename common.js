@@ -64,7 +64,7 @@
             </div>
             <div class="foot-legal">
               <p>© ${new Date().getFullYear()} · No afiliada a Twitch, iRacing ni Le Mans Ultimate.</p>
-              <p class="foot-ai">Algunas animaciones y herramientas de la web se han hecho con ayuda de IA. Todo lo creativo lo he hecho yo.</p>
+              <p class="foot-ai">Algunas animaciones y herramientas de la web se han hecho con ayuda de IA. Todo lo creativo lo he hecho ${authorHref ? `<a class="foot-author" href="${authorHref}" target="_blank" rel="noopener">yo</a>` : "yo"}.</p>
               <p class="foot-ver mono">v${S.version}</p>
             </div>
           </div>
