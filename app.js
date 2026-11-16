@@ -423,19 +423,53 @@
         .catch(() => {});
     }
 
-    // Mouse wheel scrolls the timeline sideways
-    const sc = $("loreScroller");
+    /* Desktop: the section pins and vertical scrolling moves the timeline sideways (like a film strip).
+       Mobile / reduced motion: plain horizontal swipe. */
+    const sc = $("loreScroller"), track = $("timeline");
+    const pin = sc.closest(".lore-pin"), sticky = pin && pin.querySelector(".lore-sticky");
+    const canPin = () => pin && window.innerWidth > 760 && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let dist = 0, pinned = false;
+    const revealPhotos = () => {
+      const w = window.innerWidth;
+      track.querySelectorAll(".polaroid:not(.in)").forEach((p) => {
+        const r = p.getBoundingClientRect();
+        if (r.left < w - 40 && r.right > 0) p.classList.add("in");
+      });
+    };
+    const update = () => {
+      if (!pinned) { revealPhotos(); return; }
+      const top = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--topbar-h")) || 0;
+      const prog = Math.min(1, Math.max(0, (top - pin.getBoundingClientRect().top) / (dist || 1)));
+      track.style.transform = `translate3d(${-prog * dist}px,0,0)`;
+      revealPhotos();
+    };
+    const layout = () => {
+      pinned = canPin();
+      sc.classList.toggle("is-pinned", pinned);
+      if (!pinned) { pin && (pin.style.height = ""); track.style.transform = ""; update(); return; }
+      dist = Math.max(0, track.scrollWidth - sc.clientWidth);
+      pin.style.height = (sticky.offsetHeight + dist) + "px";
+      update();
+    };
+    layout();
+    new MutationObserver(() => requestAnimationFrame(layout)).observe(track, { childList: true });
+    track.addEventListener("load", () => requestAnimationFrame(layout), true);
+    window.addEventListener("resize", layout);
+    window.addEventListener("scroll", update, { passive: true });
+    sc.addEventListener("scroll", revealPhotos, { passive: true });
+
+    // Not pinned (mobile / small screens): wheel and click-drag still move it sideways
     sc.addEventListener("wheel", (e) => {
+      if (pinned) return;
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && sc.scrollWidth > sc.clientWidth) {
         const atStart = sc.scrollLeft <= 0 && e.deltaY < 0;
         const atEnd = sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 1 && e.deltaY > 0;
         if (!atStart && !atEnd) { e.preventDefault(); sc.scrollLeft += e.deltaY; }
       }
     }, { passive: false });
-    // Click and drag to scroll (mouse only; touch already swipes)
     let dragX = null, startLeft = 0, moved = false;
     sc.addEventListener("pointerdown", (e) => {
-      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      if (pinned || e.pointerType !== "mouse" || e.button !== 0) return;
       dragX = e.clientX; startLeft = sc.scrollLeft; moved = false;
     });
     window.addEventListener("pointermove", (e) => {

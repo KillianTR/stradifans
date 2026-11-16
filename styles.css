@@ -482,6 +482,18 @@ section[hidden] { display: none; }
 .mouse::after { content: ""; position: absolute; left: 50%; top: 3px; width: 2px; height: 4px; background: var(--muted); transform: translateX(-50%); animation: wheel 1.6s infinite; }
 @keyframes wheel { 0% { opacity: 1; top: 3px; } 100% { opacity: 0; top: 9px; } }
 .lore-scroller { overflow-x: auto; overflow-y: hidden; border-top: 2px solid var(--text); margin-bottom: 40px; scrollbar-width: none; cursor: grab; }
+.lore-bleed { width: 100vw; margin-left: calc(50% - 50vw); }
+.lore-pin { position: relative; margin-bottom: 40px; }
+.lore-pin .lore-scroller { margin-bottom: 0; }
+.lore-sticky { position: sticky; top: var(--topbar-h, 0px); padding-top: 20px; }
+.lore-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 22px; }
+.lore-intro .lore-hint { margin: 0; }
+.lore-pin > .lore-sticky > .lore-hint { margin: 0 0 18px; }
+.lore-scroller.is-pinned { overflow: hidden; cursor: default; }
+.lore-scroller.is-pinned .lore { will-change: transform; }
+.polaroid { opacity: 0; transform: rotate(calc(var(--tilt) * 4)) translateY(30px) scale(.92); transition: transform .5s cubic-bezier(.2,.9,.25,1.2), opacity .4s; }
+.polaroid.in { opacity: 1; transform: rotate(var(--tilt)); }
+.polaroid.in:hover { transform: rotate(0deg) scale(1.04); transition-duration: .2s; }
 .lore-scroller::-webkit-scrollbar { display: none; }
 .lore-scroller.is-dragging { cursor: grabbing; user-select: none; }
 .lore-scroller.is-dragging * { pointer-events: none; }
@@ -499,9 +511,8 @@ section[hidden] { display: none; }
 .lore-item p { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
 .polaroid {
   display: block; width: 190px; background: #f4f4f1; padding: 8px 8px 0; color: #444; text-decoration: none;
-  box-shadow: 0 8px 22px rgba(0,0,0,.35); transform: rotate(var(--tilt)); transition: transform .2s;
+  box-shadow: 0 8px 22px rgba(0,0,0,.35);
 }
-.polaroid:hover { transform: rotate(0deg) scale(1.04); }
 .polaroid img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; background: #222; }
 .polaroid span { display: flex; justify-content: space-between; padding: 6px 2px 8px; font: 700 10px "JetBrains Mono", monospace; color: #555; }
 .polaroid em { font-style: normal; margin-left: auto; }
@@ -737,7 +748,7 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
 .checker-flag { display: block; overflow: visible; filter: drop-shadow(3px 3px 0 rgba(0,0,0,.45)); }
 .checker-flag .cf-col { animation: cf-wave 1.4s ease-in-out infinite; animation-delay: calc(var(--i) * -0.18s); }
 @keyframes cf-wave { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
-@media (prefers-reduced-motion: reduce) { .checker-flag .cf-col { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .checker-flag .cf-col { animation: none; } .polaroid { opacity: 1; transform: rotate(var(--tilt)); } }
 .event-label { font: 700 12px "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); }
 .event-body h2 { font: 700 34px "JetBrains Mono", monospace; letter-spacing: -.02em; margin: 2px 0 6px; }
 .event-body p { color: var(--text); opacity: .85; max-width: 620px; }
