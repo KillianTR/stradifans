@@ -364,6 +364,7 @@ section[hidden] { display: none; }
 .pit-value { font: 700 26px "JetBrains Mono", monospace; white-space: nowrap; }
 .pit-note { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
 .pit-month { display: flex; align-items: center; gap: 16px; }
+.pit-month .pit-note { white-space: nowrap; }
 .led {
   display: inline-flex; align-items: flex-start; gap: 4px; background: #0b0d10; border: 2px solid #2b2f36;
   padding: 10px 18px 6px; border-radius: 4px;
@@ -390,7 +391,6 @@ section[hidden] { display: none; }
 .cal-d.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 .cal-d.today { outline: 2px solid #fff; outline-offset: -1px; color: #fff; }
 .cal-d.future { opacity: .35; }
-.pitboard { grid-template-columns: auto 1fr auto; }
 
 /* ---------- Home: chat ticker ---------- */
 .ticker {

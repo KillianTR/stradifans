@@ -57,13 +57,10 @@
       });
       $("monthCount").textContent = count;
       $("monthDays").textContent = `${onDays.size} ${onDays.size === 1 ? "día" : "días"} con directo`;
-      // Monday-first mini calendar
-      const firstDow = (new Date(y, m, 1).getDay() + 6) % 7;
-      let html = ["L", "M", "X", "J", "V", "S", "D"].map((d) => `<span class="cal-h">${d}</span>`).join("");
-      for (let k = 0; k < firstDow; k++) html += `<span class="cal-d empty"></span>`;
+      let html = "";
       for (let day = 1; day <= daysInMonth; day++) {
-        const cls = ["cal-d", onDays.has(day) ? "on" : "", day === now.getDate() ? "today" : "", day > now.getDate() ? "future" : ""].join(" ");
-        html += `<span class="${cls}" title="${day} ${MON[m]}${onDays.has(day) ? " · directo" : ""}">${day}</span>`;
+        const cls = ["day", onDays.has(day) ? "on" : "", day === now.getDate() ? "today" : "", day > now.getDate() ? "future" : ""].join(" ");
+        html += `<span class="${cls}" title="${day} ${MON[m]}${onDays.has(day) ? " · directo" : ""}"></span>`;
       }
       $("dayGrid").innerHTML = html;
 

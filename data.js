@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "0.6.0",
+  version: "1.1.0",
   author: "Vznum",
   twitchUser: "stradi",
   twitchId: "178443161",
@@ -100,8 +100,8 @@ window.SITE = {
       text: "La coña eterna con Valdeon86: o vamos a fondo cuando hay que ahorrar, o ahorramos cuando hay que ir a fondo. Cuidao con el ahorro."
     },
     {
-      term: "Lunes sin qualy", rarity: "A",
-      text: "Los lunes Stradi sale a la clasificación con bandera negra para empezar desde el fondo de la parrilla. Remontada garantizada. Y paid actors, también.",
+      term: "Lunes sin qualy", rarity: "PRO",
+      text: "Un clásico del canal. Cada lunes, todas las carreras del directo las corre sin hacer clasificación: sale a la qualy con bandera negra y empieza desde el fondo de la parrilla. Y mientras remonta, el chat apuesta sus Stradipuntos: ganancia de iRating, pérdida de iRating o retirada.",
       emote: "https://static-cdn.jtvnw.net/emoticons/v2/303908798/default/dark/3.0"
     },
     {
@@ -275,16 +275,16 @@ window.SITE = {
     { q: "¿A qué apuesto mis Stradipuntos?", a: "Ganancia de iRating, pérdida de iRating o retirada. Esto no es asesoramiento financiero." },
     { q: "¿Quién es Valdeon86?", a: "El ingeniero. Consumo, ventanas de boxes, tiempos del P2. Y algún que otro \"gas a tope\"." },
     { q: "¿Qué coche tiene?", a: "Un Honda Civic Sport Plus 1.5 Turbo de 182 CV, blanco. Desde 2019 es su \"nuevo mejor amigo\"." },
-    { q: "¿Qué volante usa?", a: "Base Simagic Evo Ultra con volantes Simagic GT Neo y Ascher McLaren Artura Ultimate. Todo su setup está en la página Setup." },
+    { q: "¿Qué volante usa?", a: "Base Simagic Alpha EVO Ultra con volantes Simagic GT Neo y Ascher McLaren Artura Ultimate. Todo su setup está en la página Setup." },
     { q: "¿Por qué hace lo que hace?", a: "Escribe !porque en el chat y te lo explica él mismo." }
   ],
 
   /* Setup page. Optional "url" per item. */
   setup: [
     { group: "Setup simracing", items: [
-      { label: "Cockpit", value: "Next Level Racing GT ELITE" },
-      { label: "Base", value: "Simagic Evo Ultra" },
-      { label: "Volante", value: "Simagic GT Neo" },
+      { label: "Cockpit", value: "Next Level Racing GT ELITE", url: "https://tienda.simtechpro.com/tienda/cockpits/next-level-racing-gt-elite/" },
+      { label: "Base", value: "Simagic Alpha EVO Ultra 28 Nm", url: "https://tienda.simtechpro.com/tienda/bases-de-volante/simagic-alpha-evo-ultra-28nm/" },
+      { label: "Volante", value: "Simagic GT Neo", url: "https://tienda.simtechpro.com/tienda/marca/simagic/" },
       { label: "Volante", value: "Ascher McLaren Artura Ultimate", url: "https://ascher-racing.com/int/shop/mclaren-lenkrader/ascher-racing-mclaren-artura-ultimate/" },
       { label: "Pedales", value: "SRP GT-R 3P Black Edition", url: "https://www.simracing-pro.com/?ref=stradi" },
       { label: "Monitor principal", value: "LG UltraGear 34GN73A" },
