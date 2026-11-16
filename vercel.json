@@ -1,0 +1,9 @@
+{
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/medidor-chat", "destination": "/garaje/medidor-chat/", "permanent": true },
+    { "source": "/medidor-chat/", "destination": "/garaje/medidor-chat/", "permanent": true },
+    { "source": "/ruleta-clips", "destination": "/garaje/ruleta-clips/", "permanent": true },
+    { "source": "/ruleta-clips/", "destination": "/garaje/ruleta-clips/", "permanent": true }
+  ]
+}

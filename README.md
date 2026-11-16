@@ -2,19 +2,21 @@
 
 Unofficial fan hub for the Spanish sim racing streamer [Stradi](https://www.twitch.tv/stradi): live status, live chat, chat meter, clip roulette, glossary, soundboard, lore timeline and more. The site itself is in Spanish.
 
-Created by Vznum - v0.2.0 - https://stradifans.vercel.app
+Created by Vznum - v0.3.0 - https://stradifans.vercel.app
 
 ## Structure
 
 - `index.html` - home page
-- `medidor-chat/` - chat meter (top 5 things the chat spams, live)
-- `ruleta-clips/` - clip roulette (case-opening style random clip)
+- `stradipedia/`, `garaje/`, `radio/`, `lore/`, `baul/`, `faq/` - one page per section
+- `garaje/medidor-chat/` - chat meter (top 5 things the chat spams, live)
+- `garaje/ruleta-clips/` - clip roulette (case-opening style random clip)
 - `styles.css` - design (brand colors in `:root`)
 - `data.js` - **all the content**: lore, glossary, sounds, timeline, FAQ, links, clip tiers
-- `common.js` - shared header/footer logic, live badge, birthday banner
+- `common.js` - shared header, menu, footer, live badge, birthday banner
 - `chat.js` - read-only Twitch chat client (anonymous IRC over WebSocket) with Twitch + 7TV emotes
 - `meter.js` - chat word/emote counter
-- `app.js` - home page logic
+- `app.js` - page logic (each block runs only on the page that has its elements)
+- `vercel.json` - trailing slashes and redirects from old URLs
 - `api/clips.js` - Vercel serverless function that returns the channel's clips from the Twitch API
 - `assets/` - logo and favicon
 - `sounds/` - mp3 clips for the soundboard

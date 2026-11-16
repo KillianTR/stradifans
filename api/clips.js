@@ -54,6 +54,21 @@ module.exports = async (req, res) => {
       cursor = data.pagination && data.pagination.cursor;
       if (!cursor) break;
     }
+    // Extra clips requested by id (?extra=id1,id2), e.g. iconic clips listed in data.js
+    const extra = String((req.query && req.query.extra) || "")
+      .split(",").map((x) => x.trim()).filter((x) => /^[A-Za-z0-9_-]{5,100}$/.test(x)).slice(0, 50);
+    const known = new Set(clips.map((c) => c.id));
+    const missing = extra.filter((id) => !known.has(id));
+    if (missing.length) {
+      const url = new URL("https://api.twitch.tv/helix/clips");
+      missing.forEach((id) => url.searchParams.append("id", id));
+      const r = await fetch(url, { headers: { "Client-Id": clientId, Authorization: "Bearer " + token } });
+      if (r.ok) (await r.json()).data.forEach((c) => clips.push({
+        id: c.id, title: c.title, views: c.view_count, creator: c.creator_name,
+        date: c.created_at, thumb: c.thumbnail_url, url: c.url
+      }));
+    }
+
     res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
     res.status(200).json({ clips });
   } catch (err) {
