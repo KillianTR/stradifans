@@ -539,7 +539,9 @@ section[hidden] { display: none; }
 .ticker-label.is-live .ticker-dot { background: #ff3b30; animation: pulse 1.2s infinite; box-shadow: 0 0 8px #ff3b30; }
 .ticker-viewport { position: relative; flex: 1; height: 100%; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); }
 .ticker-track { position: absolute; top: 0; left: 0; height: 100%; display: flex; align-items: center; gap: 40px; white-space: nowrap; will-change: transform; }
-.tick-msg { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; color: #e6e9ee; }
+.tick-msg { display: inline-flex; align-items: center; gap: 0; font-size: 15px; color: #e6e9ee; }
+.tick-msg .chat-badge-img { margin-right: 4px; }
+.tick-msg .chat-text { margin-left: 5px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
 .tick-msg .emote { height: 28px; }
 .tick-wait { color: var(--muted); font-style: italic; }
 .pitwall-static { padding-top: 0; }
