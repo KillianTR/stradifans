@@ -851,6 +851,25 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
   padding: 24px 28px; margin: 0 0 22px;
 }
 .event-card[hidden] { display: none; }
+.event-more { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 26px; padding-top: 22px; border-top: 1px dashed rgba(234,111,24,.45); }
+.ev-col h3 { font: 700 12px "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin-bottom: 10px; }
+.ev-extend { list-style: none; display: grid; gap: 6px; }
+.ev-extend li { display: flex; justify-content: space-between; gap: 10px; padding: 6px 10px; background: rgba(145,70,255,.12); border-left: 3px solid #9146ff; font-weight: 600; }
+.ev-extend b { font-family: "JetBrains Mono", monospace; color: #c9a8ff; }
+.ev-cmd { margin-top: 10px; font-size: 14px; color: var(--muted); }
+.ev-cmd code { background: rgba(0,0,0,.35); color: var(--text); padding: 2px 6px; font-family: "JetBrains Mono", monospace; }
+.ev-prizes { list-style: none; position: relative; display: grid; gap: 8px; }
+.ev-prizes li { display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: center; padding: 8px 12px; background: rgba(0,0,0,.25); border: 1px solid var(--line); }
+.ev-prizes b { font: 700 20px "JetBrains Mono", monospace; color: var(--accent); }
+.ev-prizes span { font-weight: 700; }
+.ev-prizes li.big { border-color: #ffd200; background: rgba(255,210,0,.1); }
+.ev-prizes li.big b, .ev-prizes li.big span { color: #ffd200; }
+.ev-note { margin-top: 8px; font-size: 13px; color: var(--muted); }
+.ev-extras { list-style: none; display: grid; gap: 10px; }
+.ev-extras li { display: grid; gap: 2px; padding-left: 12px; border-left: 3px solid var(--accent-2, #009bfe); }
+.ev-extras b { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent-2, #009bfe); }
+.ev-extras span { font-size: 15px; }
+@media (max-width: 900px) { .event-more { grid-template-columns: 1fr; } }
 .event-ico { color: var(--accent); }
 .checker-flag { display: block; overflow: visible; filter: drop-shadow(3px 3px 0 rgba(0,0,0,.45)); }
 .checker-flag .cf-col { animation: cf-wave 1.4s ease-in-out infinite; animation-delay: calc(var(--i) * -0.18s); }

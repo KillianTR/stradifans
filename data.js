@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.27.2",
+  version: "1.28.0",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -19,10 +19,30 @@ window.SITE = {
   /* Upcoming event shown on the home page. It hides itself after "until". */
   event: {
     label: "Próximo evento",
-    title: "Extensible 24h",
+    title: "Extensible TOTOYIL",
     when: "Sábado 21 de noviembre",
-    text: "Todo el día corriendo la Toyota GR Cup de iRacing, sin parar, y con sorteos para subs y no subs del canal.",
-    tags: ["Toyota GR Cup", "iRacing", "24 horas", "Sorteos para todos"],
+    text: "Toyota GR Cup en iRacing de 5 a 24 horas. ¡Tú decides cuánto dura!",
+    tags: ["Toyota GR Cup", "iRacing", "Mín. 5 h · Máx. 24 h", "Sorteos para todos"],
+    command: "!extensible",
+    // How the stream gets longer
+    extend: [
+      { what: "Sub T1 / Prime", time: "+3 min" },
+      { what: "Sub T2", time: "+5 min" },
+      { what: "Sub T3", time: "+12 min" },
+      { what: "100 bits", time: "+40 s" }
+    ],
+    // Giveaways for all active subs, by hours on air
+    prizes: [
+      { at: "6 h", prize: "Vale de 200 € en SimtechPro" },
+      { at: "12 h", prize: "Pedales SRP GT-S" },
+      { at: "18 h", prize: "Vale de 400 € en SimtechPro" },
+      { at: "24 h", prize: "¡Sorteazo de los pedales SRP GT-R!", big: true }
+    ],
+    prizesNote: "Para todos los subs activos. Cada sub regalada da 1 participación extra.",
+    extras: [
+      { every: "Cada 2 h", text: "Código de descuento de SRP" },
+      { every: "Cada 5 carreras", text: "¡No qualy! Y sorteo de una licencia de StintLogic de 1 año entre los presentes en el chat (subs y no subs)" }
+    ],
     start: "2026-11-21T00:00:00",
     until: "2026-11-22T23:59:59"
   },
@@ -353,7 +373,7 @@ window.SITE = {
     { cat: "directos", q: "¿A qué juega Stradi?", a: "Sobre todo a iRacing. También corre en Le Mans Ultimate. Coches de GT, resistencias y, cuando toca sufrir, algún fórmula." },
     { cat: "directos", q: "¿Qué es el lunes sin qualy?", a: "Un clásico del canal: cada lunes sale a la qualy con bandera negra y empieza todas las carreras desde el fondo de la parrilla. Mientras remonta, el chat apuesta sus Stradipuntos.", link: "/stradipedia/" },
     { cat: "directos", q: "¿Qué son los Stradipuntos?", a: "Los puntos del canal que ganas viendo el directo. Se apuestan en cada carrera: ganancia de iRating, pérdida de iRating o retirada. Esto no es asesoramiento financiero.", link: "/stradipedia/" },
-    { cat: "directos", q: "¿Cuál es el próximo evento del canal?", a: "El Extensible 24h: el sábado 21 de noviembre, todo el día corriendo la Toyota GR Cup de iRacing sin parar y con sorteos para subs y no subs.", link: "/" },
+    { cat: "directos", q: "¿Cuál es el próximo evento del canal?", a: "El Extensible TOTOYIL: el sábado 21 de noviembre, de 5 a 24 horas de Toyota GR Cup en iRacing, con sorteos para subs y no subs. Cada sub y cada bit alargan el directo: tú decides cuánto dura.", link: "/" },
     { cat: "directos", q: "¿Dónde más puedo seguir a Stradi?", a: "En YouTube, Instagram, X y TikTok. Tienes todos los enlaces al final de la portada.", link: "/#enlaces" },
     { cat: "simracing", q: "¿Qué volante usa Stradi?", a: "Una base Simagic Alpha EVO Ultra de 28 Nm con dos volantes: el Simagic GT Neo y el Ascher Racing McLaren Artura Ultimate.", link: "/setup/" },
     { cat: "simracing", q: "¿Qué pedales usa Stradi?", a: "Unos SRP GT-R 3P Black Edition de SimRacing Pro. Si alguna vez oyes al chat gritar ESREEEPEEEE, ya sabes por qué.", link: "/stradipedia/" },

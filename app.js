@@ -201,6 +201,15 @@
       $("eventText").textContent = ev.text || "";
       $("eventWhen").textContent = ev.when || "";
       $("eventTags").innerHTML = (ev.tags || []).map((t) => `<span>${esc(t)}</span>`).join("");
+      if (ev.extend || ev.prizes || ev.extras) {
+        $("eventMore").innerHTML = `
+          ${ev.extend ? `<div class="ev-col"><h3>Así se alarga</h3><ul class="ev-extend">${ev.extend.map((x) => `<li><span>${esc(x.what)}</span><b>${esc(x.time)}</b></li>`).join("")}</ul>
+            ${ev.command ? `<p class="ev-cmd">Toda la info con <code>${esc(ev.command)}</code> en el chat de Stradi.</p>` : ""}</div>` : ""}
+          ${ev.prizes ? `<div class="ev-col ev-col-wide"><h3>Sorteos para los subs</h3><ol class="ev-prizes">${ev.prizes.map((x) => `<li class="${x.big ? "big" : ""}"><b>${esc(x.at)}</b><span>${esc(x.prize)}</span></li>`).join("")}</ol>
+            ${ev.prizesNote ? `<p class="ev-note">${esc(ev.prizesNote)}</p>` : ""}</div>` : ""}
+          ${ev.extras ? `<div class="ev-col"><h3>Además</h3><ul class="ev-extras">${ev.extras.map((x) => `<li><b>${esc(x.every)}</b><span>${esc(x.text)}</span></li>`).join("")}</ul></div>` : ""}`;
+        $("eventMore").hidden = false;
+      }
       const tick = () => {
         const ms = start - Date.now();
         if (isNaN(start) || ms <= 0) { $("eventCount").textContent = "¡Es hoy!"; $("eventCard").classList.add("is-now"); return; }
