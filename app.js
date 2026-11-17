@@ -425,14 +425,14 @@
     const local = () => {
       shared = false;
       try { inc = parseInt(localStorage.getItem("sf_incidents") || "0", 10) || 0; } catch (_) {}
-      $("incReset").hidden = false;
+      $("incReset").hidden = !window.SF_ADMIN_KEY;
       $("incNote").textContent = "Se guarda en tu navegador";
       show();
     };
     const sync = () => fetch("/api/incidents", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((d) => {
-        if (!shared) { shared = true; $("incReset").hidden = true; }
+        if (!shared) { shared = true; $("incReset").hidden = !window.SF_ADMIN_KEY; }
         // Within the same day the count only goes up, so a slightly older cached answer never moves it back
         if (!pending) { inc = d.day === day ? Math.max(inc, d.count) : d.count; day = d.day; show(); }
         $("incNote").textContent = "Contador compartido con todo el chat · se reinicia cada día";
@@ -452,7 +452,14 @@
           .catch(() => {})
           .finally(() => { pending--; });
       }));
-    $("incReset").addEventListener("click", () => { inc = 0; show(); try { localStorage.setItem("sf_incidents", "0"); } catch (_) {} });
+    $("incReset").addEventListener("click", () => {
+      if (!window.SF_ADMIN_KEY) return;
+      if (!shared) { inc = 0; show(); try { localStorage.setItem("sf_incidents", "0"); } catch (_) {} return; }
+      if (!confirm("¿Poner a 0 el contador de incidentes de hoy para todos?")) return;
+      fetch("/api/incidents", { method: "POST", headers: { "Content-Type": "application/json", "x-admin-key": window.SF_ADMIN_KEY }, body: JSON.stringify({ reset: true }) })
+        .then((r) => r.json()).then((d) => { if (typeof d.count === "number") { inc = d.count; show(); } else alert("No tienes permiso para reiniciarlo."); })
+        .catch(() => {});
+    });
     $("incReset").hidden = true;
     sync();
     setInterval(() => { if (shared && !document.hidden) sync(); }, 5000);

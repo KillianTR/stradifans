@@ -175,6 +175,27 @@
     return found ? total : null;
   }
 
+  /* Admin mode (site owner only): open any page with ?admin once and enter the key.
+     It stays in this browser; ?admin=off removes it. Only shows the reset buttons. */
+  window.SF_ADMIN_KEY = null;
+  try { window.SF_ADMIN_KEY = localStorage.getItem("sf_admin_key"); } catch (_) {}
+  const adminParam = new URLSearchParams(location.search).get("admin");
+  if (adminParam === "off") {
+    try { localStorage.removeItem("sf_admin_key"); } catch (_) {}
+    window.SF_ADMIN_KEY = null;
+  } else if (adminParam !== null && !window.SF_ADMIN_KEY) {
+    const k = prompt("Clave de administrador de StradiFans:");
+    if (k) {
+      fetch("/api/admin", { method: "POST", headers: { "x-admin-key": k } })
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.admin) { try { localStorage.setItem("sf_admin_key", k); } catch (_) {} location.replace(location.pathname); }
+          else alert("Clave incorrecta.");
+        }).catch(() => alert("No se ha podido comprobar la clave."));
+    }
+  }
+  document.documentElement.classList.toggle("is-admin", !!window.SF_ADMIN_KEY);
+
   const listeners = [];
   window.onLiveStatus = (fn) => listeners.push(fn);
 

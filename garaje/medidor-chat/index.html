@@ -33,7 +33,7 @@
           <ol class="meter-list" id="meterList"></ol>
           <div class="meter-foot">
             <span><b class="mono" id="meterTotal">0</b> mensajes contados hoy en este navegador</span>
-            <button class="btn btn-ghost" id="meterReset">Reiniciar</button>
+            <button class="btn btn-ghost" id="meterReset" hidden>Reiniciar</button>
           </div>
         </div>
         <div class="panel">
@@ -80,6 +80,7 @@
     $("meterTotal").textContent = window.StradiMeter.total().toLocaleString("es-ES");
   }
 
+  $("meterReset").hidden = !window.SF_ADMIN_KEY; // only the site owner sees it
   $("meterReset").addEventListener("click", () => { window.StradiMeter.reset(); render(); });
 
   let timer = null;

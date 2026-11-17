@@ -30,6 +30,14 @@ module.exports = async (req, res) => {
     if (req.method === "POST") {
       let body = req.body;
       if (typeof body === "string") { try { body = JSON.parse(body); } catch (_) { body = {}; } }
+      if (body && body.reset) { // only the site owner (admin key) can reset today's count
+        const adminKey = process.env.STRADIFANS_ADMIN_KEY;
+        const given = String(req.headers["x-admin-key"] || "");
+        const ok = adminKey && given.length === adminKey.length && require("crypto").timingSafeEqual(Buffer.from(given), Buffer.from(adminKey));
+        if (!ok) return res.status(403).json({ error: "forbidden" });
+        await redis(url, token, [["DEL", key]]);
+        return res.status(200).json({ day, count: 0 });
+      }
       const add = Number(body && body.add);
       if (!ALLOWED.has(add)) return res.status(400).json({ error: "bad_value" });
 
