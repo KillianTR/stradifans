@@ -73,6 +73,7 @@ a { color: inherit; }
   color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.25);
 }
 .bday[hidden] { display: none; }
+.bday-link { color: #fff; font-weight: 900; text-decoration: none; border-bottom: 2px solid #fff; margin-left: 6px; }
 .bday-age {
   display: inline-grid; place-items: center; min-width: 34px; height: 28px; padding: 0 8px;
   background: #fff; color: var(--accent); border-radius: 7px;
@@ -1001,6 +1002,30 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
   .prof-big { grid-template-columns: repeat(2, 1fr); }
   .palmares li { grid-template-columns: 1fr; gap: 2px; }
 }
+
+/* ---------- Cumpleaños: muro de mensajes ---------- */
+.wall-preview { display: inline-block; margin: 18px 0 0; padding: 8px 14px; border: 1px dashed var(--accent); color: var(--accent); font-weight: 700; }
+.wall-closed { margin: 30px 0; padding: 30px; text-align: center; background: var(--card); border: 1px solid var(--line); }
+.wall-closed p { font-size: 20px; }
+.wall-count { font-size: clamp(30px, 6vw, 56px); color: var(--accent); margin-top: 10px; }
+.wall-admin { display: grid; gap: 10px; max-width: 640px; margin: 26px 0; padding: 20px; border: 1px dashed var(--line); background: rgba(0,0,0,.2); }
+.wall-admin h2 { font: 700 16px "JetBrains Mono", monospace; text-transform: uppercase; }
+.wall-admin input, .wall-admin textarea { background: #0b0d10; border: 1px solid var(--line); color: var(--text); padding: 10px 12px; font: 600 15px "Titillium Web", sans-serif; }
+.wall-admin button { justify-self: start; }
+.wall-admin-note { color: var(--muted); font-size: 13px; }
+.wall-total { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; margin: 26px 0 16px; }
+.wall { columns: 3 300px; column-gap: 22px; }
+.wall-card { break-inside: avoid; margin: 0 0 22px; padding: 18px 20px 20px; background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--c);
+  transform: rotate(var(--tilt)); box-shadow: 0 10px 26px rgba(0,0,0,.35); transition: transform .2s; position: relative; }
+.wall-card:hover { transform: rotate(0) scale(1.02); }
+.wall-card::before { content: "\201D"; position: absolute; right: 14px; bottom: -30px; font: 900 70px/1 "Titillium Web", sans-serif; color: var(--c); opacity: .35; }
+.wall-card header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.wall-av { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+.wall-card header b { font-size: 16px; }
+.wall-card p { font-size: 17px; line-height: 1.5; white-space: pre-line; }
+.wall-del { margin-left: auto; background: none; border: 1px solid var(--line); color: var(--muted); width: 26px; height: 26px; cursor: pointer; font-size: 16px; position: relative; z-index: 1; }
+.wall-del:hover { color: #ff3b30; border-color: #ff3b30; }
+.wall-confetti { position: fixed; inset: 0; pointer-events: none; z-index: 80; }
 
 /* ---------- Mobile ---------- */
 @media (max-width: 960px) {

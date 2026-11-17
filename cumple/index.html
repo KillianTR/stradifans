@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz cumpleaños, Stradi · StradiFans</title>
+  <meta name="description" content="Mensajes del chat para el cumpleaños de Stradi.">
+  <meta name="theme-color" content="#061b2a">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page wall-page">
+    <p class="crumbs"><a href="/">Inicio</a> › Cumpleaños</p>
+    <h1 id="wallTitle">¡Feliz cumpleaños, Stradi!</h1>
+    <p class="page-sub">Mensajes del chat para su cumpleaños, de parte de toda la comunidad.</p>
+
+    <p class="wall-preview" id="wallPreview" hidden>Vista previa: solo tú puedes ver el muro hasta el 29 de noviembre.</p>
+
+    <div class="wall-closed" id="wallClosed" hidden>
+      <p>El muro se abre el <b>29 de noviembre</b>, el día de su cumpleaños.</p>
+      <div class="wall-count mono" id="wallCountdown"></div>
+    </div>
+
+    <form class="wall-admin" id="wallForm" hidden>
+      <h2>Añadir mensaje</h2>
+      <input id="wallUser" placeholder="Usuario de Twitch" maxlength="40" required>
+      <textarea id="wallText" placeholder="Mensaje" maxlength="1200" rows="4" required></textarea>
+      <button class="btn btn-primary" type="submit">Añadir al muro</button>
+      <span class="wall-admin-note" id="wallAdminNote"></span>
+    </form>
+
+    <p class="wall-total mono" id="wallTotal"></p>
+    <div class="wall" id="wall"></div>
+  </section>
+  <canvas class="wall-confetti" id="wallConfetti" aria-hidden="true"></canvas>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="/data.js"></script>
+<script src="/chat.js"></script>
+<script src="/common.js"></script>
+<script src="/app.js"></script>
+<script src="/cumple.js"></script>
+</body>
+</html>
