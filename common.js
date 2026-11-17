@@ -244,6 +244,12 @@
   /* ---------- Birthday banner ---------- */
   const MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
   const b = S.birthday, bday = $("bday");
+  if (bday) { // the whole birthday banner opens the birthday wall
+    bday.setAttribute("role", "link"); bday.tabIndex = 0; bday.title = "Ver los mensajes del chat para Stradi";
+    const go = (e) => { if (!e.target.closest("a")) location.href = "/cumple/"; };
+    bday.addEventListener("click", go);
+    bday.addEventListener("keydown", (e) => { if (e.key === "Enter") go(e); });
+  }
   if (b && bday) {
     const pad = (n) => String(n).padStart(2, "0");
     const seg = (v, u) => `<span class="bday-seg"><b>${v}</b>${u}</span>`;
