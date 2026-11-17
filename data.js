@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.30.1",
+  version: "1.31.0",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -441,10 +441,10 @@ window.SITE = {
       ["Bandera negra en la qualy y a remontar desde el fondo", 100],
       ["Hago la qualy normal, como una persona seria", 20],
       ["Los lunes no corro", 0] ] },
-    { q: "Te adelantan tres coches seguidos sin pelear nada. ¿Qué piensas?", a: [
+    { q: "Adelantas a tres coches seguidos y ninguno te pelea la posición. ¿Qué piensas?", a: [
       ["Paid actors. Clarísimo", 100],
-      ["Que hoy voy lento", 25],
-      ["El netcode, como siempre", 60] ] },
+      ["Que hoy voy rapidísimo", 25],
+      ["Que se han quedado sin ruedas", 60] ] },
     { q: "Valdeon86 te dice por radio que toca ahorrar combustible.", a: [
       ["Gas a tope. Cuidao con el ahorro", 100],
       ["Ahorro exactamente lo que me diga el ingeniero", 45],

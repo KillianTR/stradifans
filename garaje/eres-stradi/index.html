@@ -48,6 +48,13 @@
         </div>
       </div>
     </div>
+
+    <aside class="sl-board quiz-board">
+      <h2>Ranking de verdaderos Stradis</h2>
+      <ol class="sl-list" id="quizList"><li class="sl-empty">Cargando...</li></ol>
+      <p class="sl-me" id="quizMe"></p>
+      <p class="quiz-board-note">Empates: va delante quien llegó antes a esa puntuación.</p>
+    </aside>
   </section>
 </main>
 
@@ -61,11 +68,23 @@
   const S = window.SITE, esc = window.StradiChat.esc;
   const $ = (id) => document.getElementById(id);
   const qs = S.quiz || [];
-  let i = 0, score = 0, lastPct = 0;
+  let i = 0, score = 0, lastPct = 0, picks = [];
   let best = null;
   try { best = parseInt(localStorage.getItem("sf_quiz_best") || "", 10); if (isNaN(best)) best = null; } catch (_) {}
   const showBest = () => { $("quizBest").textContent = best !== null ? `Tu mejor resultado: ${best}% Stradi` : "Nadie sale de aquí sin su porcentaje."; };
   showBest();
+
+  // Ranking (best score per Twitch account)
+  function renderBoard(d) {
+    if (!d || d.error) { $("quizList").innerHTML = `<li class="sl-empty">El ranking no está disponible ahora mismo.</li>`; return; }
+    $("quizList").innerHTML = d.top.length ? d.top.map((r, n) => `
+      <li class="${r.mine ? "mine" : ""}"><span class="sl-pos">${n + 1}</span>${r.img ? `<img src="${esc(r.img)}" alt="">` : "<i></i>"}<span class="sl-name">${esc(r.name)}</span><b>${r.pct}%</b></li>`).join("")
+      : `<li class="sl-empty">Nadie ha hecho el test todavía. ¡Estrénalo!</li>`;
+    $("quizMe").innerHTML = window.SF_USER
+      ? (d.me ? `Tu mejor resultado: <b>${d.me.pct}%</b> · puesto ${d.me.rank}` : "Haz el test para entrar en el ranking.")
+      : `<a href="/auth/login?next=/garaje/eres-stradi/">Entra con Twitch</a> para salir en el ranking.`;
+  }
+  (window.sfUserReady || Promise.resolve()).then(() => fetch("/api/quiz", { cache: "no-store" }).then((r) => r.json()).then(renderBoard).catch(() => renderBoard(null)));
 
   const shuffle = (arr) => arr.map((v) => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map((x) => x[1]);
 
@@ -81,7 +100,7 @@
     $("quizBar").style.width = `${(i / qs.length) * 100}%`;
     $("quizText").textContent = q.q;
     $("quizAnswers").innerHTML = shuffle(q.a).map(([txt, pts]) =>
-      `<button class="quiz-answer" data-pts="${pts}">${esc(txt)}</button>`).join("");
+      `<button class="quiz-answer" data-pts="${pts}" data-txt="${esc(txt)}">${esc(txt)}</button>`).join("");
   }
 
   function finish() {
@@ -104,17 +123,20 @@
     };
     requestAnimationFrame(step);
     if (best === null || pct > best) { best = pct; try { localStorage.setItem("sf_quiz_best", String(pct)); } catch (_) {} }
+    if (window.SF_USER) fetch("/api/quiz", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ answers: picks }) })
+      .then((r) => r.json()).then((d) => { if (d.top) renderBoard(d); }).catch(() => {});
     showBest();
   }
 
-  $("quizGo").addEventListener("click", () => { i = 0; score = 0; show("q"); ask(); });
-  $("quizAgain").addEventListener("click", () => { i = 0; score = 0; show("q"); ask(); });
+  $("quizGo").addEventListener("click", () => { i = 0; score = 0; picks = []; show("q"); ask(); });
+  $("quizAgain").addEventListener("click", () => { i = 0; score = 0; picks = []; show("q"); ask(); });
   $("quizAnswers").addEventListener("click", (e) => {
     const b = e.target.closest(".quiz-answer");
     if (!b || $("quizAnswers").dataset.lock) return;
     $("quizAnswers").dataset.lock = "1";
     b.classList.add("picked");
     score += Number(b.dataset.pts);
+    picks[i] = b.dataset.txt;
     setTimeout(() => {
       delete $("quizAnswers").dataset.lock;
       i++;
