@@ -192,6 +192,29 @@
     });
   }
 
+  /* ---------- Home: latest YouTube videos ---------- */
+  if ($("ytGrid")) {
+    const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+    const ago = (iso) => {
+      const d = new Date(iso), days = Math.floor((Date.now() - d) / 86400000);
+      if (days < 1) return "hoy";
+      if (days === 1) return "ayer";
+      if (days < 7) return `hace ${days} días`;
+      return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+    };
+    fetch("/api/youtube").then((r) => (r.ok ? r.json() : null)).then((d) => {
+      const vids = d && d.videos ? d.videos.slice(0, 3) : [];
+      if (!vids.length) return;
+      $("ytGrid").innerHTML = vids.map((v, i) => `
+        <a class="yt-card${i === 0 ? " yt-new" : ""}" href="${esc(v.url)}" target="_blank" rel="noopener">
+          <span class="yt-thumb"><img src="${esc(v.thumb)}" alt="" loading="lazy"><span class="yt-play" aria-hidden="true"></span>${i === 0 ? `<span class="yt-badge">Nuevo</span>` : ""}</span>
+          <span class="yt-title">${esc(v.title)}</span>
+          <span class="yt-date">${ago(v.published)}</span>
+        </a>`).join("");
+      $("ytSection").hidden = false;
+    }).catch(() => {});
+  }
+
   /* ---------- Home: upcoming event ---------- */
   if ($("eventCard") && S.event) {
     const ev = S.event, start = Date.parse(ev.start), until = Date.parse(ev.until);
