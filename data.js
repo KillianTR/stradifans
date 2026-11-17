@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.22.4",
+  version: "1.22.5",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -239,6 +239,7 @@ window.SITE = {
 
   /* Excuse generator */
   excuses: [
+    "Mi tiempo de vuelta no es malo, el tema es que he hecho offtrack.",
     "El netcode. Al 100% el netcode.",
     "Las ruedas estaban frías. Todas. Toda la carrera.",
     "Me estaba doblando, os juro que se movió en la frenada.",
