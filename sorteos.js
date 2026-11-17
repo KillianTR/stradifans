@@ -42,21 +42,23 @@
     if (cell || row.length) { row.push(cell); rows.push(row); }
     return rows.filter((r) => r.some((x) => x.trim()));
   }
+  // Each entry keeps its Excel row number (row 1 = column titles), so the result can be checked in Excel
   function namesFrom(text) {
-    const rows = parseCSV(text.replace(/^﻿/, ""));
+    const rows = parseCSV(text.replace(/^\uFEFF/, ""));
     if (!rows.length) return [];
     const head = rows[0].map((h) => h.trim().toLowerCase());
     let col = head.findIndex((h) => /^(user ?name|username|user_name|user|login|usuario|nombre|name|display ?name)$/.test(h));
     const hasHeader = col >= 0 || head.some((h) => /date|tier|fecha|tenure|streak|type/.test(h));
     if (col < 0) col = 0;
-    return rows.slice(hasHeader ? 1 : 0).map((r) => (r[col] || "").trim().replace(/^@/, "")).filter(Boolean);
+    const first = hasHeader ? 1 : 0;
+    return rows.slice(first).map((r, i) => ({ name: (r[col] || "").trim().replace(/^@/, ""), row: i + first + 1 })).filter((e) => e.name);
   }
 
   function rebuild() {
-    const all = files.flatMap((f) => f.names);
+    const all = files.flatMap((f) => f.names.map((e) => ({ ...e, file: f.name })));
     if ($("drawDupes").checked) entries = all.slice();
-    else { const seen = new Set(); entries = all.filter((n) => { const k = n.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; }); }
-    const people = new Set(all.map((n) => n.toLowerCase())).size;
+    else { const seen = new Set(); entries = all.filter((e) => { const k = e.name.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; }); }
+    const people = new Set(all.map((e) => e.name.toLowerCase())).size;
     $("drawCount").textContent = `${people} participantes · ${entries.length} participaciones`;
     $("drawFiles").innerHTML = files.map((f, i) => `${esc(f.name)} (${f.names.length}) <button class="draw-x" data-i="${i}" title="Quitar">×</button>`).join(" · ");
     $("drawGo").disabled = !entries.length;
@@ -86,7 +88,7 @@
   $("drawGo").addEventListener("click", () => {
     if (rolling) return;
     const taken = new Set(winners.map((w) => w.name.toLowerCase()));
-    const pool = $("drawNoRepeat").checked ? entries.filter((n) => !taken.has(n.toLowerCase())) : entries;
+    const pool = $("drawNoRepeat").checked ? entries.filter((e) => !taken.has(e.name.toLowerCase())) : entries;
     if (!pool.length) { $("drawName").textContent = "No quedan participantes"; return; }
     const winner = pool[randomIndex(pool.length)], prize = prizeName();
     rolling = true; $("drawGo").disabled = true;
@@ -96,26 +98,35 @@
     (function spin(t) {
       const k = (t - t0) / dur;
       if (k < 1) {
-        $("drawName").textContent = pool[randomIndex(pool.length)];
+        $("drawName").textContent = pool[randomIndex(pool.length)].name;
+        $("drawRow").textContent = "";
         setTimeout(() => requestAnimationFrame(spin), 40 + k * k * 260); // slows down like a roulette
         return;
       }
-      $("drawName").textContent = winner;
+      $("drawName").textContent = winner.name;
+      $("drawRow").textContent = `Fila ${winner.row} del Excel${files.length > 1 ? ` · ${winner.file}` : ""}`;
       $("drawStage").classList.remove("rolling"); $("drawStage").classList.add("won");
-      winners.push({ name: winner, prize, at: new Date() });
+      winners.push({ name: winner.name, row: winner.row, file: winner.file, prize, at: new Date() });
       renderWinners(); confetti();
       rolling = false; $("drawGo").disabled = false;
     })(t0);
   });
 
+  // Plain random number, like Google's, for checking by hand in Excel
+  $("numGo").addEventListener("click", () => {
+    const a = Math.round(Number($("numMin").value)), b = Math.round(Number($("numMax").value));
+    if (!Number.isFinite(a) || !Number.isFinite(b) || b < a) { $("numOut").textContent = "?"; return; }
+    $("numOut").textContent = a + randomIndex(b - a + 1);
+  });
+
   function renderWinners() {
     $("drawWinners").innerHTML = winners.length
-      ? winners.map((w) => `<li><b>${esc(w.name)}</b><span>${esc(w.prize)}</span><time class="mono">${w.at.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}</time></li>`).join("")
+      ? winners.map((w) => `<li><b>${esc(w.name)} <small>fila ${w.row}</small></b><span>${esc(w.prize)}</span><time class="mono">${w.at.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}</time></li>`).join("")
       : `<li class="empty">Todavía no hay ganadores.</li>`;
     $("drawCopy").hidden = !winners.length;
   }
   $("drawCopy").addEventListener("click", () => {
-    const txt = winners.map((w) => `${w.prize} → ${w.name}`).join("\n");
+    const txt = winners.map((w) => `${w.prize} → ${w.name} (fila ${w.row})`).join("\n");
     navigator.clipboard.writeText(txt).then(() => { $("drawCopy").textContent = "¡Copiado!"; setTimeout(() => { $("drawCopy").textContent = "Copiar resultados"; }, 2000); });
   });
 

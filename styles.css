@@ -1118,6 +1118,16 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
 .draw-stage.won .draw-name { color: #ffd200; animation: winpop .5s cubic-bezier(.2,.9,.25,1.4); }
 @keyframes winpop { from { transform: scale(.6); } to { transform: scale(1); } }
 .draw-prize-label { color: var(--accent); font-weight: 700; }
+.draw-row { color: var(--muted); font-size: 14px; }
+.draw-tip { font-size: 13px; color: var(--muted); }
+.draw-tip b { color: var(--text); }
+.draw-winners small { color: var(--muted); font: 600 12px "JetBrains Mono", monospace; margin-left: 6px; }
+.draw-num { margin-bottom: 22px; }
+.draw-num p { color: var(--muted); font-size: 14px; }
+.draw-num-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.draw-num-row label { display: flex; align-items: center; gap: 8px; }
+.draw-num-row input { width: 110px !important; background: #0b0d10; border: 1px solid var(--line); color: var(--text); padding: 8px 10px; font: 700 15px "JetBrains Mono", monospace; }
+.draw-num-out { font-size: 34px; color: #ffd200; min-width: 80px; }
 .draw-winners { list-style: none; display: grid; gap: 6px; }
 .draw-winners li { display: grid; grid-template-columns: 1fr 1.6fr auto; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
 .draw-winners li.empty { display: block; color: var(--muted); font-style: italic; border: 0; }
