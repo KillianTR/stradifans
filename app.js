@@ -209,6 +209,15 @@
             ${ev.prizesNote ? `<p class="ev-note">${esc(ev.prizesNote)}</p>` : ""}</div>` : ""}
           ${ev.extras ? `<div class="ev-col"><h3>Además</h3><ul class="ev-extras">${ev.extras.map((x) => `<li><b>${esc(x.every)}</b><span>${esc(x.text)}</span></li>`).join("")}</ul></div>` : ""}`;
         $("eventMore").hidden = false;
+        // For Stradi: the giveaways block opens the draw tool
+        (window.sfUserReady || Promise.resolve()).then(() => {
+          const col = $("eventMore").querySelector(".ev-prizes");
+          if (!window.SF_CAN_DRAW || !col) return;
+          const box = col.parentElement;
+          box.classList.add("ev-draw-link"); box.title = "Abrir la herramienta de sorteos";
+          box.insertAdjacentHTML("beforeend", `<a class="ev-draw-go" href="/sorteos/">Hacer un sorteo &#8599;</a>`);
+          box.addEventListener("click", (e) => { if (!e.target.closest("a")) location.href = "/sorteos/"; });
+        });
       }
       const tick = () => {
         const ms = start - Date.now();

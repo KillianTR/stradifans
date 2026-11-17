@@ -57,6 +57,15 @@
         btn.addEventListener("click", (e) => { e.stopPropagation(); menu.hidden = !menu.hidden; btn.setAttribute("aria-expanded", String(!menu.hidden)); });
         document.addEventListener("click", () => { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); });
       }
+      // Stradi (or the site admin) gets "Sorteos" in the menu, and the giveaways on the home page open it
+      const canDraw = (d.user && String(d.user.id) === String(S.twitchId)) || !!window.SF_ADMIN_KEY;
+      window.SF_CAN_DRAW = canDraw;
+      const navEl = $("nav");
+      if (canDraw && navEl && !navEl.querySelector('[href="/sorteos/"]')) {
+        const a = document.createElement("a");
+        a.href = "/sorteos/"; a.textContent = "Sorteos"; a.className = "nav-draw" + (isActive("/sorteos/") ? " active" : "");
+        navEl.appendChild(a);
+      }
       document.dispatchEvent(new CustomEvent("sf:user", { detail: window.SF_USER }));
       return window.SF_USER;
     });
