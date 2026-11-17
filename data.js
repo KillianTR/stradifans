@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.27.1",
+  version: "1.27.2",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
