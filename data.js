@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.33.0",
+  version: "1.33.1",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -20,7 +20,7 @@ window.SITE = {
   event: {
     label: "Próximo evento",
     title: "Extensible TOTOYIL",
-    when: "Sábado 21 de noviembre",
+    when: "Sábado 21 de noviembre · 13:00 (hora peninsular)",
     text: "Toyota GR Cup en iRacing de 5 a 24 horas. ¡Tú decides cuánto dura!",
     tags: ["Toyota GR Cup", "iRacing", "Mín. 5 h · Máx. 24 h", "Sorteos para todos"],
     command: "!extensible",
@@ -43,7 +43,7 @@ window.SITE = {
       { every: "Cada 2 h", text: "Código de descuento de SRP" },
       { every: "Cada 5 carreras", text: "¡No qualy! Y sorteo de una licencia de StintLogic de 1 año entre los presentes en el chat (subs y no subs)" }
     ],
-    start: "2026-11-21T00:00:00",
+    start: "2026-11-21T13:00:00+01:00", // 13:00 Spanish peninsular time (CET)
     until: "2026-11-22T23:59:59"
   },
 
@@ -373,7 +373,7 @@ window.SITE = {
     { cat: "directos", q: "¿A qué juega Stradi?", a: "Sobre todo a iRacing. También corre en Le Mans Ultimate. Coches de GT, resistencias y, cuando toca sufrir, algún fórmula." },
     { cat: "directos", q: "¿Qué es el lunes sin qualy?", a: "Un clásico del canal: cada lunes sale a la qualy con bandera negra y empieza todas las carreras desde el fondo de la parrilla. Mientras remonta, el chat apuesta sus Stradipuntos.", link: "/stradipedia/" },
     { cat: "directos", q: "¿Qué son los Stradipuntos?", a: "Los puntos del canal que ganas viendo el directo. Se apuestan en cada carrera: ganancia de iRating, pérdida de iRating o retirada. Esto no es asesoramiento financiero.", link: "/stradipedia/" },
-    { cat: "directos", q: "¿Cuál es el próximo evento del canal?", a: "El Extensible TOTOYIL: el sábado 21 de noviembre, de 5 a 24 horas de Toyota GR Cup en iRacing, con sorteos para subs y no subs. Cada sub y cada bit alargan el directo: tú decides cuánto dura.", link: "/" },
+    { cat: "directos", q: "¿Cuál es el próximo evento del canal?", a: "El Extensible TOTOYIL: el sábado 21 de noviembre a las 13:00 (hora peninsular), de 5 a 24 horas de Toyota GR Cup en iRacing, con sorteos para subs y no subs. Cada sub y cada bit alargan el directo: tú decides cuánto dura.", link: "/" },
     { cat: "directos", q: "¿Dónde más puedo seguir a Stradi?", a: "En YouTube, Instagram, X y TikTok. Tienes todos los enlaces al final de la portada.", link: "/#enlaces" },
     { cat: "simracing", q: "¿Qué volante usa Stradi?", a: "Una base Simagic Alpha EVO Ultra de 28 Nm con dos volantes: el Simagic GT Neo y el Ascher Racing McLaren Artura Ultimate.", link: "/setup/" },
     { cat: "simracing", q: "¿Qué pedales usa Stradi?", a: "Unos SRP GT-R 3P Black Edition de SimRacing Pro. Si alguna vez oyes al chat gritar ESREEEPEEEE, ya sabes por qué.", link: "/stradipedia/" },
