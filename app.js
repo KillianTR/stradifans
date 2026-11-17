@@ -134,10 +134,28 @@
       if (!game) idle();
     });
 
+    // Ranking (best time per Twitch account)
+    const fmtMs = (ms) => `${ms} ms`;
+    function renderBoard(d) {
+      if (!$("slList")) return;
+      if (!d || d.error) { $("slList").innerHTML = `<li class="sl-empty">El ranking no está disponible ahora mismo.</li>`; return; }
+      $("slList").innerHTML = d.top.length ? d.top.map((r, i) => `
+        <li class="${r.mine ? "mine" : ""}"><span class="sl-pos">${i + 1}</span>${r.img ? `<img src="${esc(r.img)}" alt="">` : "<i></i>"}<span class="sl-name">${esc(r.name)}</span><b>${fmtMs(r.ms)}</b></li>`).join("")
+        : `<li class="sl-empty">Nadie ha marcado tiempo todavía. ¡Estrena el ranking!</li>`;
+      $("slMe").innerHTML = window.SF_USER
+        ? (d.me ? `Tu mejor salida: <b>${fmtMs(d.me.ms)}</b> · puesto ${d.me.rank}` : "Pulsa el semáforo para entrar en el ranking.")
+        : `<a href="/auth/login?next=/">Entra con Twitch</a> para salir en el ranking.`;
+    }
+    const loadBoard = () => fetch("/api/lights", { cache: "no-store" }).then((r) => r.json()).then(renderBoard).catch(() => renderBoard(null));
+    (window.sfUserReady || Promise.resolve()).then(loadBoard);
+
     $("gantry").addEventListener("click", () => {
       if (!game) {
         // Start sequence: lights on one by one, then out after a random delay
         game = { phase: "lights", timers: [] };
+        const g = game;
+        if (window.SF_USER) fetch("/api/lights", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "start" }) })
+          .then((r) => r.json()).then((d) => { g.token = d.token; }).catch(() => {});
         box.dataset.state = "game";
         setPods(0);
         caption.textContent = "Atento a los semáforos...";
@@ -158,7 +176,10 @@
       }
       if (game.phase === "go") {
         const ms = Math.round(performance.now() - game.t0);
+        const tok = game.token;
         game = { phase: "done" };
+        if (window.SF_USER && tok) fetch("/api/lights", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ms, token: tok }) })
+          .then((r) => r.json()).then((d) => { if (d.top) renderBoard(d); }).catch(() => {});
         const record = !best || ms < best;
         if (record) { best = ms; try { localStorage.setItem("sf_best_reaction", String(ms)); } catch (_) {} }
         setPods(5, "green");

@@ -2,7 +2,7 @@
 
 Unofficial fan hub for the Spanish sim racing streamer [Stradi](https://www.twitch.tv/stradi): live status, live chat, chat meter, clip roulette, glossary, soundboard, lore timeline and more. The site itself is in Spanish.
 
-Created by Vznum - v1.26.0 - https://stradifans.vercel.app
+Created by Vznum - v1.27.0 - https://stradifans.vercel.app
 
 ## Structure
 
@@ -25,6 +25,7 @@ Created by Vznum - v1.26.0 - https://stradifans.vercel.app
 - `api/admin.js` - checks the owner's admin key (`STRADIFANS_ADMIN_KEY`); open any page with `?admin` to unlock the reset buttons in that browser, `?admin=off` to lock them again
 - `cumple/`, `cumple.js`, `api/wall.js` - birthday wall with the chat's messages (public)
 - `api/auth.js`, `api/_session.js` - "Log in with Twitch" (public profile only, signed cookie). Needs `https://<site>/auth/callback` as redirect URL in the Twitch developer console
+- `api/lights.js` - start lights reaction ranking (best time per Twitch account, signed start tokens)
 - `api/incidents.js` - shared incident counter (resets daily). Needs an Upstash Redis store connected to the Vercel project (`KV_REST_API_URL`, `KV_REST_API_TOKEN`)
 - `assets/` - logo and favicon
 - `sounds/` - mp3 clips for the soundboard
