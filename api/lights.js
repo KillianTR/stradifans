@@ -62,8 +62,8 @@ module.exports = async (req, res) => {
     const good = sign(t);
     if (parts.length !== 3 || parts[2].length !== good.length || !crypto.timingSafeEqual(Buffer.from(parts[2]), Buffer.from(good))) return res.status(400).json({ error: "bad_token" });
     const elapsed = Date.now() - started;
-    // Humans can't react in under ~0.1 s, and the lights alone take 4.5 s
-    if (!(ms >= 100 && ms <= 2000) || elapsed < MIN_LIGHTS + ms - 300 || elapsed > 30000) return res.status(400).json({ error: "not_valid" });
+    // The lights alone take 4.5 s; anything from 10 ms counts (some F1 drivers have done ~60 ms)
+    if (!(ms >= 10 && ms <= 2000) || elapsed < MIN_LIGHTS + ms - 300 || elapsed > 30000) return res.status(400).json({ error: "not_valid" });
     const [fresh] = await redis(url, token, [["SET", "sf:lights:tok:" + parts[1], "1", "NX", "EX", 120]]);
     if (fresh !== "OK") return res.status(400).json({ error: "used_token" });
     const rl = "sf:lights:rl:" + me.id;

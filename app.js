@@ -184,7 +184,7 @@
         if (record) { best = ms; try { localStorage.setItem("sf_best_reaction", String(ms)); } catch (_) {} }
         setPods(5, "green");
         caption.textContent = `${ms} ms${record ? " · ¡récord!" : ""}`;
-        hint.textContent = ms < 200 ? "Reflejos de piloto de F1" : ms < 300 ? "Salida limpia" : "Te han pasado tres paid actors";
+        hint.textContent = ms < 100 ? "¿Max Verstappen, eres tú?" : ms < 200 ? "Reflejos de piloto de F1" : ms < 300 ? "Salida limpia" : "Te han pasado tres paid actors";
         setTimeout(() => { if (game && game.phase === "done") idle(); }, 4000);
         return;
       }
