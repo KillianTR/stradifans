@@ -2,7 +2,7 @@
 
 Unofficial fan hub for the Spanish sim racing streamer [Stradi](https://www.twitch.tv/stradi): live status, live chat, chat meter, clip roulette, glossary, soundboard, lore timeline and more. The site itself is in Spanish.
 
-Created by Vznum - v1.22.3 - https://stradifans.vercel.app
+Created by Vznum - v1.22.4 - https://stradifans.vercel.app
 
 ## Structure
 

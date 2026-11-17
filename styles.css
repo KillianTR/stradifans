@@ -431,14 +431,14 @@ section[hidden] { display: none; }
 .foot-pixels { display: grid; grid-template-columns: repeat(48, 1fr); grid-template-rows: repeat(4, auto); }
 .foot-pixels i { aspect-ratio: 1; background: #03111b; }
 .foot-body { background: #03111b; padding: 34px 32px 0; }
-.foot-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px 60px; }
+.foot-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 30px 96px; }
 .foot-logo { margin-bottom: 12px; display: inline-flex; }
-.foot-about p { max-width: 420px; }
+.foot-about p { max-width: 640px; }
 .foot-legal p + p { margin-top: 8px; }
 .foot-ai { max-width: 460px; }
 .foot-ver { color: var(--accent); font-size: 12px; }
 .footer b { color: var(--text); }
-.footer .foot-author { color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent); }
+.footer .foot-author { white-space: nowrap; color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent); }
 .footer .foot-author:hover { color: var(--accent); }
 .foot-x { vertical-align: -1px; margin-right: 4px; }
 .foot-giant { display: flex; justify-content: center; max-width: 1240px; margin: 40px auto 0; padding: 0 0 18px;
