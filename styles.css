@@ -1089,6 +1089,41 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
 .wall-you { font: 700 10px "JetBrains Mono", monospace; text-transform: uppercase; color: var(--c); border: 1px solid var(--c); padding: 1px 6px; }
 .wall-confetti { position: fixed; inset: 0; pointer-events: none; z-index: 80; }
 
+/* ---------- Sorteos (solo Stradi) ---------- */
+.draw-locked { margin-top: 26px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 22px; background: var(--card); border: 1px solid var(--line); border-left: 4px solid #9146ff; }
+.draw-locked p { font-weight: 700; font-size: 17px; }
+.draw-privacy { margin: 22px 0; padding: 12px 16px; border: 1px dashed var(--live, #2bd96b); color: var(--text); }
+.draw-privacy b { color: var(--live, #2bd96b); }
+.draw-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 18px; }
+.draw-box select, .draw-box input { width: 100%; min-width: 0; }
+.draw-box { background: var(--card); border: 1px solid var(--line); padding: 20px; display: grid; gap: 12px; align-content: start; }
+.draw-box h2 { font: 700 14px "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); }
+.draw-drop { display: grid; gap: 6px; padding: 26px; text-align: center; border: 2px dashed var(--line); cursor: pointer; transition: border-color .15s, background .15s; }
+.draw-drop:hover, .draw-drop.over { border-color: var(--accent); background: rgba(234,111,24,.06); }
+.draw-drop input { display: none; }
+.draw-drop b { font-size: 18px; }
+.draw-drop span { color: var(--muted); font-size: 14px; }
+.draw-files { color: var(--muted); font-size: 13px; }
+.draw-x { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 15px; }
+.draw-x:hover { color: #ff3b30; }
+.draw-check { display: flex; gap: 8px; align-items: center; font-size: 14px; }
+.draw-check input { width: auto; }
+.draw-count { color: var(--muted); font-size: 13px; text-transform: uppercase; }
+.draw-box select, .draw-box input:not([type]) { background: #0b0d10; border: 1px solid var(--line); color: var(--text); padding: 10px 12px; font: 600 15px "Titillium Web", sans-serif; }
+.draw-go { font-size: 18px; padding: 16px; }
+.draw-stage { margin: 22px 0; min-height: 190px; display: grid; place-items: center; align-content: center; gap: 8px; text-align: center; background: #0b0d10; border: 1px solid var(--line); }
+.draw-name { font: 900 clamp(38px, 7vw, 86px)/1 "Titillium Web", sans-serif; font-style: italic; text-transform: uppercase; color: var(--muted); word-break: break-all; padding: 0 16px; }
+.draw-stage.rolling .draw-name { color: var(--text); filter: blur(.5px); }
+.draw-stage.won { border-color: #ffd200; box-shadow: 0 0 0 3px rgba(255,210,0,.2) inset; }
+.draw-stage.won .draw-name { color: #ffd200; animation: winpop .5s cubic-bezier(.2,.9,.25,1.4); }
+@keyframes winpop { from { transform: scale(.6); } to { transform: scale(1); } }
+.draw-prize-label { color: var(--accent); font-weight: 700; }
+.draw-winners { list-style: none; display: grid; gap: 6px; }
+.draw-winners li { display: grid; grid-template-columns: 1fr 1.6fr auto; gap: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.draw-winners li.empty { display: block; color: var(--muted); font-style: italic; border: 0; }
+.draw-winners time { color: var(--muted); font-size: 13px; }
+@media (max-width: 820px) { .draw-grid { grid-template-columns: 1fr; } .draw-winners li { grid-template-columns: 1fr; gap: 2px; } }
+
 /* ---------- Mobile ---------- */
 @media (max-width: 1150px) { /* header: hamburger menu */
   .topbar { display: flex; padding: 12px 16px; gap: 12px; flex-wrap: wrap; }

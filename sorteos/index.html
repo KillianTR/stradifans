@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorteos · StradiFans</title>
+  <meta name="description" content="Herramienta de sorteos de Stradi." >
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#061b2a">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page draw-page">
+    <p class="crumbs"><a href="/">Inicio</a> › Sorteos</p>
+    <h1>Sorteos</h1>
+
+    <div class="draw-locked" id="drawLocked">
+      <p id="drawLockedText">Comprobando tu sesión...</p>
+      <a class="login-btn" id="drawLogin" href="/auth/login?next=/sorteos/" hidden>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v14h5v3h3l3-3h4l5-5V2zm16 12-3 3h-5l-3 3v-3H5V4h15zM16 7h2v6h-2zm-5 0h2v6h-2z"/></svg><span>Entrar con Twitch</span>
+      </a>
+    </div>
+
+    <div class="draw" id="draw" hidden>
+      <p class="draw-privacy">El archivo se lee <b>solo en tu navegador</b>: no se sube a la web ni se guarda en ningún sitio. Al cerrar o recargar la página, desaparece.</p>
+
+      <div class="draw-grid">
+        <div class="draw-box">
+          <h2>1 · Participantes</h2>
+          <label class="draw-drop" id="drawDrop">
+            <input type="file" id="drawFile" accept=".csv,text/csv,text/plain" multiple>
+            <b>Sube el CSV de Twitch</b>
+            <span>Arrastra aquí el archivo de subs (o de no subs), o pulsa para elegirlo. Puedes subir varios.</span>
+          </label>
+          <p class="draw-files" id="drawFiles"></p>
+          <label class="draw-check"><input type="checkbox" id="drawDupes" checked> Las filas repetidas cuentan como participaciones extra</label>
+          <label class="draw-check"><input type="checkbox" id="drawNoRepeat" checked> Quien ya ha ganado no puede volver a ganar</label>
+          <p class="draw-count mono" id="drawCount">0 participantes · 0 participaciones</p>
+        </div>
+
+        <div class="draw-box">
+          <h2>2 · Premio</h2>
+          <select id="drawPrize"></select>
+          <input id="drawPrizeOther" placeholder="Otro premio" hidden>
+          <button class="btn btn-primary draw-go" id="drawGo" disabled>Sacar ganador</button>
+        </div>
+      </div>
+
+      <div class="draw-stage" id="drawStage" aria-live="polite">
+        <span class="draw-name" id="drawName">?</span>
+        <span class="draw-prize-label" id="drawPrizeLabel"></span>
+      </div>
+
+      <div class="draw-box">
+        <h2>Ganadores</h2>
+        <ol class="draw-winners" id="drawWinners"><li class="empty">Todavía no hay ganadores.</li></ol>
+        <button class="btn btn-ghost" id="drawCopy" hidden>Copiar resultados</button>
+      </div>
+    </div>
+  </section>
+  <canvas class="wall-confetti" id="drawConfetti" aria-hidden="true"></canvas>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="/data.js"></script>
+<script src="/chat.js"></script>
+<script src="/common.js"></script>
+<script src="/app.js"></script>
+<script src="/sorteos.js"></script>
+</body>
+</html>

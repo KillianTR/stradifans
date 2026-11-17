@@ -52,7 +52,7 @@
         const next = encodeURIComponent(location.pathname);
         box.innerHTML = `<button class="login-user" id="loginUser" aria-haspopup="true" aria-expanded="false">
             ${d.user.img ? `<img src="${d.user.img}" alt="">` : ""}<span>${String(d.user.name || d.user.login).replace(/[<>&"]/g, "")}</span></button>
-          <div class="login-menu" id="loginMenu" hidden><a href="/cumple/">Mi mensaje para Stradi</a><a href="/auth/logout?next=${next}">Cerrar sesión</a></div>`;
+          <div class="login-menu" id="loginMenu" hidden>${String(d.user.id) === String(S.twitchId) || window.SF_ADMIN_KEY ? `<a href="/sorteos/">Sorteos</a>` : ""}<a href="/cumple/">Mi mensaje para Stradi</a><a href="/auth/logout?next=${next}">Cerrar sesión</a></div>`;
         const btn = $("loginUser"), menu = $("loginMenu");
         btn.addEventListener("click", (e) => { e.stopPropagation(); menu.hidden = !menu.hidden; btn.setAttribute("aria-expanded", String(!menu.hidden)); });
         document.addEventListener("click", () => { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); });
