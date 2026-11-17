@@ -150,6 +150,23 @@
     <a class="go-link" href="/faq/">Ver las ${n} preguntas &#8599;</a>
   </section>
 
+  <section class="reviews" id="resenas">
+    <div class="section-head"><span class="tag">Reseñas</span><h2>Lo que dice el paddock</h2></div>
+    <div class="rv-track" id="rvTrack"></div>
+    <div class="rv-form-wrap" id="rvFormWrap">
+      <a class="login-btn" id="rvLogin" href="/auth/login?next=/%23resenas" hidden>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v14h5v3h3l3-3h4l5-5V2zm16 12-3 3h-5l-3 3v-3H5V4h15zM16 7h2v6h-2zm-5 0h2v6h-2z"/></svg><span>Entra con Twitch y deja tu reseña</span>
+      </a>
+      <form class="rv-form" id="rvForm" hidden>
+        <div class="rv-stars-input" id="rvStars" role="radiogroup" aria-label="Estrellas"></div>
+        <input id="rvText" maxlength="200" placeholder="¿Qué te parece la web? (máx. 200 caracteres)" required>
+        <button class="btn btn-primary" type="submit" id="rvSend">Publicar reseña</button>
+        <button class="btn btn-ghost" type="button" id="rvDel" hidden>Borrar la mía</button>
+        <span class="rv-note" id="rvNote"></span>
+      </form>
+    </div>
+  </section>
+
   <section id="enlaces" class="find-him">
     <h2 class="find-title">Dónde encontrarle</h2>
     <div class="find-grid" id="linkList"></div>

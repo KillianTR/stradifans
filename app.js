@@ -923,6 +923,54 @@
     $("profTwitch").innerHTML = tw.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(String(v))}</dd></div>`).join("");
   }
 
+  /* ---------- Home: reviews (one per Twitch account) ---------- */
+  if ($("rvTrack")) {
+    const TW = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v14h5v3h3l3-3h4l5-5V2zm16 12-3 3h-5l-3 3v-3H5V4h15zM16 7h2v6h-2zm-5 0h2v6h-2z"/></svg>';
+    const STAR = (on) => `<svg class="rv-star${on ? " on" : ""}" viewBox="0 0 9 9" shape-rendering="crispEdges" aria-hidden="true"><path d="M4 0h1v2h-1zM3 2h3v1h-3zM0 3h9v1h-9zM1 4h7v1h-7zM2 5h5v1h-5zM2 6h2v1h-2zM5 6h2v1h-2zM1 7h2v1h-2zM6 7h2v1h-2z"/></svg>`;
+    const LAUREL = (flip) => `<svg class="rv-laurel${flip ? " flip" : ""}" viewBox="0 0 6 14" shape-rendering="crispEdges" aria-hidden="true"><path d="M3 0h1v1h-1zM2 1h1v1h-1zM4 1h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1zM2 4h1v1h-1zM0 6h1v1h-1zM2 6h1v1h-1zM1 7h1v1h-1zM1 9h1v1h-1zM3 9h1v1h-1zM2 10h1v1h-1zM3 11h1v1h-1zM4 12h1v1h-1zM5 13h1v1h-1z"/></svg>`;
+    let picked = 0, mine = null;
+    const starsHtml = (n) => n ? `<div class="rv-stars">${LAUREL()}${[1, 2, 3, 4, 5].map((i) => STAR(i <= n)).join("")}${LAUREL(true)}</div>` : "";
+    function render(d) {
+      const list = d && d.reviews ? d.reviews : [];
+      $("rvTrack").innerHTML = list.length ? list.map((r) => `
+        <figure class="rv-card${r.mine ? " mine" : ""}">
+          <span class="rv-src" title="${esc(r.source || "Twitch")}">${TW}</span>
+          ${starsHtml(r.stars)}
+          <blockquote>“${esc(r.text)}”</blockquote>
+          <figcaption>${r.img ? `<img src="${esc(r.img)}" alt="">` : ""}<b>${esc(r.name)}</b><span>${esc(r.source || "Espectador de Twitch")}</span></figcaption>
+          ${window.SF_ADMIN_KEY && !r.mine ? `<button class="rv-admin-del" data-id="${esc(r.id)}" title="Borrar reseña">×</button>` : ""}
+        </figure>`).join("") : `<p class="empty">Todavía no hay reseñas. ¡Estrena tú la primera!</p>`;
+      mine = list.find((r) => r.mine) || null;
+      const logged = !!(d && d.me);
+      $("rvLogin").hidden = logged; $("rvForm").hidden = !logged;
+      if (logged && mine && !$("rvText").value) { $("rvText").value = mine.text; setStars(mine.stars); }
+      $("rvSend").textContent = mine ? "Cambiar mi reseña" : "Publicar reseña";
+      $("rvDel").hidden = !mine;
+    }
+    function setStars(n) {
+      picked = n;
+      $("rvStars").innerHTML = [1, 2, 3, 4, 5].map((i) => `<button type="button" role="radio" aria-checked="${i === n}" aria-label="${i} estrellas" data-s="${i}">${STAR(i <= n)}</button>`).join("");
+    }
+    setStars(0);
+    $("rvStars").addEventListener("click", (e) => { const b = e.target.closest("[data-s]"); if (b) setStars(Number(b.dataset.s)); });
+    const load = () => fetch("/api/reviews", { cache: "no-store" }).then((r) => r.json()).then(render).catch(() => {});
+    const post = (body, headers = {}) => fetch("/api/reviews", { method: "POST", headers: { "Content-Type": "application/json", ...headers }, body: JSON.stringify(body) }).then((r) => r.json());
+    $("rvForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!picked) { $("rvNote").textContent = "Elige de 1 a 5 estrellas."; return; }
+      post({ stars: picked, text: $("rvText").value }).then((d) => {
+        $("rvNote").textContent = d.reviews ? "¡Gracias por tu reseña!" : d.error === "slow_down" ? "Has cambiado la reseña muchas veces. Prueba en un rato." : "No se ha podido publicar.";
+        if (d.reviews) render(d);
+      });
+    });
+    $("rvDel").addEventListener("click", () => { if (confirm("¿Borrar tu reseña?")) post({ remove: true }).then(() => { $("rvText").value = ""; setStars(0); load(); }); });
+    $("rvTrack").addEventListener("click", (e) => {
+      const b = e.target.closest(".rv-admin-del");
+      if (b && confirm("¿Borrar esta reseña?")) post({ remove: b.dataset.id }, { "x-admin-key": window.SF_ADMIN_KEY }).then(load);
+    });
+    (window.sfUserReady || Promise.resolve()).then(load);
+  }
+
   /* ---------- Where to find him: socials with their icons ---------- */
   if ($("linkList")) {
     const ICONS = {
