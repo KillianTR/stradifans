@@ -48,7 +48,9 @@
       raf = 0;
       const top = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--topbar-h")) || 60;
       const r = lorePin.getBoundingClientRect();
-      const inLore = r.top <= top + 1 && r.bottom > top + 40 && window.scrollY > 40;
+      // On the /lore/ page it stays down until the very end; on the home page only while you're in the lore
+      const onLorePage = /^\/lore\/?$/.test(location.pathname);
+      const inLore = r.top <= top + 1 && (onLorePage || r.bottom > top + 40) && window.scrollY > 40;
       if (inLore !== down) { down = inLore; bar.classList.toggle("down", down); }
     };
     window.addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(check); }, { passive: true });
