@@ -30,8 +30,25 @@
       <div class="wall-count mono" id="wallCountdown"></div>
     </div>
 
+    <div class="wall-mine" id="wallMine" hidden>
+      <div class="wall-login" id="wallLogin" hidden>
+        <p>¿Quieres dejarle tu mensaje a Stradi?</p>
+        <a class="login-btn" id="wallLoginBtn" href="/auth/login?next=/cumple/">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v14h5v3h3l3-3h4l5-5V2zm16 12-3 3h-5l-3 3v-3H5V4h15zM16 7h2v6h-2zm-5 0h2v6h-2z"/></svg><span>Entrar con Twitch</span>
+        </a>
+      </div>
+      <form class="wall-write" id="wallWrite" hidden>
+        <div class="wall-me"><img id="wallMeImg" alt=""><b id="wallMeName"></b></div>
+        <textarea id="wallMyText" maxlength="600" rows="4" placeholder="Escribe tu mensaje para Stradi" required></textarea>
+        <div class="wall-write-row">
+          <button class="btn btn-primary" type="submit" id="wallMySend">Publicar mi mensaje</button>
+          <span class="wall-admin-note" id="wallMyNote">Un mensaje por cuenta de Twitch. Puedes cambiarlo o borrarlo cuando quieras.</span>
+        </div>
+      </form>
+    </div>
+
     <form class="wall-admin" id="wallForm" hidden>
-      <h2>Añadir mensaje</h2>
+      <h2>Añadir mensaje (administrador)</h2>
       <input id="wallUser" placeholder="Usuario de Twitch" maxlength="40" required>
       <textarea id="wallText" placeholder="Mensaje" maxlength="1200" rows="4" required></textarea>
       <button class="btn btn-primary" type="submit">Añadir al muro</button>

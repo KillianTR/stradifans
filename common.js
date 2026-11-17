@@ -26,13 +26,40 @@
         <nav class="nav" id="nav">
           ${NAV.map((n) => `<a href="${n.href}"${isActive(n.href) ? ' class="active"' : ""}>${n.label}</a>`).join("")}
         </nav>
-        <a class="live-badge" id="liveBadge" href="https://www.twitch.tv/${S.twitchUser}" target="_blank" rel="noopener">
-          <span class="dot"></span><span id="liveBadgeText">Comprobando...</span>
-        </a>
-        <button class="menu-btn" id="menuBtn" aria-label="Menú">&#9776;</button>
+        <div class="top-right">
+          <div class="login" id="login">
+            <a class="login-btn" id="loginBtn" href="/auth/login?next=${encodeURIComponent(location.pathname)}">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4 2 2 6v14h5v3h3l3-3h4l5-5V2zm16 12-3 3h-5l-3 3v-3H5V4h15zM16 7h2v6h-2zm-5 0h2v6h-2z"/></svg><span>Entrar</span>
+            </a>
+          </div>
+          <a class="live-badge" id="liveBadge" href="https://www.twitch.tv/${S.twitchUser}" target="_blank" rel="noopener">
+            <span class="dot"></span><span id="liveBadgeText">Comprobando...</span>
+          </a>
+          <button class="menu-btn" id="menuBtn" aria-label="Menú">&#9776;</button>
+        </div>
       </header>
       <div class="bday" id="bday" hidden></div>`;
   }
+
+  // "Log in with Twitch": who is logged in (public profile only). Pages can listen to "sf:user".
+  window.SF_USER = null;
+  window.sfUserReady = fetch("/api/auth?action=me", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : { user: null })).catch(() => ({ user: null }))
+    .then((d) => {
+      window.SF_USER = d.user || null;
+      const box = $("login");
+      if (box && d.user) {
+        const next = encodeURIComponent(location.pathname);
+        box.innerHTML = `<button class="login-user" id="loginUser" aria-haspopup="true" aria-expanded="false">
+            ${d.user.img ? `<img src="${d.user.img}" alt="">` : ""}<span>${String(d.user.name || d.user.login).replace(/[<>&"]/g, "")}</span></button>
+          <div class="login-menu" id="loginMenu" hidden><a href="/cumple/">Mi mensaje para Stradi</a><a href="/auth/logout?next=${next}">Cerrar sesión</a></div>`;
+        const btn = $("loginUser"), menu = $("loginMenu");
+        btn.addEventListener("click", (e) => { e.stopPropagation(); menu.hidden = !menu.hidden; btn.setAttribute("aria-expanded", String(!menu.hidden)); });
+        document.addEventListener("click", () => { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); });
+      }
+      document.dispatchEvent(new CustomEvent("sf:user", { detail: window.SF_USER }));
+      return window.SF_USER;
+    });
 
   // Lore: once you scroll into it, the live chat rolls down over the navbar like a blind
   const lorePin = document.querySelector(".lore-pin");

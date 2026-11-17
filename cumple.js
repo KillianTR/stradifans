@@ -13,15 +13,28 @@
   const card = (m, i) => `
     <article class="wall-card" style="--c:${COLORS[i % COLORS.length]}; --tilt:${((i * 37) % 5) - 2}deg">
       <header>
-        <img class="wall-av" data-user="${esc(m.user)}" alt="" hidden>
+        ${m.img ? `<img class="wall-av" src="${esc(m.img)}" alt="">` : `<img class="wall-av" data-user="${esc(m.user)}" alt="" hidden>`}
         <b style="color:${esc(C.nameColor({ user: m.user, color: "" }))}">${esc(m.user)}</b>
-        ${key ? `<button class="wall-del" data-id="${esc(m.id)}" title="Borrar mensaje">×</button>` : ""}
+        ${m.mine ? `<span class="wall-you">Tu mensaje</span>` : ""}
+        ${key || m.mine ? `<button class="wall-del" data-id="${esc(m.id)}" title="Borrar mensaje">×</button>` : ""}
       </header>
       <p>${esc(m.text)}</p>
     </article>`;
 
   function render(d) {
     const msgs = d.messages || [];
+    // Your own message (logged in with Twitch)
+    const canWrite = d.open || d.preview;
+    $("wallMine").hidden = !canWrite;
+    $("wallLogin").hidden = !!d.me;
+    $("wallWrite").hidden = !d.me;
+    if (d.me) {
+      $("wallMeImg").src = d.me.img || ""; $("wallMeImg").hidden = !d.me.img;
+      $("wallMeName").textContent = d.me.name;
+      const mine = msgs.find((m) => m.mine);
+      if (mine && !$("wallMyText").value) $("wallMyText").value = mine.text;
+      $("wallMySend").textContent = mine ? "Cambiar mi mensaje" : "Publicar mi mensaje";
+    }
     $("wallPreview").hidden = !d.preview;
     $("wallClosed").hidden = d.open || d.preview;
     $("wallForm").hidden = !key;
@@ -57,6 +70,19 @@
       .catch(() => { $("wall").innerHTML = `<p class="empty">No se ha podido cargar el muro ahora mismo.</p>`; });
   }
 
+  // Logged-in viewers: write / replace your own message
+  $("wallWrite").addEventListener("submit", (e) => {
+    e.preventDefault();
+    $("wallMySend").disabled = true;
+    fetch("/api/wall", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: $("wallMyText").value }) })
+      .then((r) => r.json())
+      .then((d) => {
+        $("wallMyNote").textContent = d.ok ? "¡Publicado! Gracias por tu mensaje." : d.error === "slow_down" ? "Has cambiado el mensaje muchas veces. Prueba en un rato." : d.error === "login_required" ? "Tu sesión ha caducado: vuelve a entrar con Twitch." : "No se ha podido publicar.";
+        if (d.ok) load();
+      })
+      .finally(() => { $("wallMySend").disabled = false; });
+  });
+
   // Admin: add / delete messages
   $("wallForm").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -72,7 +98,8 @@
   $("wall").addEventListener("click", (e) => {
     const b = e.target.closest(".wall-del");
     if (!b || !confirm("¿Borrar este mensaje del muro?")) return;
-    fetch("/api/wall", { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify({ remove: b.dataset.id }) }).then(load);
+    fetch("/api/wall", { method: "POST", headers: { ...headers, "Content-Type": "application/json" }, body: JSON.stringify({ remove: b.dataset.id }) })
+      .then(() => { $("wallMyText").value = ""; load(); });
   });
 
   // Confetti in the brand colours, once
