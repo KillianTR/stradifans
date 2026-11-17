@@ -88,7 +88,7 @@
     ["chatStatus", "chatStatus2"].forEach((id) => { $(id).textContent = txt; $(id).classList.toggle("ok", s === "connected"); });
   };
 
-  window.StradiChat.loadSevenTv(S.twitchId).finally(() => {
+  Promise.all([window.StradiChat.loadSevenTv(S.twitchId), window.StradiChat.badgesReady]).finally(() => {
     render();
     window.StradiChat.connect(S.twitchUser, {
       onStatus: setStatus,
@@ -98,7 +98,7 @@
         if (empty) empty.remove();
         const row = document.createElement("div");
         row.className = "chat-msg";
-        row.innerHTML = `<b style="color:${esc(m.color || "#ea6f18")}">${esc(m.user)}</b>: <span>${m.html}</span>`;
+        row.innerHTML = window.StradiChat.lineHtml(m);
         feed.appendChild(row);
         while (feed.children.length > 60) feed.firstChild.remove();
         feed.scrollTop = feed.scrollHeight;

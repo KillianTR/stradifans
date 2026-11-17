@@ -133,6 +133,10 @@ section[hidden] { display: none; }
 .chat-badge { font: 700 9px "JetBrains Mono", monospace; padding: 1px 4px; border-radius: 3px; margin-right: 5px; vertical-align: 2px; }
 .chat-badge.sub { background: var(--accent); }
 .chat-badge.mod { background: #00ad03; }
+.chat-badge-img { width: 18px; height: 18px; vertical-align: -4px; margin-right: 4px; }
+.chat-name { font-weight: 700; }
+.chat-colon { margin-right: 1px; }
+.tick-msg .chat-badge-img { width: 20px; height: 20px; }
 .chat-empty { color: var(--muted); font-style: italic; margin: auto; text-align: center; }
 
 /* ---------- Buttons ---------- */

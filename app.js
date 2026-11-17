@@ -230,15 +230,12 @@
       });
     });
 
-    window.StradiChat.loadEmotes(S.twitchId).finally(() => {
+    Promise.all([window.StradiChat.loadEmotes(S.twitchId), window.StradiChat.badgesReady]).finally(() => {
       window.StradiChat.connect(S.twitchUser, {
         historyLimit: 20,
         onMessage: (m) => {
           if (window.StradiMeter) window.StradiMeter.add(m);
-          const sub = m.badges.includes("subscriber") || m.badges.includes("founder");
-          const mod = m.badges.includes("moderator") || m.badges.includes("broadcaster");
-          const html = (mod ? `<span class="chat-badge mod">MOD</span>` : sub ? `<span class="chat-badge sub">SUB</span>` : "") +
-            `<b style="color:${esc(m.color || "#ea6f18")}">${esc(m.user)}</b> <span>${m.html}</span>`;
+          const html = window.StradiChat.lineHtml(m);
           tickers.forEach((k) => {
             const wait = k.track.querySelector(".tick-wait");
             if (wait) { wait.remove(); k.x = k.viewport.clientWidth; }

@@ -101,6 +101,9 @@
         user: tags["display-name"] || m[2],
         color: tags.color || "",
         badges: (tags.badges || "").split(",").filter(Boolean).map((b) => b.split("/")[0]),
+        badgeList: (tags.badges || "").split(",").filter(Boolean).map((b) => { const [set, version] = b.split("/"); return { set, version }; }),
+        badgeInfo: tags["badge-info"] || "",
+        action: m[3].startsWith("\u0001ACTION "),
         text,
         tokens,
         html: toHtml(tokens),
@@ -146,5 +149,46 @@
     loadHistory().finally(open);
   }
 
-  window.StradiChat = { connect, loadEmotes, loadSevenTv: loadEmotes, toHtml, esc, emoteUrl: (name) => thirdParty.get(name) || null };
+  /* Twitch chat badges (global + channel: sub months, bits...) from our /api/badges */
+  let badgeMap = null;
+  const BADGE_ES = { broadcaster: "Streamer", moderator: "Moderador", vip: "VIP", subscriber: "Suscriptor", founder: "Fundador",
+    partner: "Verificado", premium: "Prime Gaming", turbo: "Turbo", staff: "Staff", "sub-gifter": "Regala subs", "artist-badge": "Artista" };
+  const badgesReady = fetch("/api/badges").then((r) => (r.ok ? r.json() : null)).then((d) => { badgeMap = d && d.badges; }).catch(() => {});
+  function badgeHtml(m) {
+    const list = m.badgeList || [];
+    if (!badgeMap) { // no badge images: simple text tags
+      const mod = m.badges.includes("moderator") || m.badges.includes("broadcaster");
+      const sub = m.badges.includes("subscriber") || m.badges.includes("founder");
+      return mod ? `<span class="chat-badge mod">MOD</span>` : sub ? `<span class="chat-badge sub">SUB</span>` : "";
+    }
+    const months = (/subscriber\/(\d+)/.exec(m.badgeInfo || "") || [])[1];
+    return list.map((b) => {
+      const info = badgeMap[`${b.set}/${b.version}`];
+      if (!info) return "";
+      let title = BADGE_ES[b.set] || info.title;
+      if ((b.set === "subscriber" || b.set === "founder") && months) title += ` (${months} ${months === "1" ? "mes" : "meses"})`;
+      return `<img class="chat-badge-img" src="${esc(info.url)}" alt="${esc(title)}" title="${esc(title)}">`;
+    }).join("");
+  }
+  // Twitch's default name colours for people who never picked one
+  const DEFAULT_COLORS = ["#FF0000", "#0000FF", "#008000", "#B22222", "#FF7F50", "#9ACD32", "#FF4500", "#2E8B57", "#DAA520", "#D2691E", "#5F9EA0", "#1E90FF", "#FF69B4", "#8A2BE2", "#00FF7F"];
+  function nameColor(m) {
+    let c = m.color;
+    if (!/^#[0-9a-f]{6}$/i.test(c || "")) {
+      let h = 0; for (const ch of m.user.toLowerCase()) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+      c = DEFAULT_COLORS[h % DEFAULT_COLORS.length];
+    }
+    // Like Twitch's dark mode: lighten names that would be too dark to read
+    let [r, g, b] = [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+    const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    if (lum < 0.45) { const k = (0.45 - lum) / 0.45 * 0.75; [r, g, b] = [r, g, b].map((v) => Math.round(v + (255 - v) * k)); }
+    return "#" + [r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("");
+  }
+  // One chat line, Twitch style: badges, coloured name, message (emotes as images)
+  function lineHtml(m) {
+    const c = esc(nameColor(m));
+    return `${badgeHtml(m)}<b class="chat-name" style="color:${c}">${esc(m.user)}</b>${m.action ? " " : '<span class="chat-colon">:</span> '}<span class="chat-text"${m.action ? ` style="color:${c};font-style:italic"` : ""}>${m.html}</span>`;
+  }
+
+  window.StradiChat = { badgesReady, badgeHtml, lineHtml, nameColor, connect, loadEmotes, loadSevenTv: loadEmotes, toHtml, esc, emoteUrl: (name) => thirdParty.get(name) || null };
 })();
