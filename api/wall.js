@@ -3,7 +3,7 @@
    Public from 29 Nov 2026 00:00 (Spanish time); before that only the site owner (admin key) can read it.
    GET -> { open, opensAt, messages? }   POST (admin) { user, text } adds, { remove: id } deletes. */
 const crypto = require("crypto");
-const OPENS_AT = Date.parse("2026-11-28T23:00:00Z"); // 29 Nov 2026, 00:00 in Madrid
+const OPENS_AT = Date.parse("2026-11-17T00:00:00Z"); // opened early: shown on stream on 17 Nov 2026
 const KEY = "sf:wall";
 // First messages, added to the wall the first time it is read
 const SEED = [

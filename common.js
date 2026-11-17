@@ -270,7 +270,7 @@
             seg(pad(Math.floor((ms % 86400000) / 3600000)), "h") +
             seg(pad(Math.floor((ms % 3600000) / 60000)), "m") +
             seg(pad(Math.floor((ms % 60000) / 1000)), "s") +
-          `</span>`;
+          `</span><a class="bday-link" href="/cumple/">Mensajes del chat &#8599;</a>`;
       } else {
         bday.hidden = true;
       }
