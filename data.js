@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.34.3",
+  version: "1.34.4",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -259,6 +259,7 @@ window.SITE = {
 
   /* Excuse generator */
   excuses: [
+    "He cambiado el Damper Mode, lo tenía puesto en 2 y ahora lo he puesto en 1, y las sensaciones son un poco diferentes. Y aquí, que vamos en el súper súper súper alambre, la verdad es que me está costando un poquito.",
     "¡Me ha caído un coche encima!",
     "No apretaron bien la rueda.",
     "El ventilador del PC va a salir volando.",
