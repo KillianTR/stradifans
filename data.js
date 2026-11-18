@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.34.4",
+  version: "1.35.0",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -310,25 +310,26 @@ window.SITE = {
     { title: "Jodemos tu vuelta", image: "/vault/jodemos-tu-vuelta.png", note: "JodemosTuVuelta.Stradi.es" }
   ],
 
-  /* Perfil: datos de su cuenta de iRacing (capturas del 16 nov 2026) */
+  /* Perfil: datos de su cuenta de iRacing (capturas del 18 nov 2026) */
   profile: {
     name: "Javier Soto",
     country: "España",
     bio: "Streamer español de simracing. Corre en iRacing desde 2011 y en Twitch desde 2020: GT, resistencias, fórmulas y algún que otro lunes sin qualy.",
     iracingSince: 2011,
-    asOf: "16 nov 2026",
+    awards: { unlocked: 96, total: 187 },
+    asOf: "18 nov 2026",
     licenses: [
       { cat: "Oval", cls: "A", sr: "2.50", ir: 3446, tt: 1256 },
-      { cat: "Sports Car", cls: "A", sr: "4.34", ir: 5625, tt: 1298 },
-      { cat: "Formula", cls: "B", sr: "1.93", ir: 3973, tt: 1350 },
+      { cat: "Sports Car", cls: "A", sr: "2.42", ir: 5378, tt: 1298 },
+      { cat: "Formula", cls: "B", sr: "2.71", ir: 4304, tt: 1350 },
       { cat: "Dirt Oval", cls: "R", sr: "2.61", ir: null, tt: 1350 },
       { cat: "Dirt Road", cls: "R", sr: "2.63", ir: null, tt: 1350 }
     ],
     // Career stats per category: starts, wins, top 5, poles, laps, laps led
     career: [
-      { cat: "Sports Car", starts: 3201, wins: 451, top5: 1610, poles: 388, laps: 59208, led: 4185 },
+      { cat: "Sports Car", starts: 3209, wins: 452, top5: 1614, poles: 388, laps: 59265, led: 4201 },
       { cat: "Road (retirada)", starts: 3911, wins: 448, top5: 1905, poles: 513, laps: 62279, led: 4850 },
-      { cat: "Formula", starts: 1234, wins: 114, top5: 602, poles: 79, laps: 13032, led: 1062 },
+      { cat: "Formula", starts: 1241, wins: 114, top5: 609, poles: 79, laps: 13099, led: 1062 },
       { cat: "Oval", starts: 439, wins: 13, top5: 123, poles: 21, laps: 20785, led: 940 },
       { cat: "Dirt Road", starts: 2, wins: 0, top5: 1, poles: 0, laps: 19, led: 0 },
       { cat: "Dirt Oval", starts: 1, wins: 0, top5: 1, poles: 0, laps: 30, led: 3 }

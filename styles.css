@@ -1037,7 +1037,7 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
 .lic-card dl { display: grid; gap: 4px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.25); }
 .lic-card dl div { display: flex; justify-content: space-between; font-size: 13px; }
 .lic-card dt { opacity: .75; } .lic-card dd { font: 700 13px "JetBrains Mono", monospace; }
-.prof-big { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 16px 0 18px; }
+.prof-big { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0 18px; }
 .prof-big div { background: var(--card); border: 1px solid var(--line); padding: 18px 14px; }
 .prof-big b { display: block; font: 900 clamp(26px, 3vw, 40px)/1 "Titillium Web", sans-serif; color: var(--accent); }
 .prof-big span { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
