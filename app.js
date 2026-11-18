@@ -900,6 +900,14 @@
     const big = [["Carreras", sum("starts")], ["Victorias", sum("wins")], ["Top 5", sum("top5")], ["Poles", sum("poles")], ["Vueltas", sum("laps")], ["Vueltas líder", sum("led")]];
     if (P.awards) big.push(["Premios de iRacing", `${P.awards.unlocked}/${P.awards.total}`]);
     $("profBig").innerHTML = big.map(([k, v]) => `<div><b>${typeof v === "number" ? fmt(v) : esc(v)}</b><span>${k}</span></div>`).join("");
+    // Each number shrinks just enough to fit inside its box
+    const fit = () => document.querySelectorAll("#profBig b").forEach((b) => {
+      b.style.fontSize = "";
+      const box = b.parentElement, room = box.clientWidth - parseFloat(getComputedStyle(box).paddingLeft) * 2;
+      if (b.scrollWidth > room) b.style.fontSize = Math.max(16, Math.floor(40 * room / b.scrollWidth)) + "px";
+    });
+    fit(); window.addEventListener("resize", fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     $("profTable").innerHTML = `<thead><tr><th>Categoría</th><th>Carreras</th><th>Victorias</th><th>% victorias</th><th>Top 5</th><th>Poles</th><th>Vueltas</th></tr></thead><tbody>` +
       P.career.map((c) => `<tr><td>${esc(c.cat)}</td><td>${fmt(c.starts)}</td><td>${fmt(c.wins)}</td><td>${(c.wins / c.starts * 100).toFixed(1).replace(".", ",")}%</td><td>${fmt(c.top5)}</td><td>${fmt(c.poles)}</td><td>${fmt(c.laps)}</td></tr>`).join("") + `</tbody>`;
 
