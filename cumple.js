@@ -10,11 +10,15 @@
 
   const avatars = {};
   const COLORS = ["#ea6f18", "#009bfe", "#c04cf0", "#2bd96b", "#ffd200"];
+  // Stradi's own message (his Twitch account, or added under his name) goes first and stands out
+  const isStradi = (m) => String(m.uid || "") === String(S.twitchId) || String(m.user || "").toLowerCase() === String(S.twitchUser).toLowerCase();
   const card = (m, i) => `
-    <article class="wall-card" style="--c:${COLORS[i % COLORS.length]}; --tilt:${((i * 37) % 5) - 2}deg">
+    <article class="wall-card${isStradi(m) ? " wall-stradi" : ""}" style="--c:${isStradi(m) ? "#ffd200" : COLORS[i % COLORS.length]}; --tilt:${isStradi(m) ? 0 : ((i * 37) % 5) - 2}deg">
+      ${isStradi(m) ? `<span class="wall-stradi-tag">El cumpleañero</span>` : ""}
       <header>
         ${m.img ? `<img class="wall-av" src="${esc(m.img)}" alt="">` : `<img class="wall-av" data-user="${esc(m.user)}" alt="" hidden>`}
-        <b style="color:${esc(C.nameColor({ user: m.user, color: "" }))}">${esc(m.user)}</b>
+        <b style="color:${isStradi(m) ? "#ffd200" : esc(C.nameColor({ user: m.user, color: "" }))}">${esc(m.user)}</b>
+        ${isStradi(m) ? `<span class="wall-streamer">Streamer</span>` : ""}
         ${m.mine ? `<span class="wall-you">Tu mensaje</span>` : ""}
         ${key || m.mine ? `<button class="wall-del" data-id="${esc(m.id)}" title="Borrar mensaje">×</button>` : ""}
       </header>
@@ -40,7 +44,10 @@
     $("wallForm").hidden = !key;
     $("wallTotal").textContent = d.open || d.preview ? `${msgs.length} ${msgs.length === 1 ? "mensaje" : "mensajes"} del chat` : "";
     $("wall").innerHTML = d.open || d.preview
-      ? (msgs.length ? msgs.map(card).join("") : `<p class="empty">Todavía no hay mensajes.</p>`)
+      ? (msgs.length ? (() => {
+          const top = msgs.filter(isStradi), rest = msgs.filter((m) => !isStradi(m));
+          return (top.length ? `<div class="wall-top">${top.map(card).join("")}</div>` : "") + `<div class="wall">${rest.map((m, n) => card(m, n)).join("")}</div>`;
+        })() : `<p class="empty">Todavía no hay mensajes.</p>`)
       : "";
     // Twitch profile pictures (decapi answers with the image URL as text)
     $("wall").querySelectorAll(".wall-av[data-user]").forEach((img) => {
