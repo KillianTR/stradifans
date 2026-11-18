@@ -66,8 +66,9 @@
         const d = new Date(x.start);
         if (d.getFullYear() === y && d.getMonth() === m) { count++; onDays.add(d.getDate()); }
       });
-      $("monthCount").textContent = count;
-      $("monthDays").textContent = `${onDays.size} ${onDays.size === 1 ? "día" : "días"} con directo`;
+      // Days with a stream (not number of streams), out of the days gone so far this month
+      $("monthCount").textContent = onDays.size;
+      $("monthDays").textContent = `de ${now.getDate()} ${now.getDate() === 1 ? "día" : "días"} que van de mes`;
       let html = "";
       for (let day = 1; day <= daysInMonth; day++) {
         const cls = ["day", onDays.has(day) ? "on" : "", day === now.getDate() ? "today" : "", day > now.getDate() ? "future" : ""].join(" ");
