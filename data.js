@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.34.2",
+  version: "1.34.3",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -259,6 +259,7 @@ window.SITE = {
 
   /* Excuse generator */
   excuses: [
+    "¡Me ha caído un coche encima!",
     "No apretaron bien la rueda.",
     "El ventilador del PC va a salir volando.",
     "Mi tiempo de vuelta no es malo, el tema es que he hecho offtrack.",
