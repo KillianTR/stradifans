@@ -179,7 +179,7 @@
         running = false;
       }
       window.addEventListener("resize", size);
-      g.addEventListener("click", burnout);
+      car.addEventListener("click", burnout); // only the letters start it, so the links above stay clickable
       if ("IntersectionObserver" in window) {
         new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); burnout(); } }, { threshold: 0.6 }).observe(g);
       }
