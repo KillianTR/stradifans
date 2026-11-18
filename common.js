@@ -125,6 +125,7 @@
             <div class="foot-about">
               <a href="/" class="logo foot-logo"><img src="/assets/logo.png" alt="" class="logo-img"><span>Stradi<b>Fans</b></span></a>
               <p>Web fan no oficial. No la gestiona Stradi. Hecha con cariño por ${authorLink}.</p>
+              ${S.authorUrl ? `<a class="foot-portfolio" href="${S.authorUrl}" target="_blank" rel="noopener">¿Quién ha hecho esta web? Mira mi portfolio <span aria-hidden="true">&#8599;</span></a>` : ""}
             </div>
             <div class="foot-legal">
               <p>© ${new Date().getFullYear()} · No afiliada a Twitch, iRacing ni Le Mans Ultimate.</p>

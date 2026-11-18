@@ -454,6 +454,8 @@ section[hidden] { display: none; }
 .footer .foot-author { white-space: nowrap; color: var(--text); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent); }
 .footer .foot-author:hover { color: var(--accent); }
 .foot-x { vertical-align: -1px; margin-right: 4px; }
+.foot-portfolio { display: inline-block; margin-top: 10px; color: var(--text); font-weight: 700; font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--accent); }
+.foot-portfolio:hover { color: var(--accent); }
 .foot-giant { display: flex; justify-content: center; max-width: 1240px; margin: 40px auto 0; padding: 0 0 18px;
   font: 900 clamp(46px, 14.2vw, 214px)/.86 "Titillium Web", sans-serif; text-transform: uppercase; letter-spacing: -.02em; user-select: none; }
 .foot-giant { position: relative; cursor: pointer; }
