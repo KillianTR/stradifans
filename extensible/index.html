@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ganadores del Extensible TOTOYIL · StradiFans</title>
+  <meta name="description" content="Todos los ganadores de los sorteos del Extensible TOTOYIL de Stradi.">
+  <meta name="theme-color" content="#061b2a">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page xt-page">
+    <p class="crumbs"><a href="/">Inicio</a> › Extensible TOTOYIL</p>
+    <p class="event-label">Sábado 21 de noviembre · Toyota GR Cup en iRacing</p>
+    <h1>Ganadores del Extensible TOTOYIL</h1>
+    <p class="page-sub">Todos los premios del extensible y quién se los llevó. ¡Enhorabuena!</p>
+
+    <div class="section-head"><span class="tag">Sorteos</span><h2>Sorteos para los subs</h2></div>
+    <ol class="xt-prizes" id="xtPrizes"></ol>
+
+    <div class="section-head"><span class="tag">StintLogic</span><h2>Licencias de StintLogic</h2></div>
+    <p class="section-sub">Cada 5 carreras: no qualy y sorteo de una licencia de 1 año entre los presentes en el chat.</p>
+    <ol class="xt-stint" id="xtStint"></ol>
+
+    <p class="xt-more"><a class="go-link" href="https://www.twitch.tv/stradi" target="_blank" rel="noopener">Seguir a Stradi en Twitch &#8599;</a></p>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="/data.js"></script>
+<script src="/chat.js"></script>
+<script src="/common.js"></script>
+<script src="/app.js"></script>
+<script>
+(function () {
+  const ev = window.SITE.event || {}, esc = window.StradiChat.esc, $ = (id) => document.getElementById(id);
+  const av = (u) => `<img class="xt-av" data-user="${esc(u)}" alt="" hidden>`;
+  const tw = (u) => `https://www.twitch.tv/${encodeURIComponent(u)}`;
+  $("xtPrizes").innerHTML = (ev.winners || []).map((w) => `
+    <li class="${w.big ? "big" : ""}">
+      <span class="xt-at">${esc(w.at)}</span>
+      <span class="xt-prize">${esc(w.prize)}</span>
+      <a class="xt-user" href="${tw(w.user)}" target="_blank" rel="noopener">${av(w.user)}<b>${esc(w.user)}</b></a>
+    </li>`).join("");
+  $("xtStint").innerHTML = (ev.stintlogic || []).map((w) => `
+    <li><span class="xt-race">Carrera ${w.race}</span><a class="xt-user" href="${tw(w.user)}" target="_blank" rel="noopener">${av(w.user)}<b>${esc(w.user)}</b></a></li>`).join("");
+  // Twitch profile pictures
+  document.querySelectorAll(".xt-av[data-user]").forEach((img) => {
+    fetch(`https://decapi.me/twitch/avatar/${encodeURIComponent(img.dataset.user)}`).then((r) => (r.ok ? r.text() : "")).then((src) => {
+      src = src.trim(); if (/^https:\/\/static-cdn\.jtvnw\.net\//.test(src)) { img.src = src; img.hidden = false; }
+    }).catch(() => {});
+  });
+})();
+</script>
+</body>
+</html>

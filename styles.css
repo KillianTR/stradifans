@@ -1208,6 +1208,27 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
 .rv-note { width: 100%; text-align: center; color: var(--muted); font-size: 13px; }
 .rv-note:empty { display: none; }
 
+/* ---------- Extensible: winners ---------- */
+.xt-page .section-head { margin-top: 44px; }
+.xt-prizes { list-style: none; display: grid; gap: 12px; margin-top: 16px; }
+.xt-prizes li { display: grid; grid-template-columns: 80px 1fr auto; align-items: center; gap: 18px; padding: 16px 20px; background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--accent); }
+.xt-prizes li.big { border-color: #ffd200; background: linear-gradient(100deg, rgba(255,210,0,.14), transparent 60%), var(--card); }
+.xt-at { font: 700 28px "JetBrains Mono", monospace; color: var(--accent); }
+.xt-prizes li.big .xt-at, .xt-prizes li.big .xt-prize { color: #ffd200; }
+.xt-prize { font-weight: 700; font-size: 18px; }
+.xt-user { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; }
+.xt-user b { font-size: 18px; }
+.xt-user:hover b { color: #a970ff; }
+.xt-av { width: 34px; height: 34px; border-radius: 50%; }
+.xt-stint { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-top: 16px; }
+.xt-stint li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-left: 4px solid #6cbf3c; }
+.xt-race { font: 700 13px "JetBrains Mono", monospace; text-transform: uppercase; color: #8fd35f; }
+.xt-stint .xt-user b { font-size: 16px; }
+.xt-more { margin-top: 30px; }
+.ev-results-go:first-of-type { margin-left: 0; }
+.ev-draw-go + .ev-results-go { margin-left: 18px; }
+@media (max-width: 700px) { .xt-prizes li { grid-template-columns: 1fr; gap: 6px; } .ev-results-go { margin-left: 0; display: table; } }
+
 /* ---------- Mobile ---------- */
 @media (max-width: 1150px) { /* header: hamburger menu */
   .topbar { display: flex; padding: 12px 16px; gap: 12px; flex-wrap: wrap; }

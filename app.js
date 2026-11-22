@@ -233,6 +233,10 @@
             ${ev.prizesNote ? `<p class="ev-note">${esc(ev.prizesNote)}</p>` : ""}</div>` : ""}
           ${ev.extras ? `<div class="ev-col"><h3>Además</h3><ul class="ev-extras">${ev.extras.map((x) => `<li><b>${esc(x.every)}</b><span>${esc(x.text)}</span></li>`).join("")}</ul></div>` : ""}`;
         $("eventMore").hidden = false;
+        if (ev.results) {
+          const box = $("eventMore").querySelector(".ev-prizes");
+          if (box) box.parentElement.insertAdjacentHTML("beforeend", `<a class="ev-draw-go ev-results-go" href="${esc(ev.results)}">Ver los ganadores &#8599;</a>`);
+        }
         // For Stradi: the giveaways block opens the draw tool
         (window.sfUserReady || Promise.resolve()).then(() => {
           const col = $("eventMore").querySelector(".ev-prizes");
@@ -245,6 +249,7 @@
       }
       const tick = () => {
         const ms = start - Date.now();
+        if (ev.ended) { $("eventLabel").textContent = "Evento terminado"; $("eventCount").textContent = "¡Gracias a todos!"; return; }
         if (isNaN(start) || ms <= 0) { $("eventCount").textContent = "¡Es hoy!"; $("eventCard").classList.add("is-now"); return; }
         const d = Math.floor(ms / 86400000), h = Math.floor((ms % 86400000) / 3600000), m = Math.floor((ms % 3600000) / 60000);
         $("eventCount").textContent = `Faltan ${d}d ${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m`;

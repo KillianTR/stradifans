@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.35.3",
+  version: "1.36.0",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -44,7 +44,25 @@ window.SITE = {
       { every: "Cada 5 carreras", text: "¡No qualy! Y sorteo de una licencia de StintLogic de 1 año entre los presentes en el chat (subs y no subs)" }
     ],
     start: "2026-11-21T13:00:00+01:00", // 13:00 Spanish peninsular time (CET)
-    until: "2026-11-22T23:59:59"
+    until: "2026-11-28T23:59:59",
+    ended: true, // finished: the card shows it and links to the winners
+    results: "/extensible/",
+    // Winners (from Stradi's sheet on stream)
+    winners: [
+      { at: "6 h", prize: "Vale de 200 € en SimtechPro", user: "areacorolla" },
+      { at: "12 h", prize: "Pedales SRP GT-S", user: "mo0nglow" },
+      { at: "18 h", prize: "Vale de 400 € en SimtechPro", user: "tecnicoreviewyt" },
+      { at: "24 h", prize: "Pedales SRP GT-R", user: "manussalmun", big: true }
+    ],
+    stintlogic: [
+      { race: 5, user: "maxidemo312" },
+      { race: 10, user: "jotasimtv" },
+      { race: 15, user: "Alvaromhgt" },
+      { race: 20, user: "DemonicTenshi1" },
+      { race: 25, user: "jlago86" },
+      { race: 30, user: "angel_luis1965" },
+      { race: 35, user: "colombi277" }
+    ]
   },
 
   /* Captions under the big SÍ / NO answer (one is picked at random) */
