@@ -979,6 +979,36 @@
       if (b && confirm("¿Borrar esta reseña?")) post({ remove: b.dataset.id }, { "x-admin-key": window.SF_ADMIN_KEY }).then(load);
     });
     (window.sfUserReady || Promise.resolve()).then(load);
+
+    // Sideways like the lore: no scrollbar; mouse wheel and click-drag move it, a hint shows when there are more
+    const sc = $("rvTrack");
+    const edge = () => {
+      const more = sc.scrollWidth > sc.clientWidth + 4;
+      $("rvHint").hidden = !more;
+      sc.classList.toggle("at-end", !more || sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 4);
+    };
+    new MutationObserver(() => requestAnimationFrame(edge)).observe(sc, { childList: true });
+    sc.addEventListener("scroll", edge, { passive: true });
+    window.addEventListener("resize", edge);
+    sc.addEventListener("wheel", (e) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX) || sc.scrollWidth <= sc.clientWidth) return;
+      const atStart = sc.scrollLeft <= 0 && e.deltaY < 0;
+      const atEnd = sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 1 && e.deltaY > 0;
+      if (!atStart && !atEnd) { e.preventDefault(); sc.scrollLeft += e.deltaY; }
+    }, { passive: false });
+    let dragX = null, startLeft = 0, moved = false;
+    sc.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse" || e.button !== 0 || e.target.closest("button, a")) return;
+      dragX = e.clientX; startLeft = sc.scrollLeft; moved = false;
+    });
+    window.addEventListener("pointermove", (e) => {
+      if (dragX === null) return;
+      const dx = e.clientX - dragX;
+      if (Math.abs(dx) > 4) { moved = true; sc.classList.add("is-dragging"); }
+      sc.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener("pointerup", () => { dragX = null; sc.classList.remove("is-dragging"); });
+    sc.addEventListener("click", (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
   }
 
   /* ---------- Where to find him: socials with their icons ---------- */
