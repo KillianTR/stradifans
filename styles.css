@@ -1225,9 +1225,8 @@ a.pv-case:hover .pv-card { animation: slide .6s ease-in-out infinite alternate; 
 .xt-race { font: 700 13px "JetBrains Mono", monospace; text-transform: uppercase; color: #8fd35f; }
 .xt-stint .xt-user b { font-size: 16px; }
 .xt-more { margin-top: 30px; }
-.ev-results-go:first-of-type { margin-left: 0; }
-.ev-draw-go + .ev-results-go { margin-left: 18px; }
-@media (max-width: 700px) { .xt-prizes li { grid-template-columns: 1fr; gap: 6px; } .ev-results-go { margin-left: 0; display: table; } }
+.ev-col .ev-draw-go { margin: 12px 28px 0 0; }
+@media (max-width: 700px) { .xt-prizes li { grid-template-columns: 1fr; gap: 6px; } .ev-col .ev-draw-go { display: table; } }
 
 /* ---------- Mobile ---------- */
 @media (max-width: 1150px) { /* header: hamburger menu */
