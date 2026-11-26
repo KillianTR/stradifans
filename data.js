@@ -6,7 +6,7 @@
    ========================================================================== */
 
 window.SITE = {
-  version: "1.36.1",
+  version: "1.36.2",
   author: "KillianTR",
   authorUrl: "https://killiantr.vercel.app",
   authorX: "VznumR6", // X/Twitter handle shown in the footer (e.g. "KillianTR"); empty = link to authorUrl
@@ -522,6 +522,7 @@ window.SITE = {
   /* Clips that are always in the roulette, on top of the most viewed ones.
      Use the clip id: the last part of the clip URL (without "?range=..."). */
   rouletteClips: [
+    "LaconicTastyCroquetteMingLee-HMkUMiHBxe8EpPuK",
     "NiceSecretiveCockroachRickroll-lYClPQznAl0gremp",
     "RepleteCuteMetalMikeHogu-e8h4Km65hfCf9-AM",
     "CovertHumbleGoatAMPEnergyCherry-g3cgxovRFlrqQyhl",
